@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dream Space V49</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root { --p: #7d5fff; --bg: #05070a; --c: #11141d; --t: #e6edf3; --d: #8b949e; --s: #2ecc71; --er: #ff4757; --or: #ffa500; }
+        * { box-sizing: border-box; font-family: 'Inter', sans-serif; transition: 0.3s; }
+        body { background: var(--bg); color: var(--t); margin: 0; padding-bottom: 110px; }
+        .screen { display: none; padding: 20px; animation: fadeIn 0.4s ease; }
+        .active { display: block !important; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .auth-card { background: var(--c); padding: 40px 25px; border-radius: 35px; border: 1px solid #222; text-align: center; margin: 40px 15px; }
+        input, select { width: 100%; padding: 18px; margin: 10px 0; border-radius: 15px; border: 1px solid #333; background: #080a0f; color: white; outline: none; font-size: 14px; }
+        .btn { width: 100%; padding: 18px; background: var(--p); color: white; border: none; border-radius: 18px; font-weight: 800; cursor: pointer; }
+        
+        .header-box { display: flex; align-items: center; justify-content: space-between; background: var(--c); padding: 18px; border-radius: 25px; border: 1px solid #222; }
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
+        .stat-box { background: var(--c); padding: 20px 10px; border-radius: 20px; border-bottom: 3px solid var(--p); text-align: center; }
+        .stat-box h3 { margin: 5px 0; color: #fff; font-size: 18px; }
+
+        .nav-bar { position: fixed; bottom: 20px; left: 20px; right: 20px; background: #11141d; border-radius: 25px; display: flex; padding: 12px 5px; border: 1px solid #333; z-index: 1000; }
+        .nav-item { flex: 1; text-align: center; color: var(--d); font-size: 10px; cursor: pointer; }
+        .nav-active { color: var(--p); }
+        .nav-item i { font-size: 22px; display: block; margin-bottom: 4px; }
+
+        .card { background: var(--c); padding: 18px; border-radius: 25px; margin-top: 15px; border: 1px solid #222; }
+        .list-item { background: #080a0f; padding: 12px; border-radius: 12px; margin-bottom: 8px; font-size: 11px; border: 1px solid #222; line-height: 1.6; }
+        .h-item { display: flex; justify-content: space-between; padding: 12px; border-bottom: 1px solid #222; font-size: 11px; }
+        .st-pending { color: var(--or); } .st-ok { color: var(--s); }
+        .reward-tag { background: rgba(255, 165, 0, 0.1); border: 1px solid var(--or); color: var(--or); padding: 12px; border-radius: 15px; margin-bottom: 15px; font-size: 12px; }
+    </style>
+</head>
+<body>
+
+    <div id="loginPage" class="screen active">
+        <div class="auth-card">
+            <h1 style="color:var(--p); margin-bottom: 5px;">DREAM SPACE</h1>
+            <p style="color:var(--d); font-size:12px; margin-bottom:20px;">Secure Earning Platform</p>
+            <input type="email" id="lEmail" placeholder="Email">
+            <input type="password" id="lPass" placeholder="Password">
+            <button class="btn" onclick="handleLogin()">LOGIN</button>
+            <p style="margin-top:20px; color:var(--d)" onclick="toScreen('regPage')">New here? <span style="color:var(--p)">Create Account</span></p>
+        </div>
+    </div>
+
+    <div id="regPage" class="screen">
+        <div class="auth-card">
+            <h3>Join Dream Space</h3>
+            <input type="text" id="rName" placeholder="Full Name">
+            <input type="email" id="rEmail" placeholder="Email Address">
+            <input type="password" id="rPass" placeholder="Password">
+            <input type="password" id="rPassC" placeholder="Confirm Password">
+            <input type="text" id="rRefer" placeholder="Referral UID">
+            <button class="btn" onclick="handleRegister()">SIGN UP</button>
+            <p style="margin-top:20px; color:var(--d)" onclick="toScreen('loginPage')">Already have an account? Login</p>
+        </div>
+    </div>
+
+    <div id="homePage" class="screen">
+        <div class="header-box">
+            <div><h4 id="hName" style="margin:0">---</h4><p id="hUid" style="font-size:10px; color:var(--p); margin:0">UID: ---</p></div>
+            <button onclick="auth.signOut().then(()=>location.reload())" style="background:none; border:none; color:var(--er); font-size:22px;"><i class="fas fa-power-off"></i></button>
+        </div>
+        <div class="stats-grid">
+            <div class="stat-box"><p style="font-size:9px;">BALANCE</p><h3 id="bal">0</h3></div>
+            <div class="stat-box"><p style="font-size:9px;">INCOME</p><h3 id="tInc">0</h3></div>
+            <div class="stat-box"><p style="font-size:9px;">BONUS</p><h3 id="bon">0</h3></div>
+            <div class="stat-box"><p style="font-size:9px;">WITHDRAWN</p><h3 id="tWd">0</h3></div>
+        </div>
+        <div class="card">
+            <p style="font-size:10px; color:var(--d)">INVITATION LINK</p>
+            <p id="refLink" style="font-size:11px; color:var(--p); word-break:break-all; background:#080a0f; padding:10px; border-radius:10px;"></p>
+            <button class="btn" style="padding:10px; font-size:11px; margin-top:10px;" onclick="copyTxt(document.getElementById('refLink').innerText)">COPY LINK</button>
+        </div>
+    </div>
+
+    <div id="slotPage" class="screen">
+        <h3>Activation Levels</h3>
+        <div class="card">LVL 1 - 100৳ <button class="btn" id="s1_btn" style="width:110px; float:right; padding:10px; font-size:11px;" onclick="openPay(100, 1)">ACTIVATE</button></div>
+        <div class="card">LVL 2 - 300৳ <button class="btn" id="s2_btn" style="width:110px; float:right; padding:10px; font-size:11px;" onclick="openPay(300, 2)">LOCKED</button></div>
+        <div class="card">LVL 3 - 500৳ <button class="btn" id="s3_btn" style="width:110px; float:right; padding:10px; font-size:11px;" onclick="openPay(500, 3)">LOCKED</button></div>
+    </div>
+
+    <div id="wdPage" class="screen">
+        <h3>Withdraw Funds</h3>
+        <div class="card">
+            <select id="wdM">
+                <option value="Nagad">Nagad</option>
+                <option disabled>bKash (Coming Soon)</option>
+                <option disabled>Rocket (Coming Soon)</option>
+                <option disabled>USDT (Coming Soon)</option>
+            </select>
+            <input type="number" id="wAmt" placeholder="Minimum 100৳">
+            <input type="text" id="wNum" placeholder="Phone Number">
+            <button class="btn" onclick="handleWd()">REQUEST WITHDRAW</button>
+        </div>
+        <h4 style="margin-top:25px;">Withdrawal History</h4>
+        <div id="userWdHistory" class="card" style="padding:0; overflow:hidden;"></div>
+    </div>
+
+    <div id="adminNisa" class="screen">
+        <h3 style="color:var(--p)">Admin Master Control</h3>
+        <div class="card">
+            <input type="text" id="admSearch" placeholder="Search by UID">
+            <button class="btn" onclick="searchUser()">SEARCH</button>
+            <div id="uResult" style="margin-top:15px;"></div>
+            <div id="admAct" style="display:none; margin-top:10px;">
+                <input type="number" id="admMod" placeholder="Amount">
+                <button class="btn" onclick="modBal(1)">ADD BONUS</button>
+                <button class="btn" style="background:var(--er); margin-top:8px;" onclick="modBal(-1)">MINUS BALANCE</button>
+            </div>
+        </div>
+        <div id="admRewardList"></div>
+        <div id="admWdList"></div>
+        <div id="admSlotList"></div>
+    </div>
+
+    <div id="payPage" class="screen">
+        <div class="card" style="text-align:center;">
+            <h3 style="color:var(--or)">Nagad (Send Money)</h3>
+            <div style="background:#080a0f; padding:20px; border-radius:20px; border:1px dashed #333; margin:15px 0;">
+                <p style="font-size:12px; color:var(--d); margin-top:0;">Number:</p>
+                <h2 style="margin:5px 0; letter-spacing:1px;">01904865112 <i class="fas fa-copy" onclick="copyTxt('01904865112')" style="color:var(--p); font-size:18px;"></i></h2>
+            </div>
+            <input type="text" id="pNum" placeholder="Sender Number">
+            <input type="text" id="pTx" placeholder="Transaction ID (TxID)">
+            <button class="btn" onclick="submitSlot()">SUBMIT PAYMENT</button>
+            <button class="btn" style="background:none; color:var(--d); margin-top:10px;" onclick="toScreen('slotPage')">GO BACK</button>
+        </div>
+    </div>
+
+    <nav class="nav-bar" id="mainNav" style="display:none;">
+        <div class="nav-item nav-active" onclick="toScreen('homePage', this)"><i class="fas fa-home"></i>Home</div>
+        <div class="nav-item" onclick="toScreen('slotPage', this)"><i class="fas fa-rocket"></i>Slots</div>
+        <div class="nav-item" onclick="toScreen('wdPage', this)"><i class="fas fa-wallet"></i>Wallet</div>
+        <div id="admN" class="nav-item" style="display:none;" onclick="toScreen('adminNisa', this)"><i class="fas fa-shield-alt"></i>Admin</div>
+    </nav>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
+    <script>
+        const firebaseConfig = { apiKey: "AIzaSyDDBjoA6dAkis4S2FQxYEvS1yoeSEYJZyE", authDomain: "dream-space-6e974.firebaseapp.com", projectId: "dream-space-6e974", storageBucket: "dream-space-6e974.firebasestorage.app", messagingSenderId: "650793456147", appId: "1:650793456147:web:14c651a51f7093cab3a5e6" };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth(), db = firebase.firestore(), ADMIN = "nisafridoy@gmail.com";
+        let uData = null, sUserDocID = null, actS = 0;
+
+        window.toScreen = (id, el) => {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            if(el) { document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('nav-active')); el.classList.add('nav-active'); }
+        };
+
+        window.copyTxt = (t) => {
+            const el = document.createElement('textarea'); el.value = t; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el); alert("Copied!");
+        };
+
+        window.handleLogin = () => { auth.signInWithEmailAndPassword(document.getElementById('lEmail').value, document.getElementById('lPass').value).catch(e => alert(e.message)); };
+
+        window.handleRegister = () => {
+            const e = document.getElementById('rEmail').value, n = document.getElementById('rName').value, p = document.getElementById('rPass').value, pc = document.getElementById('rPassC').value, r = document.getElementById('rRefer').value.toUpperCase();
+            if(p !== pc) return alert("Passwords do not match!");
+            auth.createUserWithEmailAndPassword(e, p).then(async res => {
+                const uid = Math.random().toString(36).substr(2, 6).toUpperCase();
+                await db.collection("users").doc(res.user.uid).set({ name:n, email:e, balance:0, slot:0, total_inc:0, bonus:0, total_wd:0, refer_by:r, myUID:uid, isBlocked:false, time:new Date() });
+            }).catch(e => alert(e.message));
+        };
+
+        async function runComm(buyerUID, slotLvl) {
+            const rates = slotLvl === 1 ? [50,30,10] : (slotLvl === 2 ? [130,80,50] : [230,120,100]);
+            const bSnap = await db.collection("users").doc(buyerUID).get();
+            let refUID = bSnap.data().refer_by, paid = 0;
+            const allU = await db.collection("users").get();
+            while(paid < 3 && refUID) {
+                const target = allU.docs.find(d => d.data().myUID === refUID);
+                if(target) {
+                    const rData = target.data();
+                    if(rData.slot >= slotLvl) {
+                        await db.collection("users").doc(target.id).update({ balance: firebase.firestore.FieldValue.increment(rates[paid]), total_inc: firebase.firestore.FieldValue.increment(rates[paid]) });
+                        paid++;
+                    }
+                    refUID = rData.refer_by;
+                } else break;
+            }
+        }
+
+        auth.onAuthStateChanged(async user => {
+            if(user) {
+                document.getElementById('mainNav').style.display = 'flex';
+                if(user.email === ADMIN) document.getElementById('admN').style.display = 'block';
+                toScreen('homePage');
+                db.collection("users").doc(user.uid).onSnapshot(d => {
+                    uData = d.data();
+                    document.getElementById('hName').innerText = uData.name;
+                    document.getElementById('hUid').innerText = "UID: " + uData.myUID;
+                    document.getElementById('bal').innerText = uData.balance + "৳";
+                    document.getElementById('tInc').innerText = uData.total_inc + "৳";
+                    document.getElementById('bon').innerText = uData.bonus + "৳";
+                    document.getElementById('tWd').innerText = uData.total_wd + "৳";
+                    document.getElementById('refLink').innerText = window.location.origin + "?id=" + uData.myUID;
+                    for(let i=1; i<=3; i++){
+                        const btn = document.getElementById('s'+i+'_btn');
+                        if(uData.slot >= i) { btn.innerText="OWNED"; btn.disabled=true; btn.style.background="#222"; }
+                        else if(uData.slot == i-1) { btn.innerText="ACTIVATE"; btn.disabled=false; }
+                        else { btn.innerText="LOCKED"; btn.disabled=true; btn.style.background="#0a0a0a"; }
+                    }
+                });
+
+                db.collection("withdraws").where("uid","==",user.uid).orderBy("time","desc").onSnapshot(s => {
+                    let h = ""; s.forEach(doc => { const w = doc.data(); h += `<div class="h-item"><span>${w.amount}৳ (${w.num})</span><span class="${w.status=='OK'?'st-ok':'st-pending'}">${w.status.toUpperCase()}</span></div>`; });
+                    document.getElementById('userWdHistory').innerHTML = h || "<p style='padding:20px; font-size:11px; color:var(--d); text-align:center;'>No history found</p>";
+                });
+
+                if(user.email === ADMIN) {
+                    db.collection("withdraws").where("status","==","pending").onSnapshot(s => {
+                        let h = "<h4>Pending Withdrawals</h4>"; s.forEach(doc => { const w = doc.data(); h += `<div class="list-item">${w.pUID} | ${w.amount}৳ | ${w.num}<br><button class="btn" style="height:35px; font-size:10px; width:100px; margin-top:5px;" onclick="approveWd('${doc.id}', '${w.uid}', ${w.amount})">APPROVE</button></div>`; });
+                        document.getElementById('admWdList').innerHTML = h;
+                    });
+                    db.collection("deposits").where("status","==","pending").onSnapshot(s => {
+                        let h = "<h4>Pending Slot Upgrades</h4>"; s.forEach(doc => { const p = doc.data(); h += `<div class="list-item">${p.pUID} | Slot ${p.slot} | ${p.txid}<br><button class="btn" style="height:35px; font-size:10px; width:100px; margin-top:5px;" onclick="approveSlot('${doc.id}', '${p.uid}', ${p.slot})">APPROVE</button></div>`; });
+                        document.getElementById('admSlotList').innerHTML = h;
+                    });
+                    const allU = await db.collection("users").get();
+                    let rewH = "";
+                    allU.forEach(doc => {
+                        const d = doc.data();
+                        const count = allU.docs.filter(u => u.data().refer_by === d.myUID && u.data().slot > 0).length;
+                        if(count >= 100) rewH += `<div class="reward-tag"><i class="fas fa-trophy"></i> 100 ACTIVE REFS: ${d.name} (${d.myUID})</div>`;
+                    });
+                    document.getElementById('admRewardList').innerHTML = rewH;
+                }
+            } else { document.getElementById('mainNav').style.display = 'none'; toScreen('loginPage'); }
+        });
+
+        window.searchUser = async () => {
+            const allU = await db.collection("users").get();
+            const target = allU.docs.find(d => d.data().myUID === document.getElementById('admSearch').value.toUpperCase());
+            if(!target) return alert("Not Found");
+            sUserDocID = target.id; const d = target.data();
+            const count = allU.docs.filter(u => u.data().refer_by === d.myUID && u.data().slot > 0).length;
+            document.getElementById('uResult').innerHTML = `<div class="list-item" style="border:1px solid var(--p)"><b>${d.name}</b><br>Email: ${d.email}<br>UID: ${d.myUID}<br>Bal: ${d.balance} | Slot: ${d.slot}<br><b style="color:var(--s)">Active Ref: ${count}</b></div>`;
+            document.getElementById('admAct').style.display = 'block';
+        };
+
+        window.modBal = (dir) => {
+            const amt = parseInt(document.getElementById('admMod').value);
+            const upd = dir === 1 ? { bonus: firebase.firestore.FieldValue.increment(amt), balance: firebase.firestore.FieldValue.increment(amt) } : { balance: firebase.firestore.FieldValue.increment(-amt) };
+            db.collection("users").doc(sUserDocID).update(upd).then(()=>alert("Done!"));
+        };
+
+        window.handleWd = () => {
+            const a = parseInt(document.getElementById('wAmt').value), n = document.getElementById('wNum').value;
+            if(!n.startsWith("01") || a < 100 || a > uData.balance) return alert("Check Balance/Number");
+            db.collection("users").doc(auth.currentUser.uid).update({ balance: firebase.firestore.FieldValue.increment(-a) });
+            db.collection("withdraws").add({ uid:auth.currentUser.uid, pUID:uData.myUID, amount:a, num:n, status:"pending", time:new Date() });
+            alert("Requested!");
+        };
+
+        window.submitSlot = () => {
+            const n = document.getElementById('pNum').value, t = document.getElementById('pTx').value;
+            if(!n.startsWith("01") || t.length < 5) return alert("Error in Sender or TxID");
+            db.collection("deposits").add({ uid:auth.currentUser.uid, pUID:uData.myUID, txid:t, num:n, slot:actS, status:"pending", time:new Date() });
+            alert("Submitted!"); toScreen('slotPage');
+        };
+
+        window.approveWd = (docID, uID, amt) => {
+            db.collection("withdraws").doc(docID).update({ status: "OK" });
+            db.collection("users").doc(uID).update({ total_wd: firebase.firestore.FieldValue.increment(amt) });
+            alert("Approved!");
+        };
+
+        window.approveSlot = async (docID, uID, slot) => {
+            await db.collection("deposits").doc(docID).update({ status: "OK" });
+            await db.collection("users").doc(uID).update({ slot: slot });
+            await runComm(uID, slot);
+            alert("Approved!");
+        };
+
+        window.openPay = (a, s) => { actS = s; toScreen('payPage'); };
+    </script>
+</body>
+  </html>
