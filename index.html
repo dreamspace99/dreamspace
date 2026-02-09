@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dream Space V49</title>
+    <title>Dream Space V49 - Professional</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --p: #7d5fff; --bg: #05070a; --c: #11141d; --t: #e6edf3; --d: #8b949e; --s: #2ecc71; --er: #ff4757; --or: #ffa500; }
@@ -31,7 +31,6 @@
         .list-item { background: #080a0f; padding: 12px; border-radius: 12px; margin-bottom: 8px; font-size: 11px; border: 1px solid #222; line-height: 1.6; }
         .h-item { display: flex; justify-content: space-between; padding: 12px; border-bottom: 1px solid #222; font-size: 11px; }
         .st-pending { color: var(--or); } .st-ok { color: var(--s); }
-        .reward-tag { background: rgba(255, 165, 0, 0.1); border: 1px solid var(--or); color: var(--or); padding: 12px; border-radius: 15px; margin-bottom: 15px; font-size: 12px; }
     </style>
 </head>
 <body>
@@ -65,80 +64,42 @@
             <div><h4 id="hName" style="margin:0">---</h4><p id="hUid" style="font-size:10px; color:var(--p); margin:0">UID: ---</p></div>
             <button onclick="auth.signOut().then(()=>location.reload())" style="background:none; border:none; color:var(--er); font-size:22px;"><i class="fas fa-power-off"></i></button>
         </div>
+        
         <div class="stats-grid">
             <div class="stat-box"><p style="font-size:9px;">BALANCE</p><h3 id="bal">0</h3></div>
             <div class="stat-box"><p style="font-size:9px;">INCOME</p><h3 id="tInc">0</h3></div>
             <div class="stat-box"><p style="font-size:9px;">BONUS</p><h3 id="bon">0</h3></div>
             <div class="stat-box"><p style="font-size:9px;">WITHDRAWN</p><h3 id="tWd">0</h3></div>
         </div>
+
         <div class="card">
             <p style="font-size:10px; color:var(--d)">INVITATION LINK</p>
             <p id="refLink" style="font-size:11px; color:var(--p); word-break:break-all; background:#080a0f; padding:10px; border-radius:10px;"></p>
             <button class="btn" style="padding:10px; font-size:11px; margin-top:10px;" onclick="copyTxt(document.getElementById('refLink').innerText)">COPY LINK</button>
-        </div>
-    </div>
-    <div id="homePage" class="screen">
-    <div class="header-box" style="display: flex; justify-content: space-between; align-items: center; padding: 15px; background: #1a1d26; border-radius: 15px; margin-bottom: 15px;">
-        <div>
-            <h4 id="hName" style="margin:0; color: #ffffff; font-size: 16px;">---</h4>
-            <p id="hUid" style="font-size:11px; color: #aaaaaa; margin:0">UID: ---</p>
-        </div>
-        <button onclick="auth.signOut().then(()=>location.reload())" style="background:none; border:none; color: #ff4d4d; font-size:22px;">
-            <i class="fas fa-power-off"></i>
-        </button>
-    </div>
-
-    <div class="stats-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;">
-        <div class="stat-box" style="background: #1a1d26; padding: 15px; border-radius: 15px; text-align: center; border: 1px solid #333;">
-            <p style="font-size:10px; color: #aaaaaa; margin: 0;">BALANCE</p>
-            <h3 id="bal" style="color: #ffffff; margin: 5px 0;">0</h3>
-        </div>
-        <div class="stat-box" style="background: #1a1d26; padding: 15px; border-radius: 15px; text-align: center; border: 1px solid #333;">
-            <p style="font-size:10px; color: #aaaaaa; margin: 0;">INCOME</p>
-            <h3 id="tInc" style="color: #ffffff; margin: 5px 0;">0</h3>
-        </div>
-        <div class="stat-box" style="background: #1a1d26; padding: 15px; border-radius: 15px; text-align: center; border: 1px solid #333;">
-            <p style="font-size:10px; color: #aaaaaa; margin: 0;">BONUS</p>
-            <h3 id="bon" style="color: #ffffff; margin: 5px 0;">0</h3>
-        </div>
-        <div class="stat-box" style="background: #1a1d26; padding: 15px; border-radius: 15px; text-align: center; border: 1px solid #333;">
-            <p style="font-size:10px; color: #aaaaaa; margin: 0;">WITHDRAWN</p>
-            <h3 id="tWd" style="color: #ffffff; margin: 5px 0;">0</h3>
-        </div>
-    </div>
-
-    <div class="card" style="background: #1a1d26; padding: 20px; border-radius: 20px; border: 1px solid #333; margin-bottom: 20px;">
-        <p style="font-size:11px; color: #aaaaaa; margin-bottom: 10px;">MY INVITATION LINK</p>
-        <div id="refLink" style="font-size:12px; color: #7d5fff; word-break:break-all; background:#080a0f; padding:15px; border-radius:12px; border: 1px solid #222; margin-bottom: 10px;">---</div>
-        <button class="btn" style="width: 100%; padding: 12px; background: #7d5fff; color: #fff; border: none; border-radius: 12px; font-weight: bold;" onclick="copyTxt(document.getElementById('refLink').innerText)">COPY MY LINK</button>
-
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px;">
-            <div style="background: #080a0f; padding: 15px; border-radius: 15px; text-align: center; border-bottom: 3px solid #2ecc71;">
-                <p style="font-size: 10px; color: #aaaaaa; margin: 0;">TOTAL REFER</p>
-                <h2 id="totalRefCount" style="margin: 5px 0; color: #ffffff;">0</h2>
-            </div>
-            <div style="background: #080a0f; padding: 15px; border-radius: 15px; text-align: center; border-bottom: 3px solid #f39c12;">
-                <p style="font-size: 10px; color: #aaaaaa; margin: 0;">WEEKLY REFER</p>
-                <h2 id="weeklyRefCount" style="margin: 5px 0; color: #ffffff;">0</h2>
+            
+            <div class="stats-grid" style="margin-top:15px;">
+                <div style="background: #080a0f; padding: 15px; border-radius: 15px; text-align: center; border-bottom: 2px solid var(--s);">
+                    <p style="font-size: 9px; color: var(--d); margin: 0;">TOTAL REFER</p>
+                    <h3 id="totalRefCount" style="margin: 5px 0; font-size: 16px;">0</h3>
+                </div>
+                <div style="background: #080a0f; padding: 15px; border-radius: 15px; text-align: center; border-bottom: 2px solid var(--or);">
+                    <p style="font-size: 9px; color: var(--d); margin: 0;">WEEKLY REFER</p>
+                    <h3 id="weeklyRefCount" style="margin: 5px 0; font-size: 16px;">0</h3>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="card" style="background: #1a1d26; padding: 20px; border-radius: 20px; border: 1px solid #333; text-align: center;">
-        <p style="font-size: 12px; color: #ffffff; margin-bottom: 15px; font-weight: bold;">OFFICIAL SUPPORT</p>
-        <div style="display: flex; gap: 10px;">
-            <a href="https://wa.me/8801904865112" target="_blank" style="text-decoration: none; flex: 1;">
-                <div style="background: #25D366; color: white; padding: 12px; border-radius: 12px; font-size: 12px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 5px;">
-                    <i class="fab fa-whatsapp"></i> WhatsApp
-                </div>
-            </a>
-            <a href="https://t.me/nisafridoy" target="_blank" style="text-decoration: none; flex: 1;">
-                <div style="background: #0088cc; color: white; padding: 12px; border-radius: 12px; font-size: 12px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 5px;">
-                    <i class="fab fa-telegram-plane"></i> Telegram
-                </div>
-            </a>
+        <div class="card" style="text-align:center;">
+            <p style="font-size:12px; margin-bottom:12px; color:var(--d)">Official Support & Community</p>
+            <div style="display:flex; gap:10px;">
+                <a href="https://wa.me/8801904865112" style="flex:1; text-decoration:none;">
+                    <button class="btn" style="background:#25D366; padding:12px; font-size:11px;"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+                </a>
+                <a href="https://t.me/nisafridoy" style="flex:1; text-decoration:none;">
+                    <button class="btn" style="background:#0088cc; padding:12px; font-size:11px;"><i class="fab fa-telegram-plane"></i> Telegram</button>
+                </a>
+            </div>
         </div>
-    </div>
     </div>
 
     <div id="slotPage" class="screen">
@@ -153,9 +114,7 @@
         <div class="card">
             <select id="wdM">
                 <option value="Nagad">Nagad</option>
-                <option disabled>bKash (Coming Soon)</option>
-                <option disabled>Rocket (Coming Soon)</option>
-                <option disabled>USDT (Coming Soon)</option>
+                <option disabled>bKash (Soon)</option>
             </select>
             <input type="number" id="wAmt" placeholder="Minimum 100৳">
             <input type="text" id="wNum" placeholder="Phone Number">
@@ -177,7 +136,7 @@
                 <button class="btn" style="background:var(--er); margin-top:8px;" onclick="modBal(-1)">MINUS BALANCE</button>
             </div>
         </div>
-        <div id="admRewardList"></div>
+        
         <div id="admWdList"></div>
         <div id="admSlotList"></div>
     </div>
@@ -213,6 +172,7 @@
         const auth = firebase.auth(), db = firebase.firestore(), ADMIN = "nisafridoy@gmail.com";
         let uData = null, sUserDocID = null, actS = 0;
 
+        // Navigation & UI Helpers
         window.toScreen = (id, el) => {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById(id).classList.add('active');
@@ -223,6 +183,7 @@
             const el = document.createElement('textarea'); el.value = t; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el); alert("Copied!");
         };
 
+        // Auth Functions
         window.handleLogin = () => { auth.signInWithEmailAndPassword(document.getElementById('lEmail').value, document.getElementById('lPass').value).catch(e => alert(e.message)); };
 
         window.handleRegister = () => {
@@ -234,6 +195,19 @@
             }).catch(e => alert(e.message));
         };
 
+        // Referral Counter Logic
+        function loadRefCounts() {
+            db.collection("users").where("refer_by", "==", uData.myUID).onSnapshot(snap => {
+                let total = snap.size;
+                let weekly = 0;
+                const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+                snap.forEach(doc => { if(doc.data().time && doc.data().time.toDate() > sevenDaysAgo) weekly++; });
+                document.getElementById('totalRefCount').innerText = total;
+                document.getElementById('weeklyRefCount').innerText = weekly;
+            });
+        }
+
+        // Commission Logic
         async function runComm(buyerUID, slotLvl) {
             const rates = slotLvl === 1 ? [50,30,10] : (slotLvl === 2 ? [130,80,50] : [230,120,100]);
             const bSnap = await db.collection("users").doc(buyerUID).get();
@@ -252,11 +226,13 @@
             }
         }
 
+        // Main State Listener
         auth.onAuthStateChanged(async user => {
             if(user) {
                 document.getElementById('mainNav').style.display = 'flex';
                 if(user.email === ADMIN) document.getElementById('admN').style.display = 'block';
                 toScreen('homePage');
+                
                 db.collection("users").doc(user.uid).onSnapshot(d => {
                     uData = d.data();
                     document.getElementById('hName').innerText = uData.name;
@@ -266,47 +242,51 @@
                     document.getElementById('bon').innerText = uData.bonus + "৳";
                     document.getElementById('tWd').innerText = uData.total_wd + "৳";
                     document.getElementById('refLink').innerText = window.location.origin + "?id=" + uData.myUID;
+                    
                     for(let i=1; i<=3; i++){
                         const btn = document.getElementById('s'+i+'_btn');
                         if(uData.slot >= i) { btn.innerText="OWNED"; btn.disabled=true; btn.style.background="#222"; }
                         else if(uData.slot == i-1) { btn.innerText="ACTIVATE"; btn.disabled=false; }
                         else { btn.innerText="LOCKED"; btn.disabled=true; btn.style.background="#0a0a0a"; }
                     }
+                    loadRefCounts();
                 });
 
+                // User Withdraw History
                 db.collection("withdraws").where("uid","==",user.uid).orderBy("time","desc").onSnapshot(s => {
                     let h = ""; s.forEach(doc => { const w = doc.data(); h += `<div class="h-item"><span>${w.amount}৳ (${w.num})</span><span class="${w.status=='OK'?'st-ok':'st-pending'}">${w.status.toUpperCase()}</span></div>`; });
                     document.getElementById('userWdHistory').innerHTML = h || "<p style='padding:20px; font-size:11px; color:var(--d); text-align:center;'>No history found</p>";
                 });
 
+                // ADMIN PANEL REALTIME LISTS
                 if(user.email === ADMIN) {
                     db.collection("withdraws").where("status","==","pending").onSnapshot(s => {
-                        let h = "<h4>Pending Withdrawals</h4>"; s.forEach(doc => { const w = doc.data(); h += `<div class="list-item">${w.pUID} | ${w.amount}৳ | ${w.num}<br><button class="btn" style="height:35px; font-size:10px; width:100px; margin-top:5px;" onclick="approveWd('${doc.id}', '${w.uid}', ${w.amount})">APPROVE</button></div>`; });
+                        let h = "<h4>Pending Withdrawals</h4>"; 
+                        s.forEach(doc => { 
+                            const w = doc.data(); 
+                            h += `<div class="list-item">UID: ${w.pUID}<br>Amount: ${w.amount}৳<br>Num: ${w.num}<br><button class="btn" style="height:35px; font-size:10px; width:100px; margin-top:5px;" onclick="approveWd('${doc.id}', '${w.uid}', ${w.amount})">APPROVE</button></div>`; 
+                        });
                         document.getElementById('admWdList').innerHTML = h;
                     });
                     db.collection("deposits").where("status","==","pending").onSnapshot(s => {
-                        let h = "<h4>Pending Slot Upgrades</h4>"; s.forEach(doc => { const p = doc.data(); h += `<div class="list-item">${p.pUID} | Slot ${p.slot} | ${p.txid}<br><button class="btn" style="height:35px; font-size:10px; width:100px; margin-top:5px;" onclick="approveSlot('${doc.id}', '${p.uid}', ${p.slot})">APPROVE</button></div>`; });
+                        let h = "<h4>Pending Slot Upgrades</h4>"; 
+                        s.forEach(doc => { 
+                            const p = doc.data(); 
+                            h += `<div class="list-item">UID: ${p.pUID}<br>Slot: ${p.slot}<br>Sender: ${p.num}<br>TxID: ${p.txid}<br><button class="btn" style="height:35px; font-size:10px; width:100px; margin-top:5px;" onclick="approveSlot('${doc.id}', '${p.uid}', ${p.slot})">APPROVE</button></div>`; 
+                        });
                         document.getElementById('admSlotList').innerHTML = h;
                     });
-                    const allU = await db.collection("users").get();
-                    let rewH = "";
-                    allU.forEach(doc => {
-                        const d = doc.data();
-                        const count = allU.docs.filter(u => u.data().refer_by === d.myUID && u.data().slot > 0).length;
-                        if(count >= 100) rewH += `<div class="reward-tag"><i class="fas fa-trophy"></i> 100 ACTIVE REFS: ${d.name} (${d.myUID})</div>`;
-                    });
-                    document.getElementById('admRewardList').innerHTML = rewH;
                 }
             } else { document.getElementById('mainNav').style.display = 'none'; toScreen('loginPage'); }
         });
 
+        // Admin Search & Modification
         window.searchUser = async () => {
             const allU = await db.collection("users").get();
             const target = allU.docs.find(d => d.data().myUID === document.getElementById('admSearch').value.toUpperCase());
             if(!target) return alert("Not Found");
             sUserDocID = target.id; const d = target.data();
-            const count = allU.docs.filter(u => u.data().refer_by === d.myUID && u.data().slot > 0).length;
-            document.getElementById('uResult').innerHTML = `<div class="list-item" style="border:1px solid var(--p)"><b>${d.name}</b><br>Email: ${d.email}<br>UID: ${d.myUID}<br>Bal: ${d.balance} | Slot: ${d.slot}<br><b style="color:var(--s)">Active Ref: ${count}</b></div>`;
+            document.getElementById('uResult').innerHTML = `<div class="list-item" style="border:1px solid var(--p)"><b>${d.name}</b><br>Email: ${d.email}<br>UID: ${d.myUID}<br>Bal: ${d.balance} | Slot: ${d.slot}</div>`;
             document.getElementById('admAct').style.display = 'block';
         };
 
@@ -316,17 +296,18 @@
             db.collection("users").doc(sUserDocID).update(upd).then(()=>alert("Done!"));
         };
 
+        // Payment & Actions
         window.handleWd = () => {
             const a = parseInt(document.getElementById('wAmt').value), n = document.getElementById('wNum').value;
-            if(!n.startsWith("01") || a < 100 || a > uData.balance) return alert("Check Balance/Number");
+            if(!n.startsWith("01") || n.length != 11 || a < 100 || a > uData.balance) return alert("Check Balance/11-digit Number");
             db.collection("users").doc(auth.currentUser.uid).update({ balance: firebase.firestore.FieldValue.increment(-a) });
-            db.collection("withdraws").add({ uid:auth.currentUser.uid, pUID:uData.myUID, amount:a, num:n, status:"pending", time:new Date() });
+                        db.collection("withdraws").add({ uid:auth.currentUser.uid, pUID:uData.myUID, amount:a, num:n, status:"pending", time:new Date() });
             alert("Requested!");
         };
 
         window.submitSlot = () => {
             const n = document.getElementById('pNum').value, t = document.getElementById('pTx').value;
-            if(!n.startsWith("01") || t.length < 5) return alert("Error in Sender or TxID");
+            if(n.length != 11 || t.length < 5) return alert("Error in Sender Number (11 digits) or TxID");
             db.collection("deposits").add({ uid:auth.currentUser.uid, pUID:uData.myUID, txid:t, num:n, slot:actS, status:"pending", time:new Date() });
             alert("Submitted!"); toScreen('slotPage');
         };
@@ -347,4 +328,4 @@
         window.openPay = (a, s) => { actS = s; toScreen('payPage'); };
     </script>
 </body>
-    </html>
+</html>
