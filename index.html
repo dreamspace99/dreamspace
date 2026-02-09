@@ -291,7 +291,7 @@
             alert("Requested!");
         };
 
-        window.submitSlot = () => {
+          window.submitSlot = () => {
             const n = document.getElementById('pNum').value, t = document.getElementById('pTx').value;
             if(!n.startsWith("01") || t.length < 5) return alert("Error in Sender or TxID");
             db.collection("deposits").add({ uid:auth.currentUser.uid, pUID:uData.myUID, txid:t, num:n, slot:actS, status:"pending", time:new Date() });
@@ -313,5 +313,5 @@
 
         window.openPay = (a, s) => { actS = s; toScreen('payPage'); };
     </script>
-</body>
-  </html>
+     </body>  
+      </html>
