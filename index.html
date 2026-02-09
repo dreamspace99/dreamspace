@@ -70,27 +70,15 @@
             <div class="stat-box"><p style="font-size:9px;">INCOME</p><h3 id="tInc">0</h3></div>
             <div class="stat-box"><p style="font-size:9px;">BONUS</p><h3 id="bon">0</h3></div>
             <div class="stat-box"><p style="font-size:9px;">WITHDRAWN</p><h3 id="tWd">0</h3></div>
-            <div class="card" style="text-align: center; border-left: 5px solid var(--s); margin-top: 15px;">
-            <p style="font-size: 10px; color: var(--d); margin: 0;">MY ACTIVE REFERS</p>
-            <h2 id="activeRefCount" style="margin: 5px 0; color: var(--s);">0</h2>
         </div>
         <div class="card">
             <p style="font-size:10px; color:var(--d)">INVITATION LINK</p>
             <p id="refLink" style="font-size:11px; color:var(--p); word-break:break-all; background:#080a0f; padding:10px; border-radius:10px;"></p>
             <button class="btn" style="padding:10px; font-size:11px; margin-top:10px;" onclick="copyTxt(document.getElementById('refLink').innerText)">COPY LINK</button>
-            <a href="https://t.me/https://t.me/dreamspace999" target="_blank" style="text-decoration: none;">
-                <a href="https://t.me/dreamspace999" target="_blank" style="text-decoration: none;">
-    <button style="background: #229ED9; color: white; border: none; padding: 10px; border-radius: 10px; font-size: 11px; margin-top: 10px; width: 100%;">
-        <i class="fab fa-telegram"></i> JOIN TELEGRAM SUPPORT
-    </button>
-                </a>
-                <a href="https://wa.me/8801904865112" target="_blank" style="text-decoration: none;">
-    <button style="background: #25D366; color: white; border: none; padding: 10px; border-radius: 10px; font-size: 11px; margin-top: 5px; width: 100%;">
-        <i class="fab fa-whatsapp"></i> WHATSAPP SUPPORT
-    </button>
-                </a>
-    </button>
-            </a>
+            <div class="card" style="text-align: center; border-left: 5px solid var(--s); margin-top: 15px;">
+            <p style="font-size: 10px; color: var(--d); margin: 0;">MY ACTIVE REFERS</p>
+            <h2 id="activeRefCount" style="margin: 5px 0; color: var(--s);">0</h2>
+            </div>
         </div>
     </div>
 
@@ -160,46 +148,32 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
-    auth.onAuthStateChanged(async user => {
-            if(user) {
-                document.getElementById('mainNav').style.display = 'flex';
-                if(user.email === ADMIN) document.getElementById('admN').style.display = 'block';
-                toScreen('homePage');
-                
-                db.collection("users").doc(user.uid).onSnapshot(d => {
-                    uData = d.data();
-                    document.getElementById('hName').innerText = uData.name;
-                    document.getElementById('hUid').innerText = "UID: " + uData.myUID;
-                    document.getElementById('bal').innerText = uData.balance + "৳";
-                    document.getElementById('tInc').innerText = uData.total_inc + "৳";
-                    document.getElementById('bon').innerText = uData.bonus + "৳";
-                    document.getElementById('tWd').innerText = uData.total_wd + "৳";
-                    document.getElementById('refLink').innerText = window.location.origin + "?id=" + uData.myUID;
-                    
-                    for(let i=1; i<=3; i++){
-                        const btn = document.getElementById('s'+i+'_btn');
-                        if(uData.slot >= i) { btn.innerText="OWNED"; btn.disabled=true; btn.style.background="#222"; }
-                        else if(uData.slot == i-1) { btn.innerText="ACTIVATE"; btn.disabled=false; }
-                        else { btn.innerText="LOCKED"; btn.disabled=true; btn.style.background="#0a0a0a"; }
-                    }
+    <script>
+        const firebaseConfig = { apiKey: "AIzaSyDDBjoA6dAkis4S2FQxYEvS1yoeSEYJZyE", authDomain: "dream-space-6e974.firebaseapp.com", projectId: "dream-space-6e974", storageBucket: "dream-space-6e974.firebasestorage.app", messagingSenderId: "650793456147", appId: "1:650793456147:web:14c651a51f7093cab3a5e6" };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth(), db = firebase.firestore(), ADMIN = "nisafridoy@gmail.com";
+        let uData = null, sUserDocID = null, actS = 0;
 
-                    // --- ACTIVE REFER COUNT --- (Ei logic-ta add holo)
-                    db.collection("users").where("refer_by", "==", uData.myUID).onSnapshot(s => {
-                        let active = 0;
-                        s.forEach(doc => { if(doc.data().slot > 0) active++; });
-                        document.getElementById('activeRefCount').innerText = active;
-                    });
-                });
+        window.toScreen = (id, el) => {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            if(el) { document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('nav-active')); el.classList.add('nav-active'); }
+        };
 
-                // --- WITHDRAW HISTORY --- (Ei logic-ta history bhashabe)
-                db.collection("withdraws").where("uid","==",user.uid).orderBy("time","desc").onSnapshot(s => {
-                    let h = ""; 
-                    s.forEach(doc => { 
-                        const w = doc.data(); 
-                        h += `<div class="h-item"><span>${w.amount}৳ (${w.num})</span><span class="${w.status=='OK'?'st-ok':'st-pending'}">${w.status.toUpperCase()}</span></div>`; 
-                    });
-                    document.getElementById('userWdHistory').innerHTML = h || "<p style='padding:20px; font-size:11px; color:var(--d); text-align:center;'>No history found</p>";
-                });
+        window.copyTxt = (t) => {
+            const el = document.createElement('textarea'); el.value = t; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el); alert("Copied!");
+        };
+
+        window.handleLogin = () => { auth.signInWithEmailAndPassword(document.getElementById('lEmail').value, document.getElementById('lPass').value).catch(e => alert(e.message)); };
+
+        window.handleRegister = () => {
+            const e = document.getElementById('rEmail').value, n = document.getElementById('rName').value, p = document.getElementById('rPass').value, pc = document.getElementById('rPassC').value, r = document.getElementById('rRefer').value.toUpperCase();
+            if(p !== pc) return alert("Passwords do not match!");
+            auth.createUserWithEmailAndPassword(e, p).then(async res => {
+                const uid = Math.random().toString(36).substr(2, 6).toUpperCase();
+                await db.collection("users").doc(res.user.uid).set({ name:n, email:e, balance:0, slot:0, total_inc:0, bonus:0, total_wd:0, refer_by:r, myUID:uid, isBlocked:false, time:new Date() });
+            }).catch(e => alert(e.message));
+        };
 
         async function runComm(buyerUID, slotLvl) {
             const rates = slotLvl === 1 ? [50,30,10] : (slotLvl === 2 ? [130,80,50] : [230,120,100]);
@@ -291,7 +265,7 @@
             alert("Requested!");
         };
 
-          window.submitSlot = () => {
+        window.submitSlot = () => {
             const n = document.getElementById('pNum').value, t = document.getElementById('pTx').value;
             if(!n.startsWith("01") || t.length < 5) return alert("Error in Sender or TxID");
             db.collection("deposits").add({ uid:auth.currentUser.uid, pUID:uData.myUID, txid:t, num:n, slot:actS, status:"pending", time:new Date() });
@@ -313,5 +287,5 @@
 
         window.openPay = (a, s) => { actS = s; toScreen('payPage'); };
     </script>
-     </body>  
-      </html>
+</body>
+                                                                                                                                                    </html>
