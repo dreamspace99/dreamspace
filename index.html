@@ -1,9 +1,9 @@
-<just<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dream Space V49 - Professional</title>
+    <title>Dream Space V49</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --p: #7d5fff; --bg: #05070a; --c: #11141d; --t: #e6edf3; --d: #8b949e; --s: #2ecc71; --er: #ff4757; --or: #ffa500; }
@@ -31,6 +31,8 @@
         .list-item { background: #080a0f; padding: 12px; border-radius: 12px; margin-bottom: 8px; font-size: 11px; border: 1px solid #222; line-height: 1.6; }
         .h-item { display: flex; justify-content: space-between; padding: 12px; border-bottom: 1px solid #222; font-size: 11px; }
         .st-pending { color: var(--or); } .st-ok { color: var(--s); }
+        
+        .promo-box { display: flex; align-items: center; justify-content: space-between; background: #080a0f; padding: 15px; border-radius: 15px; border: 1px solid #333; margin-top: 10px; }
     </style>
 </head>
 <body>
@@ -53,7 +55,7 @@
             <input type="email" id="rEmail" placeholder="Email Address">
             <input type="password" id="rPass" placeholder="Password">
             <input type="password" id="rPassC" placeholder="Confirm Password">
-            <input type="text" id="rRefer" placeholder="Referral UID">
+            <input type="text" id="rRefer" placeholder="Upline Promo Code (Required)">
             <button class="btn" onclick="handleRegister()">SIGN UP</button>
             <p style="margin-top:20px; color:var(--d)" onclick="toScreen('loginPage')">Already have an account? Login</p>
         </div>
@@ -61,7 +63,7 @@
 
     <div id="homePage" class="screen">
         <div class="header-box">
-            <div><h4 id="hName" style="margin:0">---</h4><p id="hUid" style="font-size:10px; color:var(--p); margin:0">UID: ---</p></div>
+            <div><h4 id="hName" style="margin:0">---</h4><p id="hUid" style="font-size:10px; color:var(--p); margin:0">PROMO: ---</p></div>
             <button onclick="auth.signOut().then(()=>location.reload())" style="background:none; border:none; color:var(--er); font-size:22px;"><i class="fas fa-power-off"></i></button>
         </div>
         
@@ -72,32 +74,33 @@
             <div class="stat-box"><p style="font-size:9px;">WITHDRAWN</p><h3 id="tWd">0</h3></div>
         </div>
 
-        <div class="card">
-            <p style="font-size:10px; color:var(--d)">INVITATION LINK</p>
-            <p id="refLink" style="font-size:11px; color:var(--p); word-break:break-all; background:#080a0f; padding:10px; border-radius:10px;"></p>
-            <button class="btn" style="padding:10px; font-size:11px; margin-top:10px;" onclick="copyTxt(document.getElementById('refLink').innerText)">COPY LINK</button>
-            
-            <div class="stats-grid" style="margin-top:15px;">
-                <div style="background: #080a0f; padding: 15px; border-radius: 15px; text-align: center; border-bottom: 2px solid var(--s);">
-                    <p style="font-size: 9px; color: var(--d); margin: 0;">TOTAL REFER</p>
-                    <h3 id="totalRefCount" style="margin: 5px 0; font-size: 16px;">0</h3>
-                </div>
-                <div style="background: #080a0f; padding: 15px; border-radius: 15px; text-align: center; border-bottom: 2px solid var(--or);">
-                    <p style="font-size: 9px; color: var(--d); margin: 0;">WEEKLY REFER</p>
-                    <h3 id="weeklyRefCount" style="margin: 5px 0; font-size: 16px;">0</h3>
-                </div>
+        <div class="stats-grid" style="margin-top:15px;">
+            <div style="background: var(--c); padding: 15px; border-radius: 20px; text-align: center; border: 1px solid #222;">
+                <p style="font-size: 9px; color: var(--d); margin: 0;">TOTAL REFER</p>
+                <h3 id="totalRefCount" style="margin: 5px 0; font-size: 16px; color: var(--s);">0</h3>
+            </div>
+            <div style="background: var(--c); padding: 15px; border-radius: 20px; text-align: center; border: 1px solid #222;">
+                <p style="font-size: 9px; color: var(--d); margin: 0;">WEEKLY REFER</p>
+                <h3 id="weeklyRefCount" style="margin: 5px 0; font-size: 16px; color: var(--or);">0</h3>
             </div>
         </div>
 
+        <div class="card">
+            <p style="font-size:10px; color:var(--d)">YOUR PROMO CODE</p>
+            <div class="promo-box">
+                <span id="myPromoText" style="font-weight:bold; color:var(--p); font-size:16px;">------</span>
+                <i class="fas fa-copy" style="color:var(--d); cursor:pointer;" onclick="copyTxt(document.getElementById('myPromoText').innerText)"></i>
+            </div>
+            <p style="font-size:10px; color:var(--d); margin-top:15px;">DIRECT SITE LINK</p>
+            <p id="refLink" style="font-size:11px; color:var(--p); background:#080a0f; padding:12px; border-radius:12px; border:1px solid #333; margin-top:5px;">https://dreamspace99.github.io/dream-space/</p>
+            <button class="btn" style="padding:10px; font-size:11px;" onclick="copyTxt('https://dreamspace99.github.io/dream-space/')">COPY LINK</button>
+        </div>
+
         <div class="card" style="text-align:center;">
-            <p style="font-size:12px; margin-bottom:12px; color:var(--d)">Official Support & Community</p>
+            <p style="font-size:12px; margin-bottom:12px; color:var(--d)">Official Support</p>
             <div style="display:flex; gap:10px;">
-                <a href="https://wa.me/8801904865112" style="flex:1; text-decoration:none;">
-                    <button class="btn" style="background:#25D366; padding:12px; font-size:11px;"><i class="fab fa-whatsapp"></i> WhatsApp</button>
-                </a>
-                <a href="https://t.me/nisafridoy" style="flex:1; text-decoration:none;">
-                    <button class="btn" style="background:#0088cc; padding:12px; font-size:11px;"><i class="fab fa-telegram-plane"></i> Telegram</button>
-                </a>
+                <a href="https://wa.me/8801904865112" style="flex:1; text-decoration:none;"><button class="btn" style="background:#25D366; padding:12px; font-size:11px;"><i class="fab fa-whatsapp"></i> WhatsApp</button></a>
+                <a href="https://t.me/nisafridoy" style="flex:1; text-decoration:none;"><button class="btn" style="background:#0088cc; padding:12px; font-size:11px;"><i class="fab fa-telegram-plane"></i> Telegram</button></a>
             </div>
         </div>
     </div>
@@ -112,10 +115,7 @@
     <div id="wdPage" class="screen">
         <h3>Withdraw Funds</h3>
         <div class="card">
-            <select id="wdM">
-                <option value="Nagad">Nagad</option>
-                <option disabled>bKash (Soon)</option>
-            </select>
+            <select id="wdM"><option value="Nagad">Nagad</option></select>
             <input type="number" id="wAmt" placeholder="Minimum 100৳">
             <input type="text" id="wNum" placeholder="Phone Number">
             <button class="btn" onclick="handleWd()">REQUEST WITHDRAW</button>
@@ -125,9 +125,9 @@
     </div>
 
     <div id="adminNisa" class="screen">
-        <h3 style="color:var(--p)">Admin Master Control</h3>
+        <h3 style="color:var(--p)">Admin Control</h3>
         <div class="card">
-            <input type="text" id="admSearch" placeholder="Search by UID">
+            <input type="text" id="admSearch" placeholder="Search by Promo">
             <button class="btn" onclick="searchUser()">SEARCH</button>
             <div id="uResult" style="margin-top:15px;"></div>
             <div id="admAct" style="display:none; margin-top:10px;">
@@ -136,7 +136,6 @@
                 <button class="btn" style="background:var(--er); margin-top:8px;" onclick="modBal(-1)">MINUS BALANCE</button>
             </div>
         </div>
-        
         <div id="admWdList"></div>
         <div id="admSlotList"></div>
     </div>
@@ -145,8 +144,8 @@
         <div class="card" style="text-align:center;">
             <h3 style="color:var(--or)">Nagad (Send Money)</h3>
             <div style="background:#080a0f; padding:20px; border-radius:20px; border:1px dashed #333; margin:15px 0;">
-                <p style="font-size:12px; color:var(--d); margin-top:0;">Number:</p>
-                <h2 style="margin:5px 0; letter-spacing:1px;">01904865112 <i class="fas fa-copy" onclick="copyTxt('01904865112')" style="color:var(--p); font-size:18px;"></i></h2>
+                <p style="font-size:12px; color:var(--d); margin:0;">Number:</p>
+                <h2 style="margin:5px 0;">01904865112 <i class="fas fa-copy" onclick="copyTxt('01904865112')" style="color:var(--p); cursor:pointer;"></i></h2>
             </div>
             <input type="text" id="pNum" placeholder="Sender Number">
             <input type="text" id="pTx" placeholder="Transaction ID (TxID)">
@@ -172,7 +171,6 @@
         const auth = firebase.auth(), db = firebase.firestore(), ADMIN = "nisafridoy@gmail.com";
         let uData = null, sUserDocID = null, actS = 0;
 
-        // Navigation & UI Helpers
         window.toScreen = (id, el) => {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById(id).classList.add('active');
@@ -180,68 +178,56 @@
         };
 
         window.copyTxt = (t) => {
-            const el = document.createElement('textarea'); el.value = t; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el); alert("Copied!");
+            const el = document.createElement('textarea'); el.value = t; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el); alert("Copied: " + t);
         };
 
-        // Auth Functions
-        window.handleLogin = () => { auth.signInWithEmailAndPassword(document.getElementById('lEmail').value, document.getElementById('lPass').value).catch(e => alert(e.message)); };
+        window.handleLogin = () => { 
+            auth.signInWithEmailAndPassword(document.getElementById('lEmail').value, document.getElementById('lPass').value).catch(e => alert(e.message)); 
+        };
 
         window.handleRegister = () => {
-            const e = document.getElementById('rEmail').value, n = document.getElementById('rName').value, p = document.getElementById('rPass').value, pc = document.getElementById('rPassC').value, r = document.getElementById('rRefer').value.toUpperCase();
+            const e = document.getElementById('rEmail').value, n = document.getElementById('rName').value, p = document.getElementById('rPass').value, pc = document.getElementById('rPassC').value, r = document.getElementById('rRefer').value.trim().toUpperCase();
+            if(!r) return alert("Promo code is required!");
             if(p !== pc) return alert("Passwords do not match!");
             auth.createUserWithEmailAndPassword(e, p).then(async res => {
-                const uid = Math.random().toString(36).substr(2, 6).toUpperCase();
-                await db.collection("users").doc(res.user.uid).set({ name:n, email:e, balance:0, slot:0, total_inc:0, bonus:0, total_wd:0, refer_by:r, myUID:uid, isBlocked:false, time:new Date() });
+                const myPromo = Math.random().toString(36).substr(2, 6).toUpperCase();
+                // Register time add kora hoyeche Weekly refer track korar jonno
+                await db.collection("users").doc(res.user.uid).set({ name:n, email:e, balance:0, slot:0, total_inc:0, bonus:0, total_wd:0, refer_by:r, myUID:myPromo, isBlocked:false, time:new Date() });
             }).catch(e => alert(e.message));
         };
 
-        // Referral Counter Logic
-        function loadRefCounts() {
-            db.collection("users").where("refer_by", "==", uData.myUID).onSnapshot(snap => {
-                let total = snap.size;
-                let weekly = 0;
-                const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
-                snap.forEach(doc => { if(doc.data().time && doc.data().time.toDate() > sevenDaysAgo) weekly++; });
-                document.getElementById('totalRefCount').innerText = total;
-                document.getElementById('weeklyRefCount').innerText = weekly;
-            });
-        }
-
-        // Commission Logic
         async function runComm(buyerUID, slotLvl) {
             const rates = slotLvl === 1 ? [50,30,10] : (slotLvl === 2 ? [130,80,50] : [230,120,100]);
             const bSnap = await db.collection("users").doc(buyerUID).get();
-            let refUID = bSnap.data().refer_by, paid = 0;
+            let refPromo = bSnap.data().refer_by, paid = 0;
             const allU = await db.collection("users").get();
-            while(paid < 3 && refUID) {
-                const target = allU.docs.find(d => d.data().myUID === refUID);
+            while(paid < 3 && refPromo) {
+                const target = allU.docs.find(d => d.data().myUID === refPromo);
                 if(target) {
                     const rData = target.data();
                     if(rData.slot >= slotLvl) {
                         await db.collection("users").doc(target.id).update({ balance: firebase.firestore.FieldValue.increment(rates[paid]), total_inc: firebase.firestore.FieldValue.increment(rates[paid]) });
                         paid++;
                     }
-                    refUID = rData.refer_by;
+                    refPromo = rData.refer_by;
                 } else break;
             }
         }
 
-        // Main State Listener
         auth.onAuthStateChanged(async user => {
             if(user) {
                 document.getElementById('mainNav').style.display = 'flex';
                 if(user.email === ADMIN) document.getElementById('admN').style.display = 'block';
                 toScreen('homePage');
-                
                 db.collection("users").doc(user.uid).onSnapshot(d => {
                     uData = d.data();
                     document.getElementById('hName').innerText = uData.name;
-                    document.getElementById('hUid').innerText = "UID: " + uData.myUID;
+                    document.getElementById('hUid').innerText = "PROMO: " + uData.myUID;
+                    document.getElementById('myPromoText').innerText = uData.myUID;
                     document.getElementById('bal').innerText = uData.balance + "৳";
                     document.getElementById('tInc').innerText = uData.total_inc + "৳";
                     document.getElementById('bon').innerText = uData.bonus + "৳";
                     document.getElementById('tWd').innerText = uData.total_wd + "৳";
-                    document.getElementById('refLink').innerText = window.location.origin + "?id=" + uData.myUID;
                     
                     for(let i=1; i<=3; i++){
                         const btn = document.getElementById('s'+i+'_btn');
@@ -249,44 +235,60 @@
                         else if(uData.slot == i-1) { btn.innerText="ACTIVATE"; btn.disabled=false; }
                         else { btn.innerText="LOCKED"; btn.disabled=true; btn.style.background="#0a0a0a"; }
                     }
-                    loadRefCounts();
+
+                    // 1. TOTAL & WEEKLY REFER LOGIC
+                    db.collection("users").where("refer_by", "==", uData.myUID).onSnapshot(snap => {
+                        document.getElementById('totalRefCount').innerText = snap.size;
+                        
+                        // Weekly Saturday (shoni bar) reset logic
+                        let weeklyCount = 0;
+                        const now = new Date();
+                        const lastSaturday = new Date();
+                        lastSaturday.setDate(now.getDate() - (now.getDay() + 1) % 7);
+                        lastSaturday.setHours(0, 0, 0, 0);
+
+                        snap.forEach(doc => {
+                            const userData = doc.data();
+                            if(userData.time && userData.time.toDate() >= lastSaturday) {
+                                weeklyCount++;
+                            }
+                        });
+                        document.getElementById('weeklyRefCount').innerText = weeklyCount;
+                    });
                 });
 
-                // User Withdraw History
+                // 2. WITHDRAW HISTORY WITH STATUS
                 db.collection("withdraws").where("uid","==",user.uid).orderBy("time","desc").onSnapshot(s => {
-                    let h = ""; s.forEach(doc => { const w = doc.data(); h += `<div class="h-item"><span>${w.amount}৳ (${w.num})</span><span class="${w.status=='OK'?'st-ok':'st-pending'}">${w.status.toUpperCase()}</span></div>`; });
-                    document.getElementById('userWdHistory').innerHTML = h || "<p style='padding:20px; font-size:11px; color:var(--d); text-align:center;'>No history found</p>";
+                    let h = ""; 
+                    s.forEach(doc => { 
+                        const w = doc.data(); 
+                        const statusText = w.status === 'OK' ? 'COMPLETE' : 'PENDING';
+                        const statusClass = w.status === 'OK' ? 'st-ok' : 'st-pending';
+                        h += `<div class="h-item"><span>${w.amount}৳ (${w.num})</span><span class="${statusClass}">${statusText}</span></div>`; 
+                    });
+                    document.getElementById('userWdHistory').innerHTML = h || "<p style='padding:20px; font-size:11px; color:var(--d); text-align:center;'>No history</p>";
                 });
 
-                // ADMIN PANEL REALTIME LISTS
                 if(user.email === ADMIN) {
                     db.collection("withdraws").where("status","==","pending").onSnapshot(s => {
-                        let h = "<h4>Pending Withdrawals</h4>"; 
-                        s.forEach(doc => { 
-                            const w = doc.data(); 
-                            h += `<div class="list-item">UID: ${w.pUID}<br>Amount: ${w.amount}৳<br>Num: ${w.num}<br><button class="btn" style="height:35px; font-size:10px; width:100px; margin-top:5px;" onclick="approveWd('${doc.id}', '${w.uid}', ${w.amount})">APPROVE</button></div>`; 
-                        });
+                        let h = ""; s.forEach(doc => { const w = doc.data(); h += `<div class="list-item">Promo: ${w.pUID}<br>${w.amount}৳ | ${w.num}<br><button class="btn" style="height:30px; font-size:10px; width:80px;" onclick="approveWd('${doc.id}', '${w.uid}', ${w.amount})">OK</button></div>`; });
                         document.getElementById('admWdList').innerHTML = h;
                     });
                     db.collection("deposits").where("status","==","pending").onSnapshot(s => {
-                        let h = "<h4>Pending Slot Upgrades</h4>"; 
-                        s.forEach(doc => { 
-                            const p = doc.data(); 
-                            h += `<div class="list-item">UID: ${p.pUID}<br>Slot: ${p.slot}<br>Sender: ${p.num}<br>TxID: ${p.txid}<br><button class="btn" style="height:35px; font-size:10px; width:100px; margin-top:5px;" onclick="approveSlot('${doc.id}', '${p.uid}', ${p.slot})">APPROVE</button></div>`; 
-                        });
+                        let h = ""; s.forEach(doc => { const p = doc.data(); h += `<div class="list-item">Promo: ${p.pUID}<br>Slot ${p.slot} | ${p.num}<br>Tx: ${p.txid}<br><button class="btn" style="height:30px; font-size:10px; width:80px;" onclick="approveSlot('${doc.id}', '${p.uid}', ${p.slot})">OK</button></div>`; });
                         document.getElementById('admSlotList').innerHTML = h;
                     });
                 }
             } else { document.getElementById('mainNav').style.display = 'none'; toScreen('loginPage'); }
         });
 
-        // Admin Search & Modification
+        // ADMIN FUNCTIONS (Ager motoi thakbe)
         window.searchUser = async () => {
             const allU = await db.collection("users").get();
             const target = allU.docs.find(d => d.data().myUID === document.getElementById('admSearch').value.toUpperCase());
             if(!target) return alert("Not Found");
             sUserDocID = target.id; const d = target.data();
-            document.getElementById('uResult').innerHTML = `<div class="list-item" style="border:1px solid var(--p)"><b>${d.name}</b><br>Email: ${d.email}<br>UID: ${d.myUID}<br>Bal: ${d.balance} | Slot: ${d.slot}</div>`;
+            document.getElementById('uResult').innerHTML = `<div class="list-item"><b>${d.name}</b><br>Promo: ${d.myUID}<br>Bal: ${d.balance}</div>`;
             document.getElementById('admAct').style.display = 'block';
         };
 
@@ -295,19 +297,17 @@
             const upd = dir === 1 ? { bonus: firebase.firestore.FieldValue.increment(amt), balance: firebase.firestore.FieldValue.increment(amt) } : { balance: firebase.firestore.FieldValue.increment(-amt) };
             db.collection("users").doc(sUserDocID).update(upd).then(()=>alert("Done!"));
         };
-
-        // Payment & Actions
-        window.handleWd = () => {
+            window.handleWd = () => {
             const a = parseInt(document.getElementById('wAmt').value), n = document.getElementById('wNum').value;
-            if(!n.startsWith("01") || n.length != 11 || a < 100 || a > uData.balance) return alert("Check Balance/11-digit Number");
+            if(!n.startsWith("01") || n.length != 11 || a < 100 || a > uData.balance) return alert("Error");
             db.collection("users").doc(auth.currentUser.uid).update({ balance: firebase.firestore.FieldValue.increment(-a) });
-                        db.collection("withdraws").add({ uid:auth.currentUser.uid, pUID:uData.myUID, amount:a, num:n, status:"pending", time:new Date() });
+            db.collection("withdraws").add({ uid:auth.currentUser.uid, pUID:uData.myUID, amount:a, num:n, status:"pending", time:new Date() });
             alert("Requested!");
         };
 
         window.submitSlot = () => {
             const n = document.getElementById('pNum').value, t = document.getElementById('pTx').value;
-            if(n.length != 11 || t.length < 5) return alert("Error in Sender Number (11 digits) or TxID");
+            if(n.length != 11 || t.length < 5) return alert("Invalid");
             db.collection("deposits").add({ uid:auth.currentUser.uid, pUID:uData.myUID, txid:t, num:n, slot:actS, status:"pending", time:new Date() });
             alert("Submitted!"); toScreen('slotPage');
         };
@@ -315,67 +315,15 @@
         window.approveWd = (docID, uID, amt) => {
             db.collection("withdraws").doc(docID).update({ status: "OK" });
             db.collection("users").doc(uID).update({ total_wd: firebase.firestore.FieldValue.increment(amt) });
-            alert("Approved!");
         };
 
         window.approveSlot = async (docID, uID, slot) => {
             await db.collection("deposits").doc(docID).update({ status: "OK" });
             await db.collection("users").doc(uID).update({ slot: slot });
             await runComm(uID, slot);
-            alert("Approved!");
         };
 
         window.openPay = (a, s) => { actS = s; toScreen('payPage'); };
-        // Auto-fill Refer ID from URL
-window.addEventListener('load', function() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const refID = urlParams.get('id');
-    if (refID) {
-        // Jodi user registration screen-e thake, tobe refer box auto fill hobe
-        const referInput = document.getElementById('rRefer');
-        if(referInput) {
-            referInput.value = refID.toUpperCase();
-        }
-    }
-});
-        
-        window.addEventListener('load', function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const refID = urlParams.get('id');
-            if (refID) {
-                // Register page-er refer input-e auto bose jabe
-                const referInput = document.getElementById('rRefer');
-                if(referInput) {
-                    referInput.value = refID.toUpperCase();
-                }
-            }
-        });
-
-        window.addEventListener('load', function() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const refID = urlParams.get('id');
-    if (refID) {
-        // Register form-er input id 'rRefer' kina check korun
-        const referInput = document.getElementById('rRefer');
-        if(referInput) {
-            referInput.value = refID.toUpperCase();
-            console.log("Refer ID detected and filled: " + refID);
-        }
-    }
-});
-
-        window.addEventListener('load', function() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const refID = urlParams.get('id');
-    if (refID) {
-        const referInput = document.getElementById('rRefer');
-        if(referInput) {
-            referInput.value = refID.toUpperCase();
-            console.log("Referral ID Filled: " + refID);
-        }
-    }
-});
-        
     </script>
 </body>
 </html>
