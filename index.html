@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<just<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -326,6 +326,19 @@
         };
 
         window.openPay = (a, s) => { actS = s; toScreen('payPage'); };
+        // Auto-fill Refer ID from URL
+window.addEventListener('load', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const refID = urlParams.get('id');
+    if (refID) {
+        // Jodi user registration screen-e thake, tobe refer box auto fill hobe
+        const referInput = document.getElementById('rRefer');
+        if(referInput) {
+            referInput.value = refID.toUpperCase();
+        }
+    }
+});
+        
     </script>
 </body>
 </html>
