@@ -278,47 +278,7 @@ db.collection("withdraws")
                 </div>
             `;
         });
-    }
-    document.getElementById('userWdHistory').innerHTML = historyHTML;
-});
-// --- End: Withdraw History Logic ---
-
-    document.getElementById('totalRefCount').innerText = totalCount;
-    document.getElementById('weeklyRefCount').innerText = weeklyCount;
-});
-// --- End: Referral Logic ---
-                        const btn = document.getElementById('s'+i+'_btn');
-                        if(uData.slot >= i) { btn.innerText="OWNED"; btn.disabled=true; btn.style.background="#222"; }
-                        else if(uData.slot == i-1) { btn.innerText="ACTIVATE"; btn.disabled=false; }
-                        else { btn.innerText="LOCKED"; btn.disabled=true; btn.style.background="#0a0a0a"; }
-                    }
-                });
-
-                db.collection("withdraws").where("uid","==",user.uid).orderBy("time","desc").onSnapshot(s => {
-                    let h = ""; s.forEach(doc => { const w = doc.data(); h += `<div class="h-item"><span>${w.amount}৳ (${w.num})</span><span class="${w.status=='OK'?'st-ok':'st-pending'}">${w.status.toUpperCase()}</span></div>`; });
-                    document.getElementById('userWdHistory').innerHTML = h || "<p style='padding:20px; font-size:11px; color:var(--d); text-align:center;'>No history found</p>";
-                });
-
-                if(user.email === ADMIN) {
-                    db.collection("withdraws").where("status","==","pending").onSnapshot(s => {
-                        let h = "<h4>Pending Withdrawals</h4>"; s.forEach(doc => { const w = doc.data(); h += `<div class="list-item">${w.pUID} | ${w.amount}৳ | ${w.num}<br><button class="btn" style="height:35px; font-size:10px; width:100px; margin-top:5px;" onclick="approveWd('${doc.id}', '${w.uid}', ${w.amount})">APPROVE</button></div>`; });
-                        document.getElementById('admWdList').innerHTML = h;
-                    });
-                    db.collection("deposits").where("status","==","pending").onSnapshot(s => {
-                        let h = "<h4>Pending Slot Upgrades</h4>"; s.forEach(doc => { const p = doc.data(); h += `<div class="list-item">${p.pUID} | Slot ${p.slot} | ${p.txid}<br><button class="btn" style="height:35px; font-size:10px; width:100px; margin-top:5px;" onclick="approveSlot('${doc.id}', '${p.uid}', ${p.slot})">APPROVE</button></div>`; });
-                        document.getElementById('admSlotList').innerHTML = h;
-                    });
-                    const allU = await db.collection("users").get();
-                    let rewH = "";
-                    allU.forEach(doc => {
-                        const d = doc.data();
-                        const count = allU.docs.filter(u => u.data().refer_by === d.myUID && u.data().slot > 0).length;
-                        if(count >= 100) rewH += `<div class="reward-tag"><i class="fas fa-trophy"></i> 100 ACTIVE REFS: ${d.name} (${d.myUID})</div>`;
-                    });
-                    document.getElementById('admRewardList').innerHTML = rewH;
-                }
-            } else { document.getElementById('mainNav').style.display = 'none'; toScreen('loginPage'); }
-        });
+    
 
         window.searchUser = async () => {
             const allU = await db.collection("users").get();
