@@ -71,21 +71,9 @@
             <div class="stat-box"><p style="font-size:9px;">BONUS</p><h3 id="bon">0</h3></div>
             <div class="stat-box"><p style="font-size:9px;">WITHDRAWN</p><h3 id="tWd">0</h3></div>
         </div>
-    </div>
-    
-            <div class="card" style="border: 1px solid #333; background: var(--c); padding: 20px;">
-            <p style="font-size:10px; color:var(--d); margin: 0 0 8px 5px; letter-spacing: 1px;">MY INVITATION LINK</p>
-    
-        <div style="position: relative; margin-bottom: 15px;">
-        <div id="refLink" style="font-size:11px; color:var(--p); word-break:break-all; background:#080a0f; padding:15px; border-radius:15px; border: 1px solid #222; line-height: 1.4;">
-            ---
-        </div>
-        <button class="btn" style="padding:10px; font-size:11px; margin-top:10px; border-radius: 12px;" onclick="copyTxt(document.getElementById('refLink').innerText)">
-            <i class="fas fa-copy"></i> COPY LINK
-        </button>
         <div class="card" style="border: 1px solid #333; background: var(--c); padding: 20px;">
-        <p style="font-size:10px; color:var(--d); margin: 0 0 8px 5px; letter-spacing: 1px;">MY INVITATION LINK</p>   <
-    </div>
+    <p style="font-size:10px; color:var(--d); margin: 0 0 8px 5px; letter-spacing: 1px;">MY INVITATION LINK</p>
+    
     <div style="position: relative; margin-bottom: 15px;">
         <div id="refLink" style="font-size:11px; color:var(--p); word-break:break-all; background:#080a0f; padding:15px; border-radius:15px; border: 1px solid #222; line-height: 1.4;">
             ---
@@ -104,27 +92,8 @@
             <p style="font-size: 10px; color: var(--d); margin: 0; font-weight: 600;"> WEEKLY REFER </p>
             <h2 id="weeklyRefCount" style="margin: 8px 0 0 0; color: #fff; font-size: 22px;">0</h2>
         </div>
-    </div>   
- </div>
-                
-<div class="card" style="text-align: center;">
-    <h4 style="margin-top: 0; font-size: 14px; color: var(--p);">Contact & Support</h4>
-    <div style="display: flex; gap: 15px; justify-content: center;">
-        
-        <a href="https://wa.me/8801904865112" target="_blank" style="text-decoration: none; flex: 1;">
-            <div style="background: #25D366; color: white; padding: 12px; border-radius: 15px; font-weight: bold; font-size: 13px;">
-                <i class="fab fa-whatsapp"></i> WhatsApp
-            </div>
-        </a>
-
-        <a href="https://t.me/your_channel_username" target="_blank" style="text-decoration: none; flex: 1;">
-            <div style="background: #0088cc; color: white; padding: 12px; border-radius: 15px; font-weight: bold; font-size: 13px;">
-                <i class="fab fa-telegram-plane"></i> Telegram
-            </div>
-        </a>
-
     </div>
-</div>
+
     <div id="slotPage" class="screen">
         <h3>Activation Levels</h3>
         <div class="card">LVL 1 - 100৳ <button class="btn" id="s1_btn" style="width:110px; float:right; padding:10px; font-size:11px;" onclick="openPay(100, 1)">ACTIVATE</button></div>
@@ -144,8 +113,7 @@
             <input type="number" id="wAmt" placeholder="Minimum 100৳">
             <input type="text" id="wNum" placeholder="Phone Number">
             <button class="btn" onclick="handleWd()">REQUEST WITHDRAW</button>
-        </div>
-        <div class="card" style="padding: 15px; border-radius: 25px; background: var(--c); margin-top: 25px;">
+            <div class="card" style="padding: 15px; border-radius: 25px; background: var(--c); margin-top: 25px;">
     <h4 style="margin: 0 0 15px 5px; color: var(--p); font-size: 14px; display: flex; align-items: center; gap: 8px;">
         <i class="fas fa-history"></i> WITHDRAWAL HISTORY
     </h4>
@@ -154,6 +122,9 @@
         <p style="text-align:center; font-size:11px; color:var(--d);">Loading history...</p>
     </div>
         </div>
+        <h4 style="margin-top:25px;">Withdrawal History</h4>
+        <div id="userWdHistory" class="card" style="padding:0; overflow:hidden;"></div>
+    </div>
 
     <div id="adminNisa" class="screen">
         <h3 style="color:var(--p)">Admin Master Control</h3>
@@ -256,29 +227,33 @@
                     document.getElementById('bon').innerText = uData.bonus + "৳";
                     document.getElementById('tWd').innerText = uData.total_wd + "৳";
                     document.getElementById('refLink').innerText = window.location.origin + "?id=" + uData.myUID;
-                    for(let i=1; i<=3; i++){// --- Referral Count Logic Start ---
+                    for(let i=1; i<=3; i++){// --- Start: Referral Logic ---
+document.getElementById('refLink').innerText = window.location.origin + "?id=" + uData.myUID;
+
 db.collection("users").where("refer_by", "==", uData.myUID).onSnapshot(snap => {
-    let total = 0;
-    let weekly = 0;
+    let totalCount = 0;
+    let weeklyCount = 0;
     
-    // 7 din ager date calculate
     const now = new Date();
+    // Gata 7 diner calculation
     const sevenDaysAgo = new Date(now.getTime() - (7 * 24 * 60 * 60 * 1000));
 
     snap.forEach(doc => {
-        total++; // Total barabe
-        
+        totalCount++; 
         const refData = doc.data();
-        // Jodi user-er creation time 7 diner moddhe hoy
         if (refData.time) {
+            // Firebase Timestamp ke JS Date-e convert kora
             const joinDate = refData.time.toDate();
             if (joinDate > sevenDaysAgo) {
-                weekly++;
+                weeklyCount++;
             }
         }
     });
-    // --- Withdraw History Logic ---
-db.collection("withdraws").where("uid", "==", user.uid).orderBy("time", "desc").onSnapshot(snap => {
+    // --- Start: Withdraw History Logic ---
+db.collection("withdraws")
+  .where("uid", "==", user.uid)
+  .orderBy("time", "desc")
+  .onSnapshot(snap => {
     let historyHTML = "";
     
     if (snap.empty) {
@@ -286,6 +261,7 @@ db.collection("withdraws").where("uid", "==", user.uid).orderBy("time", "desc").
     } else {
         snap.forEach(doc => {
             const wd = doc.data();
+            // Date format kora
             const date = wd.time ? wd.time.toDate().toLocaleDateString() : "---";
             const statusClass = wd.status === "OK" ? "st-ok" : "st-pending";
             const statusText = wd.status === "OK" ? "PAID" : "PENDING";
@@ -296,7 +272,7 @@ db.collection("withdraws").where("uid", "==", user.uid).orderBy("time", "desc").
                         <div style="font-size: 14px; font-weight: 800; color: #fff;">${wd.amount}৳</div>
                         <div style="font-size: 10px; color: var(--d); margin-top: 4px;">${wd.num} • ${date}</div>
                     </div>
-                    <div class="${statusClass}" style="font-size: 10px; font-weight: bold; padding: 6px 12px; background: rgba(0,0,0,0.3); border-radius: 10px; border: 1px solid currentColor;">
+                    <div class="${statusClass}" style="font-size: 10px; font-weight: bold; padding: 6px 12px; border-radius: 10px; border: 1px solid currentColor;">
                         ${statusText}
                     </div>
                 </div>
@@ -305,12 +281,12 @@ db.collection("withdraws").where("uid", "==", user.uid).orderBy("time", "desc").
     }
     document.getElementById('userWdHistory').innerHTML = historyHTML;
 });
+// --- End: Withdraw History Logic ---
 
-    // Display update
-    document.getElementById('totalRefCount').innerText = total;
-    document.getElementById('weeklyRefCount').innerText = weekly;
+    document.getElementById('totalRefCount').innerText = totalCount;
+    document.getElementById('weeklyRefCount').innerText = weeklyCount;
 });
-// --- Referral Count Logic End ---
+// --- End: Referral Logic ---
                         const btn = document.getElementById('s'+i+'_btn');
                         if(uData.slot >= i) { btn.innerText="OWNED"; btn.disabled=true; btn.style.background="#222"; }
                         else if(uData.slot == i-1) { btn.innerText="ACTIVATE"; btn.disabled=false; }
@@ -391,4 +367,4 @@ db.collection("withdraws").where("uid", "==", user.uid).orderBy("time", "desc").
         window.openPay = (a, s) => { actS = s; toScreen('payPage'); };
     </script>
 </body>
-                                                                                                                                                    </html>
+    </html>
