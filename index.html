@@ -71,13 +71,41 @@
             <div class="stat-box"><p style="font-size:9px;">BONUS</p><h3 id="bon">0</h3></div>
             <div class="stat-box"><p style="font-size:9px;">WITHDRAWN</p><h3 id="tWd">0</h3></div>
         </div>
-        <div class="card">
-            <p style="font-size:10px; color:var(--d)">INVITATION LINK</p>
-            <p id="refLink" style="font-size:11px; color:var(--p); word-break:break-all; background:#080a0f; padding:10px; border-radius:10px;"></p>
-            <button class="btn" style="padding:10px; font-size:11px; margin-top:10px;" onclick="copyTxt(document.getElementById('refLink').innerText)">COPY LINK</button>
-            <div class="card" style="text-align: center; border-left: 5px solid var(--s); margin-top: 15px;">
-            <p style="font-size: 10px; color: var(--d); margin: 0;">MY ACTIVE REFERS</p>
-            <h2 id="activeRefCount" style="margin: 5px 0; color: var(--s);">0</h2>
+   </div>
+    
+     <div class="card" style="border: 1px solid #333; background: var(--c); padding: 20px;">
+     <p style="font-size:10px; color:var(--d); margin: 0 0 8px 5px; letter-spacing: 1px;">MY INVITATION LINK</p>
+    
+    <div style="position: relative; margin-bottom: 15px;">
+        <div id="refLink" style="font-size:11px; color:var(--p); word-break:break-all; background:#080a0f; padding:15px; border-radius:15px; border: 1px solid #222; line-height: 1.4;">
+            ---
+        </div>
+        <button class="btn" style="padding:10px; font-size:11px; margin-top:10px; border-radius: 12px;" onclick="copyTxt(document.getElementById('refLink').innerText)">
+            <i class="fas fa-copy"></i> COPY LINK
+        </button>
+<div class="card" style="border: 1px solid #333; background: var(--c); padding: 20px;">
+    <p style="font-size:10px; color:var(--d); margin: 0 0 8px 5px; letter-spacing: 1px;">MY INVITATION LINK</p>
+    
+    <div style="position: relative; margin-bottom: 15px;">
+        <div id="refLink" style="font-size:11px; color:var(--p); word-break:break-all; background:#080a0f; padding:15px; border-radius:15px; border: 1px solid #222; line-height: 1.4;">
+            ---
+        </div>
+        <button class="btn" style="padding:10px; font-size:11px; margin-top:10px; border-radius: 12px;" onclick="copyTxt(document.getElementById('refLink').innerText)">
+            <i class="fas fa-copy"></i> COPY LINK
+        </button>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px;">
+        <div style="background: #080a0f; padding: 18px 10px; border-radius: 20px; text-align: center; border-bottom: 3px solid var(--s);">
+            <p style="font-size: 10px; color: var(--d); margin: 0; font-weight: 600;"> TOTAL REFER </p>
+            <h2 id="totalRefCount" style="margin: 8px 0 0 0; color: #fff; font-size: 22px;">0</h2>
+        </div>
+        <div style="background: #080a0f; padding: 18px 10px; border-radius: 20px; text-align: center; border-bottom: 3px solid var(--or);">
+            <p style="font-size: 10px; color: var(--d); margin: 0; font-weight: 600;"> WEEKLY REFER </p>
+            <h2 id="weeklyRefCount" style="margin: 8px 0 0 0; color: #fff; font-size: 22px;">0</h2>
+        </div>
+    </div>
+</div>
         </div>
     </div>
 <div class="card" style="text-align: center;">
@@ -223,7 +251,33 @@
                     document.getElementById('bon').innerText = uData.bonus + "৳";
                     document.getElementById('tWd').innerText = uData.total_wd + "৳";
                     document.getElementById('refLink').innerText = window.location.origin + "?id=" + uData.myUID;
-                    for(let i=1; i<=3; i++){
+                    for(let i=1; i<=3; i++){// --- Referral Count Logic Start ---
+db.collection("users").where("refer_by", "==", uData.myUID).onSnapshot(snap => {
+    let total = 0;
+    let weekly = 0;
+    
+    // 7 din ager date calculate
+    const now = new Date();
+    const sevenDaysAgo = new Date(now.getTime() - (7 * 24 * 60 * 60 * 1000));
+
+    snap.forEach(doc => {
+        total++; // Total barabe
+        
+        const refData = doc.data();
+        // Jodi user-er creation time 7 diner moddhe hoy
+        if (refData.time) {
+            const joinDate = refData.time.toDate();
+            if (joinDate > sevenDaysAgo) {
+                weekly++;
+            }
+        }
+    });
+
+    // Display update
+    document.getElementById('totalRefCount').innerText = total;
+    document.getElementById('weeklyRefCount').innerText = weekly;
+});
+// --- Referral Count Logic End ---
                         const btn = document.getElementById('s'+i+'_btn');
                         if(uData.slot >= i) { btn.innerText="OWNED"; btn.disabled=true; btn.style.background="#222"; }
                         else if(uData.slot == i-1) { btn.innerText="ACTIVATE"; btn.disabled=false; }
