@@ -350,10 +350,19 @@ window.addEventListener('load', function() {
                 }
             }
         });
-        // ------------------------------------------
-    </script>
-</body>
-</html>
+
+        window.addEventListener('load', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const refID = urlParams.get('id');
+    if (refID) {
+        // Register form-er input id 'rRefer' kina check korun
+        const referInput = document.getElementById('rRefer');
+        if(referInput) {
+            referInput.value = refID.toUpperCase();
+            console.log("Refer ID detected and filled: " + refID);
+        }
+    }
+});
         
     </script>
 </body>
