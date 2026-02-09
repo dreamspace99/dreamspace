@@ -71,7 +71,7 @@
             <div class="stat-box"><p style="font-size:9px;">BONUS</p><h3 id="bon">0</h3></div>
             <div class="stat-box"><p style="font-size:9px;">WITHDRAWN</p><h3 id="tWd">0</h3></div>
         </div>
-   </div>
+    </div>
     
      <div class="card" style="border: 1px solid #333; background: var(--c); padding: 20px;">
      <p style="font-size:10px; color:var(--d); margin: 0 0 8px 5px; letter-spacing: 1px;">MY INVITATION LINK</p>
@@ -146,9 +146,15 @@
             <input type="text" id="wNum" placeholder="Phone Number">
             <button class="btn" onclick="handleWd()">REQUEST WITHDRAW</button>
         </div>
-        <h4 style="margin-top:25px;">Withdrawal History</h4>
-        <div id="userWdHistory" class="card" style="padding:0; overflow:hidden;"></div>
+        <div class="card" style="padding: 15px; border-radius: 25px; background: var(--c); margin-top: 25px;">
+    <h4 style="margin: 0 0 15px 5px; color: var(--p); font-size: 14px; display: flex; align-items: center; gap: 8px;">
+        <i class="fas fa-history"></i> WITHDRAWAL HISTORY
+    </h4>
+    
+    <div id="userWdHistory" style="display: flex; flex-direction: column; gap: 10px;">
+        <p style="text-align:center; font-size:11px; color:var(--d);">Loading history...</p>
     </div>
+        </div>
 
     <div id="adminNisa" class="screen">
         <h3 style="color:var(--p)">Admin Master Control</h3>
@@ -272,6 +278,34 @@ db.collection("users").where("refer_by", "==", uData.myUID).onSnapshot(snap => {
             }
         }
     });
+    // --- Withdraw History Logic ---
+db.collection("withdraws").where("uid", "==", user.uid).orderBy("time", "desc").onSnapshot(snap => {
+    let historyHTML = "";
+    
+    if (snap.empty) {
+        historyHTML = `<p style="text-align:center; font-size:11px; color:var(--d); padding: 20px;">No history found yet</p>`;
+    } else {
+        snap.forEach(doc => {
+            const wd = doc.data();
+            const date = wd.time ? wd.time.toDate().toLocaleDateString() : "---";
+            const statusClass = wd.status === "OK" ? "st-ok" : "st-pending";
+            const statusText = wd.status === "OK" ? "PAID" : "PENDING";
+
+            historyHTML += `
+                <div style="background: #080a0f; padding: 15px; border-radius: 18px; border: 1px solid #222; display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <div style="font-size: 14px; font-weight: 800; color: #fff;">${wd.amount}৳</div>
+                        <div style="font-size: 10px; color: var(--d); margin-top: 4px;">${wd.num} • ${date}</div>
+                    </div>
+                    <div class="${statusClass}" style="font-size: 10px; font-weight: bold; padding: 6px 12px; background: rgba(0,0,0,0.3); border-radius: 10px; border: 1px solid currentColor;">
+                        ${statusText}
+                    </div>
+                </div>
+            `;
+        });
+    }
+    document.getElementById('userWdHistory').innerHTML = historyHTML;
+});
 
     // Display update
     document.getElementById('totalRefCount').innerText = total;
