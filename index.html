@@ -92,8 +92,8 @@
                 <i class="fas fa-copy" style="color:var(--d); cursor:pointer;" onclick="copyTxt(document.getElementById('myPromoText').innerText)"></i>
             </div>
             <p style="font-size:10px; color:var(--d); margin-top:15px;">DIRECT SITE LINK</p>
-            <p id="refLink" style="font-size:11px; color:var(--p); background:#080a0f; padding:12px; border-radius:12px; border:1px solid #333; margin-top:5px;">https://dreamspace99.github.io/dream-space/</p>
-            <button class="btn" style="padding:10px; font-size:11px;" onclick="copyTxt('https://dreamspace99.github.io/dream-space/')">COPY LINK</button>
+            <p id="refLink" style="font-size:11px; color:var(--p); background:#080a0f; padding:12px; border-radius:12px; border:1px solid #333; margin-top:5px;">https://dreamspace99.github.io/dreamspace/</p>
+            <button class="btn" style="padding:10px; font-size:11px;" onclick="copyTxt('https://dreamspace99.github.io/dreamspace/')">COPY LINK</button>
         </div>
 
         <div class="card" style="text-align:center;">
@@ -115,7 +115,11 @@
     <div id="wdPage" class="screen">
         <h3>Withdraw Funds</h3>
         <div class="card">
-            <select id="wdM"><option value="Nagad">Nagad</option></select>
+            <select id="wdM">
+                <option value="Nagad">Nagad</option>
+                <option value="Bkash" disabled>Bkash (Coming Soon)</option>
+                <option value="Rocket" disabled>Rocket (Coming Soon)</option>
+            </select>
             <input type="number" id="wAmt" placeholder="Minimum 100৳">
             <input type="text" id="wNum" placeholder="Phone Number">
             <button class="btn" onclick="handleWd()">REQUEST WITHDRAW</button>
@@ -128,7 +132,7 @@
         <h3 style="color:var(--p)">Admin Control</h3>
         <div class="card">
             <input type="text" id="admSearch" placeholder="Search by Promo">
-            <button class="btn" onclick="searchUser()">SEARCH</button>
+            <button class="btn" onclick="searchUser()">SEARCH USER</button>
             <div id="uResult" style="margin-top:15px;"></div>
             <div id="admAct" style="display:none; margin-top:10px;">
                 <input type="number" id="admMod" placeholder="Amount">
@@ -136,8 +140,12 @@
                 <button class="btn" style="background:var(--er); margin-top:8px;" onclick="modBal(-1)">MINUS BALANCE</button>
             </div>
         </div>
-        <div id="admWdList"></div>
+        
+        <h4 style="margin-top:20px; color:var(--or)">Pending Slot Requests</h4>
         <div id="admSlotList"></div>
+        
+        <h4 style="margin-top:20px; color:var(--s)">Pending Withdraw Requests</h4>
+        <div id="admWdList"></div>
     </div>
 
     <div id="payPage" class="screen">
@@ -191,7 +199,6 @@
             if(p !== pc) return alert("Passwords do not match!");
             auth.createUserWithEmailAndPassword(e, p).then(async res => {
                 const myPromo = Math.random().toString(36).substr(2, 6).toUpperCase();
-                // Register time add kora hoyeche Weekly refer track korar jonno
                 await db.collection("users").doc(res.user.uid).set({ name:n, email:e, balance:0, slot:0, total_inc:0, bonus:0, total_wd:0, refer_by:r, myUID:myPromo, isBlocked:false, time:new Date() });
             }).catch(e => alert(e.message));
         };
@@ -236,28 +243,18 @@
                         else { btn.innerText="LOCKED"; btn.disabled=true; btn.style.background="#0a0a0a"; }
                     }
 
-                    // 1. TOTAL & WEEKLY REFER LOGIC
                     db.collection("users").where("refer_by", "==", uData.myUID).onSnapshot(snap => {
                         document.getElementById('totalRefCount').innerText = snap.size;
-                        
-                        // Weekly Saturday (shoni bar) reset logic
                         let weeklyCount = 0;
                         const now = new Date();
                         const lastSaturday = new Date();
                         lastSaturday.setDate(now.getDate() - (now.getDay() + 1) % 7);
                         lastSaturday.setHours(0, 0, 0, 0);
-
-                        snap.forEach(doc => {
-                            const userData = doc.data();
-                            if(userData.time && userData.time.toDate() >= lastSaturday) {
-                                weeklyCount++;
-                            }
-                        });
+                        snap.forEach(doc => { if(doc.data().time && doc.data().time.toDate() >= lastSaturday) weeklyCount++; });
                         document.getElementById('weeklyRefCount').innerText = weeklyCount;
                     });
                 });
 
-                // 2. WITHDRAW HISTORY WITH STATUS
                 db.collection("withdraws").where("uid","==",user.uid).orderBy("time","desc").onSnapshot(s => {
                     let h = ""; 
                     s.forEach(doc => { 
@@ -272,55 +269,67 @@
                 if(user.email === ADMIN) {
                     db.collection("withdraws").where("status","==","pending").onSnapshot(s => {
                         let h = ""; s.forEach(doc => { const w = doc.data(); h += `<div class="list-item">Promo: ${w.pUID}<br>${w.amount}৳ | ${w.num}<br><button class="btn" style="height:30px; font-size:10px; width:80px;" onclick="approveWd('${doc.id}', '${w.uid}', ${w.amount})">OK</button></div>`; });
-                        document.getElementById('admWdList').innerHTML = h;
+                        document.getElementById('admWdList').innerHTML = h || "<p style='font-size:10px; color:var(--d); padding-left:10px;'>No pending withdraws</p>";
                     });
                     db.collection("deposits").where("status","==","pending").onSnapshot(s => {
                         let h = ""; s.forEach(doc => { const p = doc.data(); h += `<div class="list-item">Promo: ${p.pUID}<br>Slot ${p.slot} | ${p.num}<br>Tx: ${p.txid}<br><button class="btn" style="height:30px; font-size:10px; width:80px;" onclick="approveSlot('${doc.id}', '${p.uid}', ${p.slot})">OK</button></div>`; });
-                        document.getElementById('admSlotList').innerHTML = h;
+                        document.getElementById('admSlotList').innerHTML = h || "<p style='font-size:10px; color:var(--d); padding-left:10px;'>No pending slots</p>";
                     });
                 }
             } else { document.getElementById('mainNav').style.display = 'none'; toScreen('loginPage'); }
         });
 
-        // ADMIN FUNCTIONS (Ager motoi thakbe)
         window.searchUser = async () => {
             const allU = await db.collection("users").get();
             const target = allU.docs.find(d => d.data().myUID === document.getElementById('admSearch').value.toUpperCase());
             if(!target) return alert("Not Found");
             sUserDocID = target.id; const d = target.data();
-            document.getElementById('uResult').innerHTML = `<div class="list-item"><b>${d.name}</b><br>Promo: ${d.myUID}<br>Bal: ${d.balance}</div>`;
+            
+            const refSnap = await db.collection("users").where("refer_by", "==", d.myUID).get();
+            document.getElementById('uResult').innerHTML = `
+                <div class="list-item" style="text-align:left;">
+                    <b>Name:</b> ${d.name}<br>
+                    <b>Email:</b> ${d.email}<br>
+                    <b>Promo:</b> ${d.myUID}<br>
+                    <b>Balance:</b> ${d.balance}৳<br>
+                    <b>Ref By:</b> ${d.refer_by}<br>
+                    <b>Ref Count:</b> ${refSnap.size}
+                </div>`;
             document.getElementById('admAct').style.display = 'block';
         };
 
         window.modBal = (dir) => {
             const amt = parseInt(document.getElementById('admMod').value);
             const upd = dir === 1 ? { bonus: firebase.firestore.FieldValue.increment(amt), balance: firebase.firestore.FieldValue.increment(amt) } : { balance: firebase.firestore.FieldValue.increment(-amt) };
-            db.collection("users").doc(sUserDocID).update(upd).then(()=>alert("Done!"));
+            db.collection("users").doc(sUserDocID).update(upd).then(()=>alert("Balance Updated!"));
         };
-            window.handleWd = () => {
+
+        window.handleWd = () => {
             const a = parseInt(document.getElementById('wAmt').value), n = document.getElementById('wNum').value;
-            if(!n.startsWith("01") || n.length != 11 || a < 100 || a > uData.balance) return alert("Error");
+            if(!n.startsWith("01") || n.length != 11 || a < 100 || a > uData.balance) return alert("Invalid Amount or Number");
             db.collection("users").doc(auth.currentUser.uid).update({ balance: firebase.firestore.FieldValue.increment(-a) });
             db.collection("withdraws").add({ uid:auth.currentUser.uid, pUID:uData.myUID, amount:a, num:n, status:"pending", time:new Date() });
-            alert("Requested!");
+            alert("Requested Successfully!");
         };
 
         window.submitSlot = () => {
             const n = document.getElementById('pNum').value, t = document.getElementById('pTx').value;
             if(n.length != 11 || t.length < 5) return alert("Invalid");
             db.collection("deposits").add({ uid:auth.currentUser.uid, pUID:uData.myUID, txid:t, num:n, slot:actS, status:"pending", time:new Date() });
-            alert("Submitted!"); toScreen('slotPage');
+            alert("Payment Submitted!"); toScreen('slotPage');
         };
 
         window.approveWd = (docID, uID, amt) => {
             db.collection("withdraws").doc(docID).update({ status: "OK" });
             db.collection("users").doc(uID).update({ total_wd: firebase.firestore.FieldValue.increment(amt) });
+            alert("Approved!");
         };
 
         window.approveSlot = async (docID, uID, slot) => {
             await db.collection("deposits").doc(docID).update({ status: "OK" });
             await db.collection("users").doc(uID).update({ slot: slot });
             await runComm(uID, slot);
+            alert("Approved!");
         };
 
         window.openPay = (a, s) => { actS = s; toScreen('payPage'); };
