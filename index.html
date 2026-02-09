@@ -339,6 +339,22 @@ window.addEventListener('load', function() {
     }
 });
         
+        window.addEventListener('load', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const refID = urlParams.get('id');
+            if (refID) {
+                // Register page-er refer input-e auto bose jabe
+                const referInput = document.getElementById('rRefer');
+                if(referInput) {
+                    referInput.value = refID.toUpperCase();
+                }
+            }
+        });
+        // ------------------------------------------
+    </script>
+</body>
+</html>
+        
     </script>
 </body>
 </html>
