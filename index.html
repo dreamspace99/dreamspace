@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -71,27 +71,74 @@
             <div class="stat-box"><p style="font-size:9px;">BONUS</p><h3 id="bon">0</h3></div>
             <div class="stat-box"><p style="font-size:9px;">WITHDRAWN</p><h3 id="tWd">0</h3></div>
         </div>
-        <div class="card" style="border: 1px solid #333; background: var(--c); padding: 20px;">
-    <p style="font-size:10px; color:var(--d); margin: 0 0 8px 5px; letter-spacing: 1px;">MY INVITATION LINK</p>
-    
-    <div style="position: relative; margin-bottom: 15px;">
-        <div id="refLink" style="font-size:11px; color:var(--p); word-break:break-all; background:#080a0f; padding:15px; border-radius:15px; border: 1px solid #222; line-height: 1.4;">
-            ---
+        <div class="card">
+            <p style="font-size:10px; color:var(--d)">INVITATION LINK</p>
+            <p id="refLink" style="font-size:11px; color:var(--p); word-break:break-all; background:#080a0f; padding:10px; border-radius:10px;"></p>
+            <button class="btn" style="padding:10px; font-size:11px; margin-top:10px;" onclick="copyTxt(document.getElementById('refLink').innerText)">COPY LINK</button>
         </div>
-        <button class="btn" style="padding:10px; font-size:11px; margin-top:10px; border-radius: 12px;" onclick="copyTxt(document.getElementById('refLink').innerText)">
-            <i class="fas fa-copy"></i> COPY LINK
+    </div>
+    <div id="homePage" class="screen">
+    <div class="header-box" style="display: flex; justify-content: space-between; align-items: center; padding: 15px; background: #1a1d26; border-radius: 15px; margin-bottom: 15px;">
+        <div>
+            <h4 id="hName" style="margin:0; color: #ffffff; font-size: 16px;">---</h4>
+            <p id="hUid" style="font-size:11px; color: #aaaaaa; margin:0">UID: ---</p>
+        </div>
+        <button onclick="auth.signOut().then(()=>location.reload())" style="background:none; border:none; color: #ff4d4d; font-size:22px;">
+            <i class="fas fa-power-off"></i>
         </button>
     </div>
 
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px;">
-        <div style="background: #080a0f; padding: 18px 10px; border-radius: 20px; text-align: center; border-bottom: 3px solid var(--s);">
-            <p style="font-size: 10px; color: var(--d); margin: 0; font-weight: 600;"> TOTAL REFER </p>
-            <h2 id="totalRefCount" style="margin: 8px 0 0 0; color: #fff; font-size: 22px;">0</h2>
+    <div class="stats-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;">
+        <div class="stat-box" style="background: #1a1d26; padding: 15px; border-radius: 15px; text-align: center; border: 1px solid #333;">
+            <p style="font-size:10px; color: #aaaaaa; margin: 0;">BALANCE</p>
+            <h3 id="bal" style="color: #ffffff; margin: 5px 0;">0</h3>
         </div>
-        <div style="background: #080a0f; padding: 18px 10px; border-radius: 20px; text-align: center; border-bottom: 3px solid var(--or);">
-            <p style="font-size: 10px; color: var(--d); margin: 0; font-weight: 600;"> WEEKLY REFER </p>
-            <h2 id="weeklyRefCount" style="margin: 8px 0 0 0; color: #fff; font-size: 22px;">0</h2>
+        <div class="stat-box" style="background: #1a1d26; padding: 15px; border-radius: 15px; text-align: center; border: 1px solid #333;">
+            <p style="font-size:10px; color: #aaaaaa; margin: 0;">INCOME</p>
+            <h3 id="tInc" style="color: #ffffff; margin: 5px 0;">0</h3>
         </div>
+        <div class="stat-box" style="background: #1a1d26; padding: 15px; border-radius: 15px; text-align: center; border: 1px solid #333;">
+            <p style="font-size:10px; color: #aaaaaa; margin: 0;">BONUS</p>
+            <h3 id="bon" style="color: #ffffff; margin: 5px 0;">0</h3>
+        </div>
+        <div class="stat-box" style="background: #1a1d26; padding: 15px; border-radius: 15px; text-align: center; border: 1px solid #333;">
+            <p style="font-size:10px; color: #aaaaaa; margin: 0;">WITHDRAWN</p>
+            <h3 id="tWd" style="color: #ffffff; margin: 5px 0;">0</h3>
+        </div>
+    </div>
+
+    <div class="card" style="background: #1a1d26; padding: 20px; border-radius: 20px; border: 1px solid #333; margin-bottom: 20px;">
+        <p style="font-size:11px; color: #aaaaaa; margin-bottom: 10px;">MY INVITATION LINK</p>
+        <div id="refLink" style="font-size:12px; color: #7d5fff; word-break:break-all; background:#080a0f; padding:15px; border-radius:12px; border: 1px solid #222; margin-bottom: 10px;">---</div>
+        <button class="btn" style="width: 100%; padding: 12px; background: #7d5fff; color: #fff; border: none; border-radius: 12px; font-weight: bold;" onclick="copyTxt(document.getElementById('refLink').innerText)">COPY MY LINK</button>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px;">
+            <div style="background: #080a0f; padding: 15px; border-radius: 15px; text-align: center; border-bottom: 3px solid #2ecc71;">
+                <p style="font-size: 10px; color: #aaaaaa; margin: 0;">TOTAL REFER</p>
+                <h2 id="totalRefCount" style="margin: 5px 0; color: #ffffff;">0</h2>
+            </div>
+            <div style="background: #080a0f; padding: 15px; border-radius: 15px; text-align: center; border-bottom: 3px solid #f39c12;">
+                <p style="font-size: 10px; color: #aaaaaa; margin: 0;">WEEKLY REFER</p>
+                <h2 id="weeklyRefCount" style="margin: 5px 0; color: #ffffff;">0</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="card" style="background: #1a1d26; padding: 20px; border-radius: 20px; border: 1px solid #333; text-align: center;">
+        <p style="font-size: 12px; color: #ffffff; margin-bottom: 15px; font-weight: bold;">OFFICIAL SUPPORT</p>
+        <div style="display: flex; gap: 10px;">
+            <a href="https://wa.me/8801904865112" target="_blank" style="text-decoration: none; flex: 1;">
+                <div style="background: #25D366; color: white; padding: 12px; border-radius: 12px; font-size: 12px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 5px;">
+                    <i class="fab fa-whatsapp"></i> WhatsApp
+                </div>
+            </a>
+            <a href="https://t.me/nisafridoy" target="_blank" style="text-decoration: none; flex: 1;">
+                <div style="background: #0088cc; color: white; padding: 12px; border-radius: 12px; font-size: 12px; font-weight: bold; display: flex; align-items: center; justify-content: center; gap: 5px;">
+                    <i class="fab fa-telegram-plane"></i> Telegram
+                </div>
+            </a>
+        </div>
+    </div>
     </div>
 
     <div id="slotPage" class="screen">
@@ -113,14 +160,6 @@
             <input type="number" id="wAmt" placeholder="Minimum 100৳">
             <input type="text" id="wNum" placeholder="Phone Number">
             <button class="btn" onclick="handleWd()">REQUEST WITHDRAW</button>
-            <div class="card" style="padding: 15px; border-radius: 25px; background: var(--c); margin-top: 25px;">
-    <h4 style="margin: 0 0 15px 5px; color: var(--p); font-size: 14px; display: flex; align-items: center; gap: 8px;">
-        <i class="fas fa-history"></i> WITHDRAWAL HISTORY
-    </h4>
-    
-    <div id="userWdHistory" style="display: flex; flex-direction: column; gap: 10px;">
-        <p style="text-align:center; font-size:11px; color:var(--d);">Loading history...</p>
-    </div>
         </div>
         <h4 style="margin-top:25px;">Withdrawal History</h4>
         <div id="userWdHistory" class="card" style="padding:0; overflow:hidden;"></div>
@@ -227,58 +266,39 @@
                     document.getElementById('bon').innerText = uData.bonus + "৳";
                     document.getElementById('tWd').innerText = uData.total_wd + "৳";
                     document.getElementById('refLink').innerText = window.location.origin + "?id=" + uData.myUID;
-                    for(let i=1; i<=3; i++){// --- Start: Referral Logic ---
-document.getElementById('refLink').innerText = window.location.origin + "?id=" + uData.myUID;
+                    for(let i=1; i<=3; i++){
+                        const btn = document.getElementById('s'+i+'_btn');
+                        if(uData.slot >= i) { btn.innerText="OWNED"; btn.disabled=true; btn.style.background="#222"; }
+                        else if(uData.slot == i-1) { btn.innerText="ACTIVATE"; btn.disabled=false; }
+                        else { btn.innerText="LOCKED"; btn.disabled=true; btn.style.background="#0a0a0a"; }
+                    }
+                });
 
-db.collection("users").where("refer_by", "==", uData.myUID).onSnapshot(snap => {
-    let totalCount = 0;
-    let weeklyCount = 0;
-    
-    const now = new Date();
-    // Gata 7 diner calculation
-    const sevenDaysAgo = new Date(now.getTime() - (7 * 24 * 60 * 60 * 1000));
+                db.collection("withdraws").where("uid","==",user.uid).orderBy("time","desc").onSnapshot(s => {
+                    let h = ""; s.forEach(doc => { const w = doc.data(); h += `<div class="h-item"><span>${w.amount}৳ (${w.num})</span><span class="${w.status=='OK'?'st-ok':'st-pending'}">${w.status.toUpperCase()}</span></div>`; });
+                    document.getElementById('userWdHistory').innerHTML = h || "<p style='padding:20px; font-size:11px; color:var(--d); text-align:center;'>No history found</p>";
+                });
 
-    snap.forEach(doc => {
-        totalCount++; 
-        const refData = doc.data();
-        if (refData.time) {
-            // Firebase Timestamp ke JS Date-e convert kora
-            const joinDate = refData.time.toDate();
-            if (joinDate > sevenDaysAgo) {
-                weeklyCount++;
-            }
-        }
-    });
-    // --- Start: Withdraw History Logic ---
-db.collection("withdraws")
-  .where("uid", "==", user.uid)
-  .orderBy("time", "desc")
-  .onSnapshot(snap => {
-    let historyHTML = "";
-    
-    if (snap.empty) {
-        historyHTML = `<p style="text-align:center; font-size:11px; color:var(--d); padding: 20px;">No history found yet</p>`;
-    } else {
-        snap.forEach(doc => {
-            const wd = doc.data();
-            // Date format kora
-            const date = wd.time ? wd.time.toDate().toLocaleDateString() : "---";
-            const statusClass = wd.status === "OK" ? "st-ok" : "st-pending";
-            const statusText = wd.status === "OK" ? "PAID" : "PENDING";
-
-            historyHTML += `
-                <div style="background: #080a0f; padding: 15px; border-radius: 18px; border: 1px solid #222; display: flex; justify-content: space-between; align-items: center;">
-                    <div>
-                        <div style="font-size: 14px; font-weight: 800; color: #fff;">${wd.amount}৳</div>
-                        <div style="font-size: 10px; color: var(--d); margin-top: 4px;">${wd.num} • ${date}</div>
-                    </div>
-                    <div class="${statusClass}" style="font-size: 10px; font-weight: bold; padding: 6px 12px; border-radius: 10px; border: 1px solid currentColor;">
-                        ${statusText}
-                    </div>
-                </div>
-            `;
+                if(user.email === ADMIN) {
+                    db.collection("withdraws").where("status","==","pending").onSnapshot(s => {
+                        let h = "<h4>Pending Withdrawals</h4>"; s.forEach(doc => { const w = doc.data(); h += `<div class="list-item">${w.pUID} | ${w.amount}৳ | ${w.num}<br><button class="btn" style="height:35px; font-size:10px; width:100px; margin-top:5px;" onclick="approveWd('${doc.id}', '${w.uid}', ${w.amount})">APPROVE</button></div>`; });
+                        document.getElementById('admWdList').innerHTML = h;
+                    });
+                    db.collection("deposits").where("status","==","pending").onSnapshot(s => {
+                        let h = "<h4>Pending Slot Upgrades</h4>"; s.forEach(doc => { const p = doc.data(); h += `<div class="list-item">${p.pUID} | Slot ${p.slot} | ${p.txid}<br><button class="btn" style="height:35px; font-size:10px; width:100px; margin-top:5px;" onclick="approveSlot('${doc.id}', '${p.uid}', ${p.slot})">APPROVE</button></div>`; });
+                        document.getElementById('admSlotList').innerHTML = h;
+                    });
+                    const allU = await db.collection("users").get();
+                    let rewH = "";
+                    allU.forEach(doc => {
+                        const d = doc.data();
+                        const count = allU.docs.filter(u => u.data().refer_by === d.myUID && u.data().slot > 0).length;
+                        if(count >= 100) rewH += `<div class="reward-tag"><i class="fas fa-trophy"></i> 100 ACTIVE REFS: ${d.name} (${d.myUID})</div>`;
+                    });
+                    document.getElementById('admRewardList').innerHTML = rewH;
+                }
+            } else { document.getElementById('mainNav').style.display = 'none'; toScreen('loginPage'); }
         });
-    
 
         window.searchUser = async () => {
             const allU = await db.collection("users").get();
