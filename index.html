@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dream Space V49</title>
+    <title>Dream Space V51 - Pro</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --p: #7d5fff; --bg: #05070a; --c: #11141d; --t: #e6edf3; --d: #8b949e; --s: #2ecc71; --er: #ff4757; --or: #ffa500; }
@@ -13,25 +13,21 @@
         .active { display: block !important; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
+        /* Design Elements */
         .auth-card { background: var(--c); padding: 40px 25px; border-radius: 35px; border: 1px solid #222; text-align: center; margin: 40px 15px; }
         input, select { width: 100%; padding: 18px; margin: 10px 0; border-radius: 15px; border: 1px solid #333; background: #080a0f; color: white; outline: none; font-size: 14px; }
         .btn { width: 100%; padding: 18px; background: var(--p); color: white; border: none; border-radius: 18px; font-weight: 800; cursor: pointer; }
-        
         .header-box { display: flex; align-items: center; justify-content: space-between; background: var(--c); padding: 18px; border-radius: 25px; border: 1px solid #222; }
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
         .stat-box { background: var(--c); padding: 20px 10px; border-radius: 20px; border-bottom: 3px solid var(--p); text-align: center; }
         .stat-box h3 { margin: 5px 0; color: #fff; font-size: 18px; }
-
         .nav-bar { position: fixed; bottom: 20px; left: 20px; right: 20px; background: #11141d; border-radius: 25px; display: flex; padding: 12px 5px; border: 1px solid #333; z-index: 1000; }
         .nav-item { flex: 1; text-align: center; color: var(--d); font-size: 10px; cursor: pointer; }
         .nav-active { color: var(--p); }
         .nav-item i { font-size: 22px; display: block; margin-bottom: 4px; }
-
         .card { background: var(--c); padding: 18px; border-radius: 25px; margin-top: 15px; border: 1px solid #222; }
         .list-item { background: #080a0f; padding: 12px; border-radius: 12px; margin-bottom: 8px; font-size: 11px; border: 1px solid #222; line-height: 1.6; }
-        .h-item { display: flex; justify-content: space-between; padding: 12px; border-bottom: 1px solid #222; font-size: 11px; }
-        .st-pending { color: var(--or); } .st-ok { color: var(--s); }
-        
+        .st-pending { color: var(--or); } .st-ok { color: var(--s); } .st-rej { color: var(--er); }
         .promo-box { display: flex; align-items: center; justify-content: space-between; background: #080a0f; padding: 15px; border-radius: 15px; border: 1px solid #333; margin-top: 10px; }
     </style>
 </head>
@@ -39,32 +35,30 @@
 
     <div id="loginPage" class="screen active">
         <div class="auth-card">
-            <h1 style="color:var(--p); margin-bottom: 5px;">DREAM SPACE</h1>
-            <p style="color:var(--d); font-size:12px; margin-bottom:20px;">Secure Earning Platform</p>
+            <h1 style="color:var(--p);">DREAM SPACE</h1>
             <input type="email" id="lEmail" placeholder="Email">
             <input type="password" id="lPass" placeholder="Password">
             <button class="btn" onclick="handleLogin()">LOGIN</button>
-            <p style="margin-top:20px; color:var(--d)" onclick="toScreen('regPage')">New here? <span style="color:var(--p)">Create Account</span></p>
+            <p style="margin-top:20px; color:var(--d)" onclick="toScreen('regPage')">New account? <span style="color:var(--p)">Sign Up</span></p>
         </div>
     </div>
 
     <div id="regPage" class="screen">
         <div class="auth-card">
-            <h3>Join Dream Space</h3>
+            <h3>Join Us</h3>
             <input type="text" id="rName" placeholder="Full Name">
-            <input type="email" id="rEmail" placeholder="Email Address">
+            <input type="email" id="rEmail" placeholder="Email">
             <input type="password" id="rPass" placeholder="Password">
-            <input type="password" id="rPassC" placeholder="Confirm Password">
-            <input type="text" id="rRefer" placeholder="Upline Promo Code (Required)">
-            <button class="btn" onclick="handleRegister()">SIGN UP</button>
-            <p style="margin-top:20px; color:var(--d)" onclick="toScreen('loginPage')">Already have an account? Login</p>
+            <input type="text" id="rRefer" placeholder="Refer Promo Code">
+            <button class="btn" onclick="handleRegister()">CREATE ACCOUNT</button>
+            <p style="margin-top:20px; color:var(--d)" onclick="toScreen('loginPage')">Already have account? Login</p>
         </div>
     </div>
 
     <div id="homePage" class="screen">
         <div class="header-box">
             <div><h4 id="hName" style="margin:0">---</h4><p id="hUid" style="font-size:10px; color:var(--p); margin:0">PROMO: ---</p></div>
-            <button onclick="auth.signOut().then(()=>location.reload())" style="background:none; border:none; color:var(--er); font-size:22px;"><i class="fas fa-power-off"></i></button>
+            <button onclick="confirmLogout()" style="background:none; border:none; color:var(--er); font-size:22px;"><i class="fas fa-power-off"></i></button>
         </div>
         
         <div class="stats-grid">
@@ -75,90 +69,78 @@
         </div>
 
         <div class="stats-grid" style="margin-top:15px;">
-            <div style="background: var(--c); padding: 15px; border-radius: 20px; text-align: center; border: 1px solid #222;">
-                <p style="font-size: 9px; color: var(--d); margin: 0;">TOTAL REFER</p>
-                <h3 id="totalRefCount" style="margin: 5px 0; font-size: 16px; color: var(--s);">0</h3>
-            </div>
-            <div style="background: var(--c); padding: 15px; border-radius: 20px; text-align: center; border: 1px solid #222;">
-                <p style="font-size: 9px; color: var(--d); margin: 0;">WEEKLY REFER</p>
-                <h3 id="weeklyRefCount" style="margin: 5px 0; font-size: 16px; color: var(--or);">0</h3>
-            </div>
+            <div class="stat-box" style="border-color: var(--s);"><p>TOTAL REF</p><h3 id="totalRefCount">0</h3></div>
+            <div class="stat-box" style="border-color: var(--or);"><p>WEEKLY REF</p><h3 id="weeklyRefCount">0</h3></div>
         </div>
 
         <div class="card">
-            <p style="font-size:10px; color:var(--d)">YOUR PROMO CODE</p>
+            <p style="font-size:10px; color:var(--d); margin-bottom: 5px;">YOUR PROMO CODE</p>
             <div class="promo-box">
-                <span id="myPromoText" style="font-weight:bold; color:var(--p); font-size:16px;">------</span>
-                <i class="fas fa-copy" style="color:var(--d); cursor:pointer;" onclick="copyTxt(document.getElementById('myPromoText').innerText)"></i>
+                <span id="myPromoText" style="font-weight:bold; color:var(--p); font-size:18px;">------</span>
+                <button onclick="copyTxt(uData.myUID)" style="background:var(--p); border:none; color:white; padding:5px 12px; border-radius:8px; font-size:10px; cursor:pointer;">COPY PROMO</button>
             </div>
-            <p style="font-size:10px; color:var(--d); margin-top:15px;">DIRECT SITE LINK</p>
-            <p id="refLink" style="font-size:11px; color:var(--p); background:#080a0f; padding:12px; border-radius:12px; border:1px solid #333; margin-top:5px;">https://dreamspace99.github.io/dreamspace/</p>
-            <button class="btn" style="padding:10px; font-size:11px;" onclick="copyTxt('https://dreamspace99.github.io/dreamspace/')">COPY LINK</button>
-        </div>
 
-        <div class="card" style="text-align:center;">
-            <p style="font-size:12px; margin-bottom:12px; color:var(--d)">Official Support</p>
-            <div style="display:flex; gap:10px;">
-                <a href="https://wa.me/8801904865112" style="flex:1; text-decoration:none;"><button class="btn" style="background:#25D366; padding:12px; font-size:11px;"><i class="fab fa-whatsapp"></i> WhatsApp</button></a>
-                <a href="https://t.me/nisafridoy" style="flex:1; text-decoration:none;"><button class="btn" style="background:#0088cc; padding:12px; font-size:11px;"><i class="fab fa-telegram-plane"></i> Telegram</button></a>
+            <p style="font-size:10px; color:var(--d); margin-top:15px; margin-bottom: 5px;">REFERRAL LINK</p>
+            <div class="promo-box" style="flex-direction: column; align-items: flex-start; gap: 8px;">
+                <span style="font-size:10px; color:var(--d); word-break: break-all;">https://dreamspace99.github.io/dreamspace/</span>
+                <button onclick="copyTxt('https://dreamspace99.github.io/dreamspace/')" style="width:100%; background:#222; border:1px solid #333; color:var(--t); padding:8px; border-radius:10px; font-size:10px; cursor:pointer;">COPY LINK</button>
+            </div>
+
+            <div style="display:flex; justify-content:center; gap:25px; margin-top:15px;">
+            </div>
+        </div>
+            <p style="font-size:10px; color:var(--d); margin-top:10px; text-align:center;">https://dreamspace99.github.io/dreamspace/</p>
+            <div style="display:flex; justify-content:center; gap:25px; margin-top:15px;">
+                <i class="fab fa-facebook" style="color:#1877F2; font-size:25px;" onclick="window.open('https://facebook.com')"></i>
+                <i class="fab fa-whatsapp" style="color:#25D366; font-size:25px;" onclick="window.open('https://wa.me/01904865112')"></i>
+                <i class="fab fa-telegram" style="color:#0088cc; font-size:25px;" onclick="window.open('https://t.me/dreamspace')"></i>
             </div>
         </div>
     </div>
 
     <div id="slotPage" class="screen">
-        <h3>Activation Levels</h3>
+        <h3>Slots</h3>
         <div class="card">LVL 1 - 100৳ <button class="btn" id="s1_btn" style="width:110px; float:right; padding:10px; font-size:11px;" onclick="openPay(100, 1)">ACTIVATE</button></div>
         <div class="card">LVL 2 - 300৳ <button class="btn" id="s2_btn" style="width:110px; float:right; padding:10px; font-size:11px;" onclick="openPay(300, 2)">LOCKED</button></div>
         <div class="card">LVL 3 - 500৳ <button class="btn" id="s3_btn" style="width:110px; float:right; padding:10px; font-size:11px;" onclick="openPay(500, 3)">LOCKED</button></div>
     </div>
 
     <div id="wdPage" class="screen">
-        <h3>Withdraw Funds</h3>
+        <h3>Withdraw</h3>
         <div class="card">
-            <select id="wdM">
-                <option value="Nagad">Nagad</option>
-                <option value="Bkash" disabled>Bkash (Coming Soon)</option>
-                <option value="Rocket" disabled>Rocket (Coming Soon)</option>
-            </select>
-            <input type="number" id="wAmt" placeholder="Minimum 100৳">
+            <select id="wdM"><option>Nagad</option><option disabled>Bkash (Soon)</option></select>
+            <input type="number" id="wAmt" placeholder="Amount">
             <input type="text" id="wNum" placeholder="Phone Number">
-            <button class="btn" onclick="handleWd()">REQUEST WITHDRAW</button>
+            <button class="btn" onclick="handleWd()">WITHDRAW</button>
         </div>
-        <h4 style="margin-top:25px;">Withdrawal History</h4>
-        <div id="userWdHistory" class="card" style="padding:0; overflow:hidden;"></div>
+        <h4 style="margin-top:20px;">History</h4>
+        <div id="userWdHistory"></div>
     </div>
 
     <div id="adminNisa" class="screen">
-        <h3 style="color:var(--p)">Admin Control</h3>
+        <h3 style="color:var(--p)">Admin Panel</h3>
         <div class="card">
-            <input type="text" id="admSearch" placeholder="Search by Promo">
-            <button class="btn" onclick="searchUser()">SEARCH USER</button>
-            <div id="uResult" style="margin-top:15px;"></div>
+            <input type="text" id="admSearch" placeholder="Search Promo ID">
+            <button class="btn" onclick="searchUser()">SEARCH</button>
+            <div id="uResult" style="margin-top:10px;"></div>
             <div id="admAct" style="display:none; margin-top:10px;">
                 <input type="number" id="admMod" placeholder="Amount">
                 <button class="btn" onclick="modBal(1)">ADD BONUS</button>
-                <button class="btn" style="background:var(--er); margin-top:8px;" onclick="modBal(-1)">MINUS BALANCE</button>
+                <button class="btn" style="background:var(--er); margin-top:5px;" onclick="modBal(-1)">MINUS BAL</button>
             </div>
         </div>
-        
-        <h4 style="margin-top:20px; color:var(--or)">Pending Slot Requests</h4>
-        <div id="admSlotList"></div>
-        
-        <h4 style="margin-top:20px; color:var(--s)">Pending Withdraw Requests</h4>
-        <div id="admWdList"></div>
+        <h4>Slot Requests</h4> <div id="admSlotList"></div>
+        <h4>Withdraw Requests</h4> <div id="admWdList"></div>
     </div>
 
     <div id="payPage" class="screen">
         <div class="card" style="text-align:center;">
-            <h3 style="color:var(--or)">Nagad (Send Money)</h3>
-            <div style="background:#080a0f; padding:20px; border-radius:20px; border:1px dashed #333; margin:15px 0;">
-                <p style="font-size:12px; color:var(--d); margin:0;">Number:</p>
-                <h2 style="margin:5px 0;">01904865112 <i class="fas fa-copy" onclick="copyTxt('01904865112')" style="color:var(--p); cursor:pointer;"></i></h2>
-            </div>
-            <input type="text" id="pNum" placeholder="Sender Number">
-            <input type="text" id="pTx" placeholder="Transaction ID (TxID)">
-            <button class="btn" onclick="submitSlot()">SUBMIT PAYMENT</button>
-            <button class="btn" style="background:none; color:var(--d); margin-top:10px;" onclick="toScreen('slotPage')">GO BACK</button>
+            <h3>Nagad Send Money</h3>
+            <p>Number: <b>01904865112</b> <i class="fas fa-copy" onclick="copyTxt('01904865112')"></i></p>
+            <input type="text" id="pNum" placeholder="Your Nagad Number">
+            <input type="text" id="pTx" placeholder="Transaction ID">
+            <button class="btn" onclick="submitSlot()">SUBMIT</button>
+            <button class="btn" style="background:none; margin-top:5px;" onclick="toScreen('slotPage')">CANCEL</button>
         </div>
     </div>
 
@@ -177,7 +159,7 @@
         const firebaseConfig = { apiKey: "AIzaSyDDBjoA6dAkis4S2FQxYEvS1yoeSEYJZyE", authDomain: "dream-space-6e974.firebaseapp.com", projectId: "dream-space-6e974", storageBucket: "dream-space-6e974.firebasestorage.app", messagingSenderId: "650793456147", appId: "1:650793456147:web:14c651a51f7093cab3a5e6" };
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth(), db = firebase.firestore(), ADMIN = "nisafridoy@gmail.com";
-        let uData = null, sUserDocID = null, actS = 0;
+        let uData = null, targetID = null, actS = 0;
 
         window.toScreen = (id, el) => {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -185,49 +167,55 @@
             if(el) { document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('nav-active')); el.classList.add('nav-active'); }
         };
 
-        window.copyTxt = (t) => {
-            const el = document.createElement('textarea'); el.value = t; document.body.appendChild(el); el.select(); document.execCommand('copy'); document.body.removeChild(el); alert("Copied: " + t);
-        };
+        window.copyTxt = (t) => { navigator.clipboard.writeText(t); alert("Copied!"); };
+        window.confirmLogout = () => { if(confirm("Logout?")) auth.signOut(); };
 
-        window.handleLogin = () => { 
-            auth.signInWithEmailAndPassword(document.getElementById('lEmail').value, document.getElementById('lPass').value).catch(e => alert(e.message)); 
-        };
+        window.handleLogin = () => { auth.signInWithEmailAndPassword(document.getElementById('lEmail').value, document.getElementById('lPass').value).catch(e => alert(e.message)); };
 
         window.handleRegister = () => {
-            const e = document.getElementById('rEmail').value, n = document.getElementById('rName').value, p = document.getElementById('rPass').value, pc = document.getElementById('rPassC').value, r = document.getElementById('rRefer').value.trim().toUpperCase();
-            if(!r) return alert("Promo code is required!");
-            if(p !== pc) return alert("Passwords do not match!");
-            auth.createUserWithEmailAndPassword(e, p).then(async res => {
-                const myPromo = Math.random().toString(36).substr(2, 6).toUpperCase();
-                await db.collection("users").doc(res.user.uid).set({ name:n, email:e, balance:0, slot:0, total_inc:0, bonus:0, total_wd:0, refer_by:r, myUID:myPromo, isBlocked:false, time:new Date() });
+            const e = document.getElementById('rEmail').value, r = document.getElementById('rRefer').value.toUpperCase();
+            if(!r) return alert("Promo code required");
+            auth.createUserWithEmailAndPassword(e, document.getElementById('rPass').value).then(async res => {
+                const myUID = Math.random().toString(36).substr(2,6).toUpperCase();
+                await db.collection("users").doc(res.user.uid).set({ name:document.getElementById('rName').value, email:e, balance:0, slot:0, total_inc:0, bonus:0, total_wd:0, refer_by:r, myUID:myUID, isBlocked:false, time:new Date() });
             }).catch(e => alert(e.message));
         };
 
-        async function runComm(buyerUID, slotLvl) {
-            const rates = slotLvl === 1 ? [50,30,10] : (slotLvl === 2 ? [130,80,50] : [230,120,100]);
-            const bSnap = await db.collection("users").doc(buyerUID).get();
-            let refPromo = bSnap.data().refer_by, paid = 0;
-            const allU = await db.collection("users").get();
-            while(paid < 3 && refPromo) {
-                const target = allU.docs.find(d => d.data().myUID === refPromo);
-                if(target) {
-                    const rData = target.data();
-                    if(rData.slot >= slotLvl) {
-                        await db.collection("users").doc(target.id).update({ balance: firebase.firestore.FieldValue.increment(rates[paid]), total_inc: firebase.firestore.FieldValue.increment(rates[paid]) });
-                        paid++;
-                    }
-                    refPromo = rData.refer_by;
-                } else break;
+        // COMMISSION LOGIC: Only pays if Upline has the Slot
+        async function payComm(uID, slot) {
+            const rates = slot === 1 ? [50, 30, 10] : (slot === 2 ? [130, 80, 50] : [230, 120, 100]);
+            let currentUser = await db.collection("users").doc(uID).get();
+            let uplinePromo = currentUser.data().refer_by;
+            let level = 0;
+
+            while (level < 3 && uplinePromo) {
+                let snap = await db.collection("users").where("myUID", "==", uplinePromo).get();
+                if (snap.empty) break;
+                
+                let upDoc = snap.docs[0];
+                let upData = upDoc.data();
+
+                // Qualification Check: Does upline have this slot?
+                if (upData.slot >= slot) {
+                    await db.collection("users").doc(upDoc.id).update({
+                        balance: firebase.firestore.FieldValue.increment(rates[level]),
+                        total_inc: firebase.firestore.FieldValue.increment(rates[level])
+                    });
+                    level++; // Only move to next level if commission is paid
+                }
+                uplinePromo = upData.refer_by; // Move up the chain either way
             }
         }
 
-        auth.onAuthStateChanged(async user => {
+        auth.onAuthStateChanged(user => {
             if(user) {
                 document.getElementById('mainNav').style.display = 'flex';
                 if(user.email === ADMIN) document.getElementById('admN').style.display = 'block';
                 toScreen('homePage');
+                
                 db.collection("users").doc(user.uid).onSnapshot(d => {
                     uData = d.data();
+                    if(!uData) return;
                     document.getElementById('hName').innerText = uData.name;
                     document.getElementById('hUid').innerText = "PROMO: " + uData.myUID;
                     document.getElementById('myPromoText').innerText = uData.myUID;
@@ -235,104 +223,108 @@
                     document.getElementById('tInc').innerText = uData.total_inc + "৳";
                     document.getElementById('bon').innerText = uData.bonus + "৳";
                     document.getElementById('tWd').innerText = uData.total_wd + "৳";
-                    
+
                     for(let i=1; i<=3; i++){
                         const btn = document.getElementById('s'+i+'_btn');
                         if(uData.slot >= i) { btn.innerText="OWNED"; btn.disabled=true; btn.style.background="#222"; }
-                        else if(uData.slot == i-1) { btn.innerText="ACTIVATE"; btn.disabled=false; }
-                        else { btn.innerText="LOCKED"; btn.disabled=true; btn.style.background="#0a0a0a"; }
+                        else if(uData.slot == i-1) { btn.innerText="ACTIVATE"; btn.disabled=false; btn.style.background="var(--p)"; }
+                        else { btn.innerText="LOCKED"; btn.disabled=true; btn.style.background="#111"; }
                     }
 
+                    // Refer Counts
                     db.collection("users").where("refer_by", "==", uData.myUID).onSnapshot(snap => {
                         document.getElementById('totalRefCount').innerText = snap.size;
-                        let weeklyCount = 0;
-                        const now = new Date();
-                        const lastSaturday = new Date();
-                        lastSaturday.setDate(now.getDate() - (now.getDay() + 1) % 7);
-                        lastSaturday.setHours(0, 0, 0, 0);
-                        snap.forEach(doc => { if(doc.data().time && doc.data().time.toDate() >= lastSaturday) weeklyCount++; });
-                        document.getElementById('weeklyRefCount').innerText = weeklyCount;
+                        let w = 0; snap.forEach(doc => { 
+                            let t = doc.data().time.toDate();
+                            let sat = new Date(); sat.setDate(sat.getDate() - (sat.getDay() + 1) % 7); sat.setHours(0,0,0,0);
+                            if(t >= sat) w++;
+                        });
+                        document.getElementById('weeklyRefCount').innerText = w;
                     });
                 });
 
-                db.collection("withdraws").where("uid","==",user.uid).orderBy("time","desc").onSnapshot(s => {
-                    let h = ""; 
-                    s.forEach(doc => { 
-                        const w = doc.data(); 
-                        const statusText = w.status === 'OK' ? 'COMPLETE' : 'PENDING';
-                        const statusClass = w.status === 'OK' ? 'st-ok' : 'st-pending';
-                        h += `<div class="h-item"><span>${w.amount}৳ (${w.num})</span><span class="${statusClass}">${statusText}</span></div>`; 
-                    });
-                    document.getElementById('userWdHistory').innerHTML = h || "<p style='padding:20px; font-size:11px; color:var(--d); text-align:center;'>No history</p>";
+                // User WD History
+                db.collection("withdraws").where("uid","==",user.uid).onSnapshot(s => {
+                    let h = ""; s.forEach(doc => { const w = doc.data(); 
+                    h += `<div class="list-item"><b>${w.amount}৳</b> <span style="float:right" class="${w.status=='OK'?'st-ok':'st-pending'}">${w.status}</span></div>`; });
+                    document.getElementById('userWdHistory').innerHTML = h || "No History";
                 });
 
-                if(user.email === ADMIN) {
-                    db.collection("withdraws").where("status","==","pending").onSnapshot(s => {
-                        let h = ""; s.forEach(doc => { const w = doc.data(); h += `<div class="list-item">Promo: ${w.pUID}<br>${w.amount}৳ | ${w.num}<br><button class="btn" style="height:30px; font-size:10px; width:80px;" onclick="approveWd('${doc.id}', '${w.uid}', ${w.amount})">OK</button></div>`; });
-                        document.getElementById('admWdList').innerHTML = h || "<p style='font-size:10px; color:var(--d); padding-left:10px;'>No pending withdraws</p>";
-                    });
-                    db.collection("deposits").where("status","==","pending").onSnapshot(s => {
-                        let h = ""; s.forEach(doc => { const p = doc.data(); h += `<div class="list-item">Promo: ${p.pUID}<br>Slot ${p.slot} | ${p.num}<br>Tx: ${p.txid}<br><button class="btn" style="height:30px; font-size:10px; width:80px;" onclick="approveSlot('${doc.id}', '${p.uid}', ${p.slot})">OK</button></div>`; });
-                        document.getElementById('admSlotList').innerHTML = h || "<p style='font-size:10px; color:var(--d); padding-left:10px;'>No pending slots</p>";
-                    });
-                }
-            } else { document.getElementById('mainNav').style.display = 'none'; toScreen('loginPage'); }
+                if(user.email === ADMIN) startAdmin();
+            } else { toScreen('loginPage'); document.getElementById('mainNav').style.display = 'none'; }
         });
 
+        function startAdmin() {
+            db.collection("deposits").where("status","==","pending").onSnapshot(s => {
+                let h = ""; s.forEach(doc => { const p = doc.data();
+                    h += `<div class="list-item">Promo: ${p.pUID} | Number: ${p.num}<br>Slot ${p.slot} | Tx: ${p.txid}<br>
+                    <button class="btn" style="width:100px; padding:5px; background:var(--s)" onclick="decideSlot('${doc.id}', 'OK', '${p.uid}', ${p.slot})">OK</button>
+                    <button class="btn" style="width:100px; padding:5px; background:var(--er)" onclick="decideSlot('${doc.id}', 'REJECTED')">REJ</button></div>`;
+                });
+                document.getElementById('admSlotList').innerHTML = h || "None";
+            });
+            db.collection("withdraws").where("status","==","pending").onSnapshot(s => {
+                let h = ""; s.forEach(doc => { const w = doc.data();
+                    h += `<div class="list-item">Promo: ${w.pUID} | ${w.amount}৳<br>${w.num}<br>
+                    <button class="btn" style="width:100px; padding:5px; background:var(--s)" onclick="decideWd('${doc.id}', 'OK', '${w.uid}', ${w.amount})">OK</button>
+                    <button class="btn" style="width:100px; padding:5px; background:var(--er)" onclick="decideWd('${doc.id}', 'REJECTED', '${w.uid}', ${w.amount})">REJ</button></div>`;
+                });
+                document.getElementById('admWdList').innerHTML = h || "None";
+            });
+        }
+
+        window.decideSlot = async (id, st, uid, sl) => {
+            if(!confirm("Are you sure?")) return;
+            await db.collection("deposits").doc(id).update({ status: st });
+            if(st === 'OK') {
+                await db.collection("users").doc(uid).update({ slot: sl });
+                await payComm(uid, sl);
+            }
+            alert("Action Done");
+        };
+
+        window.decideWd = (id, st, uid, amt) => {
+            if(!confirm("Confirm?")) return;
+            db.collection("withdraws").doc(id).update({ status: st }).then(() => {
+                if(st === 'OK') db.collection("users").doc(uid).update({ total_wd: firebase.firestore.FieldValue.increment(amt) });
+                else db.collection("users").doc(uid).update({ balance: firebase.firestore.FieldValue.increment(amt) });
+                alert("Action Done");
+            });
+        };
+
         window.searchUser = async () => {
-            const allU = await db.collection("users").get();
-            const target = allU.docs.find(d => d.data().myUID === document.getElementById('admSearch').value.toUpperCase());
-            if(!target) return alert("Not Found");
-            sUserDocID = target.id; const d = target.data();
-            
-            const refSnap = await db.collection("users").where("refer_by", "==", d.myUID).get();
-            document.getElementById('uResult').innerHTML = `
-                <div class="list-item" style="text-align:left;">
-                    <b>Name:</b> ${d.name}<br>
-                    <b>Email:</b> ${d.email}<br>
-                    <b>Promo:</b> ${d.myUID}<br>
-                    <b>Balance:</b> ${d.balance}৳<br>
-                    <b>Ref By:</b> ${d.refer_by}<br>
-                    <b>Ref Count:</b> ${refSnap.size}
-                </div>`;
+            const q = document.getElementById('admSearch').value.toUpperCase();
+            const snap = await db.collection("users").where("myUID", "==", q).get();
+            if(snap.empty) return alert("User not found");
+            const d = snap.docs[0].data(); targetID = snap.docs[0].id;
+            const r = await db.collection("users").where("refer_by", "==", q).get();
+            document.getElementById('uResult').innerHTML = `<div class="list-item">Name: ${d.name}<br>Promo: ${d.myUID}<br>Balance: ${d.balance}৳<br>Refer By: ${d.refer_by}<br>Total Ref: ${r.size}<br>Slot: ${d.slot}</div>`;
             document.getElementById('admAct').style.display = 'block';
         };
 
         window.modBal = (dir) => {
-            const amt = parseInt(document.getElementById('admMod').value);
-            const upd = dir === 1 ? { bonus: firebase.firestore.FieldValue.increment(amt), balance: firebase.firestore.FieldValue.increment(amt) } : { balance: firebase.firestore.FieldValue.increment(-amt) };
-            db.collection("users").doc(sUserDocID).update(upd).then(()=>alert("Balance Updated!"));
+            const a = parseInt(document.getElementById('admMod').value);
+            if(!a) return;
+            const upd = dir==1 ? { bonus: firebase.firestore.FieldValue.increment(a), balance: firebase.firestore.FieldValue.increment(a) } : { balance: firebase.firestore.FieldValue.increment(-a) };
+            db.collection("users").doc(targetID).update(upd).then(()=>alert("Done"));
         };
 
         window.handleWd = () => {
             const a = parseInt(document.getElementById('wAmt').value), n = document.getElementById('wNum').value;
-            if(!n.startsWith("01") || n.length != 11 || a < 100 || a > uData.balance) return alert("Invalid Amount or Number");
+            if(a < 100 || a > uData.balance) return alert("Error");
+            if(!confirm("Withdraw "+a+"৳?")) return;
             db.collection("users").doc(auth.currentUser.uid).update({ balance: firebase.firestore.FieldValue.increment(-a) });
             db.collection("withdraws").add({ uid:auth.currentUser.uid, pUID:uData.myUID, amount:a, num:n, status:"pending", time:new Date() });
-            alert("Requested Successfully!");
-        };
-
-        window.submitSlot = () => {
-            const n = document.getElementById('pNum').value, t = document.getElementById('pTx').value;
-            if(n.length != 11 || t.length < 5) return alert("Invalid");
-            db.collection("deposits").add({ uid:auth.currentUser.uid, pUID:uData.myUID, txid:t, num:n, slot:actS, status:"pending", time:new Date() });
-            alert("Payment Submitted!"); toScreen('slotPage');
-        };
-
-        window.approveWd = (docID, uID, amt) => {
-            db.collection("withdraws").doc(docID).update({ status: "OK" });
-            db.collection("users").doc(uID).update({ total_wd: firebase.firestore.FieldValue.increment(amt) });
-            alert("Approved!");
-        };
-
-        window.approveSlot = async (docID, uID, slot) => {
-            await db.collection("deposits").doc(docID).update({ status: "OK" });
-            await db.collection("users").doc(uID).update({ slot: slot });
-            await runComm(uID, slot);
-            alert("Approved!");
+            alert("Requested");
         };
 
         window.openPay = (a, s) => { actS = s; toScreen('payPage'); };
+        window.submitSlot = () => {
+            const n = document.getElementById('pNum').value, t = document.getElementById('pTx').value;
+            if(n.length<11 || !t) return alert("Fill all");
+            db.collection("deposits").add({ uid:auth.currentUser.uid, pUID:uData.myUID, txid:t, num:n, slot:actS, status:"pending", time:new Date() });
+            toScreen('slotPage'); alert("Submitted");
+        };
     </script>
 </body>
 </html>
