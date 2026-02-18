@@ -3,6 +3,9 @@
 <head>
 
  <meta name="monetag" content="7593213bc2ca28b97faf7338ded12575" />
+ 
+<\head>
+ <title>✨ Dream Space • GitHub Full Screen</title>
     
     <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -16,17 +19,22 @@
             font-family: 'Inter', sans-serif;
         }
         
-        body {
+        html, body {
+            width: 100%;
+            min-height: 100vh;
             background: #0a0c14;
             color: #ffffff;
-            min-height: 100vh;
-            padding: 0 0 90px 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
         }
         
         .container {
+            width: 100%;
             max-width: 500px;
             margin: 0 auto;
-            padding: 12px 12px;
+            padding: 16px 16px 90px 16px;
+            background: #0a0c14;
         }
         
         /* ===== BANNER STYLES ===== */
@@ -39,6 +47,7 @@
             color: #8b8ba0;
             font-size: 12px;
             border: 1px dashed #ffd70033;
+            width: 100%;
         }
         
         .banner-medium {
@@ -53,6 +62,7 @@
             display: flex;
             gap: 8px;
             margin: 8px 0;
+            width: 100%;
         }
         
         .banner-row .banner {
@@ -64,6 +74,7 @@
             grid-template-columns: repeat(2, 1fr);
             gap: 8px;
             margin: 12px 0;
+            width: 100%;
         }
         
         .banner-grid-8 .banner {
@@ -78,6 +89,7 @@
             padding: 16px 14px;
             border: 1px solid rgba(255, 215, 0, 0.15);
             margin-bottom: 12px;
+            width: 100%;
         }
         
         /* ===== USER INFO ===== */
@@ -86,6 +98,7 @@
             justify-content: space-between;
             align-items: center;
             margin: 10px 0;
+            width: 100%;
         }
         
         .user-name {
@@ -131,6 +144,7 @@
             border-radius: 30px;
             padding: 12px 16px;
             margin: 12px 0;
+            width: 100%;
         }
         
         .balance-item {
@@ -179,6 +193,7 @@
             align-items: center;
             gap: 12px;
             margin: 15px 0;
+            width: 100%;
         }
         
         .charge-bar {
@@ -215,6 +230,7 @@
             border-left: 4px solid #ffd700;
             cursor: pointer;
             transition: 0.1s ease;
+            width: 100%;
         }
         
         .battery-box:active {
@@ -231,6 +247,7 @@
             align-items: center;
             cursor: pointer;
             transition: 0.1s ease;
+            width: 100%;
         }
         
         .extra-battery:active {
@@ -352,15 +369,15 @@
         .nav-bar {
             position: fixed;
             bottom: 12px;
-            left: 12px;
-            right: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 24px);
+            max-width: 500px;
             background: #1e1e2f;
             border-radius: 40px;
             display: flex;
             padding: 8px 6px;
             border: 2px solid #ffd700;
-            max-width: 500px;
-            margin: 0 auto;
             z-index: 999;
         }
         
@@ -396,8 +413,10 @@
         .toast {
             position: fixed;
             bottom: 100px;
-            left: 20px;
-            right: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 40px);
+            max-width: 460px;
             background: #1e1e2f;
             color: white;
             padding: 14px 18px;
@@ -885,14 +904,18 @@
         let extraBatteryCooldown = 0;
         let adRemoverUsed = 0;
         let adRemoverActive = false;
-        let miningRate = 0.00000001; // Default: 0.00000001 USDT per second = 0.000036 USDT per hour
+        let miningRate = 0.00000001;
         let isMiningActive = false;
         let totalMiningGlobal = 0;
         let todayMiningGlobal = 0;
         let isPageVisible = true;
 
-        // ---------- MONETAG AD URL (ডেমো লিংক – তুমি চাইলে বদলাতে পারো) ----------
+        // ---------- MONETAG AD URL ----------
         const MONETAG_AD_URL = "https://www.monetag.com";
+
+        // ---------- AD LINKS (স্থানীয় মেমোরি) ----------
+        let adLinks = JSON.parse(localStorage.getItem('adLinks')) || [];
+        let adClicks = JSON.parse(localStorage.getItem('adClicks')) || {};
 
         // ---------- TOAST ----------
         function showToast(msg, isSuccess = true) {
@@ -917,6 +940,10 @@
                 document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('nav-active'));
                 el.classList.add('nav-active');
             }
+            
+            if (id === 'adminAdPage') {
+                loadAdminAdLinks();
+            }
         };
 
         // ---------- LOGOUT ----------
@@ -924,27 +951,6 @@
             auth.signOut();
             showToast('✅ Logged out');
         };
-
-        // ---------- LOAD MINING RATE FROM FIREBASE ----------
-        async function loadMiningRate() {
-            try {
-                const doc = await db.collection('config').doc('miningRate').get();
-                if (doc.exists) {
-                    miningRate = doc.data().rate || 0.00000001;
-                } else {
-                    // Set default rate
-                    await db.collection('config').doc('miningRate').set({ rate: miningRate });
-                }
-                
-                // Update display
-                document.getElementById('currentRateDisplay').innerText = miningRate.toFixed(8);
-                const hourlyRate = miningRate * 3600;
-                document.getElementById('currentRateHourDisplay').innerText = hourlyRate.toFixed(8);
-                document.getElementById('miningRate').value = miningRate;
-            } catch (error) {
-                console.error('Error loading mining rate:', error);
-            }
-        }
 
         // ---------- AUTH STATE ----------
         auth.onAuthStateChanged(async (user) => {
@@ -957,15 +963,10 @@
                 
                 toScreen('homePage');
                 
-                // Load mining rate
-                await loadMiningRate();
-                
-                // Load user data
                 const userDoc = await db.collection('users').doc(user.uid).get();
                 if (userDoc.exists) {
                     uData = userDoc.data();
                 } else {
-                    // Create user data if not exists
                     const myUID = Math.random().toString(36).substring(2,8).toUpperCase();
                     uData = {
                         name: user.email.split('@')[0],
@@ -979,19 +980,12 @@
                 }
                 
                 updateHomePage();
-                
-                // Load user's mining data
                 await loadUserMiningData();
                 
-                // Load global mining stats
-                await loadGlobalMiningStats();
-                
-                // Start mining only if page is visible
                 if (isPageVisible) {
                     startMining();
                 }
                 
-                // Start auto ads (every 30 minutes)
                 startAutoAds();
                 
             } else {
@@ -1003,53 +997,20 @@
             }
         });
 
-        // ---------- PAGE VISIBILITY API ----------
+        // ---------- PAGE VISIBILITY ----------
         document.addEventListener('visibilitychange', () => {
             isPageVisible = !document.hidden;
             
             if (isPageVisible) {
-                // Page is visible again, restart mining if we have user
                 if (currentUser && chargeLevel > 0) {
                     startMining();
                 }
             } else {
-                // Page is hidden (user switched tab or minimized), STOP mining
                 pauseMining();
             }
         });
 
-        // ---------- LOAD GLOBAL MINING STATS ----------
-        async function loadGlobalMiningStats() {
-            try {
-                const doc = await db.collection('stats').doc('mining').get();
-                if (doc.exists) {
-                    totalMiningGlobal = doc.data().total || 0;
-                    todayMiningGlobal = doc.data().today || 0;
-                }
-            } catch (error) {
-                console.error('Error loading mining stats:', error);
-            }
-        }
-
-        // ---------- UPDATE GLOBAL MINING STATS ----------
-        async function updateGlobalMiningStats(amount) {
-            try {
-                const today = new Date().toDateString();
-                await db.collection('stats').doc('mining').set({
-                    total: firebase.firestore.FieldValue.increment(amount),
-                    today: firebase.firestore.FieldValue.increment(amount),
-                    lastUpdate: new Date(),
-                    lastDate: today
-                }, { merge: true });
-                
-                totalMiningGlobal += amount;
-                todayMiningGlobal += amount;
-            } catch (error) {
-                console.error('Error updating mining stats:', error);
-            }
-        }
-
-        // ---------- LOAD USER MINING DATA ----------
+        // ---------- MINING ----------
         async function loadUserMiningData() {
             if (!currentUser) return;
             
@@ -1064,7 +1025,6 @@
                     extraBatteryUsed = data.extraBatteryUsed || 0;
                     adRemoverUsed = data.adRemoverUsed || 0;
                 } else {
-                    // Create initial mining data
                     await miningRef.set({
                         usdt: 0,
                         charge: 100,
@@ -1081,7 +1041,6 @@
             }
         }
 
-        // ---------- SAVE MINING DATA ----------
         async function saveMiningData() {
             if (!currentUser) return;
             
@@ -1098,13 +1057,11 @@
             }
         }
 
-        // ---------- MINING SYSTEM ----------
         function startMining() {
             if (miningInterval) clearInterval(miningInterval);
             isMiningActive = true;
             
             miningInterval = setInterval(async () => {
-                // Only mine if page is visible
                 if (!isPageVisible) return;
                 
                 if (chargeLevel <= 0) {
@@ -1113,14 +1070,12 @@
                     return;
                 }
                 
-                // Add mining rate per second
                 usdtBalance += miningRate;
                 bdtBalance = usdtBalance * 120;
                 chargeLevel = Math.max(0, chargeLevel - (100 / 3600));
                 
                 updateDisplay();
                 await saveMiningData();
-                await updateGlobalMiningStats(miningRate);
             }, 1000);
         }
 
@@ -1144,27 +1099,24 @@
             showToast('⛏️ Mining...');
         };
 
-        // ---------- AUTO ADS (প্রতি ৩০ মিনিট পর) ----------
+        // ---------- AUTO ADS ----------
         function startAutoAds() {
             if (autoAdInterval) clearInterval(autoAdInterval);
             
             autoAdInterval = setInterval(() => {
-                if (adRemoverActive) return; // Don't show ads if ad remover is active
-                if (!isPageVisible) return; // Don't show ads if page is hidden
+                if (adRemoverActive) return;
+                if (!isPageVisible) return;
                 
-                // সরাসরি Monetag এড ওপেন হবে
                 window.open(MONETAG_AD_URL, '_blank');
                 showToast('📺 Auto ad opened');
                 
-            }, 30 * 60 * 1000); // 30 minutes
+            }, 30 * 60 * 1000);
         }
 
         // ---------- BATTERY ADS ----------
         window.watchBatteryAd = function() {
-            // সরাসরি Monetag এড ওপেন হবে
             window.open(MONETAG_AD_URL, '_blank');
             
-            // ৩০ সেকেন্ড পর ব্যাটারি চার্জ হবে
             setTimeout(() => {
                 chargeLevel = 100;
                 updateDisplay();
@@ -1183,7 +1135,6 @@
                 return;
             }
             
-            // সরাসরি Monetag এড ওপেন হবে
             window.open(MONETAG_AD_URL, '_blank');
             
             setTimeout(() => {
@@ -1213,7 +1164,6 @@
                 return;
             }
             
-            // সরাসরি Monetag এড ওপেন হবে
             window.open(MONETAG_AD_URL, '_blank');
             
             setTimeout(() => {
@@ -1240,7 +1190,6 @@
                 return;
             }
             
-            // সরাসরি Monetag এড ওপেন হবে
             window.open(MONETAG_AD_URL, '_blank');
             
             setTimeout(() => {
@@ -1333,7 +1282,6 @@
             
             if (!address || !amount) return showToast('Fill all fields', false);
             
-            // Check minimum amount
             if (method === 'bkash' || method === 'nagad') {
                 if (amount < 600) return showToast('Minimum 600৳', false);
                 if (amount > bdtBalance) return showToast('Insufficient balance', false);
@@ -1342,7 +1290,6 @@
                 if (amount > usdtBalance) return showToast('Insufficient balance', false);
             }
             
-            // Deduct from balance
             if (method === 'bkash' || method === 'nagad') {
                 bdtBalance -= amount;
                 usdtBalance = bdtBalance / 120;
@@ -1353,7 +1300,6 @@
             updateDisplay();
             await saveMiningData();
             
-            // Create withdraw request
             await db.collection('withdraws').add({
                 userId: currentUser.uid,
                 name: uData.name,
@@ -1373,56 +1319,37 @@
             const url = document.getElementById('newAdUrl').value;
             if (!url) return showToast('Enter URL', false);
             
-            await db.collection('adLinks').add({
+            adLinks.push({
                 url: url,
                 views: 0,
                 active: true,
-                createdAt: new Date()
+                createdAt: new Date().toISOString()
             });
+            
+            localStorage.setItem('adLinks', JSON.stringify(adLinks));
             
             showToast('✅ Ad link added');
             document.getElementById('newAdUrl').value = '';
             loadAdminAdLinks();
         };
 
-        window.setMiningRate = async () => {
-            const rate = parseFloat(document.getElementById('miningRate').value);
-            if (rate < 0.00000001) {
-                showToast('❌ Minimum rate is 0.00000001', false);
-                return;
-            }
-            
-            miningRate = rate;
-            
-            // Save to Firebase
-            await db.collection('config').doc('miningRate').set({ rate: miningRate });
-            
-            // Update display
-            document.getElementById('currentRateDisplay').innerText = miningRate.toFixed(8);
-            const hourlyRate = miningRate * 3600;
-            document.getElementById('currentRateHourDisplay').innerText = hourlyRate.toFixed(8);
-            
-            showToast(`✅ Rate set to ${miningRate.toFixed(8)} USDT/sec (${hourlyRate.toFixed(8)} USDT/hour)`);
+        window.loadAdminAdLinks = function() {
+            let html = '';
+            adLinks.forEach((link, index) => {
+                html += `<div class='history-item'>
+                    <span>${link.url.substring(0,30)}...</span>
+                    <span>${link.views}/3 views</span>
+                    <button class='btn-sm' onclick='deleteAdLink(${index})'>🗑️</button>
+                </div>`;
+            });
+            document.getElementById('adminAdLinksContainer').innerHTML = html || '<div class="history-item">No links</div>';
         };
 
-        window.loadAdminAdLinks = async function() {
-            try {
-                const snapshot = await db.collection('adLinks').orderBy('createdAt', 'desc').get();
-                const container = document.getElementById('adminAdLinksContainer');
-                let html = '';
-                
-                snapshot.forEach(doc => {
-                    const link = doc.data();
-                    html += `<div class="history-item">
-                        <span>${link.url.substring(0,30)}...</span>
-                        <span>${link.views}/3 views</span>
-                    </div>`;
-                });
-                
-                container.innerHTML = html || '<div class="history-item">No links</div>';
-            } catch (error) {
-                console.error('Error loading ad links:', error);
-            }
+        window.deleteAdLink = (index) => {
+            adLinks.splice(index, 1);
+            localStorage.setItem('adLinks', JSON.stringify(adLinks));
+            loadAdminAdLinks();
+            showToast('✅ Link deleted');
         };
 
         window.loadAdminWithdraws = async function() {
@@ -1433,9 +1360,9 @@
                 
                 snapshot.forEach(doc => {
                     const w = doc.data();
-                    html += `<div class="history-item">
+                    html += `<div class='history-item'>
                         <span>${w.name} - ${w.amount} (${w.method})</span>
-                        <button class="btn-sm" onclick="approveWithdraw('${doc.id}')">✓</button>
+                        <button class='btn-sm' onclick='approveWithdraw("${doc.id}")'>✓</button>
                     </div>`;
                 });
                 
@@ -1461,13 +1388,15 @@
             }
         };
 
-        // ---------- INIT ----------
-        // Load admin data if user is admin
-        setInterval(() => {
-            if (currentUser && currentUser.email === ADMIN_EMAIL) {
-                loadGlobalMiningStats();
+        window.setMiningRate = () => {
+            const rate = parseFloat(document.getElementById('miningRate').value);
+            if (rate >= 0.00000001) {
+                miningRate = rate;
+                document.getElementById('currentRateDisplay').innerText = rate.toFixed(8);
+                document.getElementById('currentRateHourDisplay').innerText = (rate * 3600).toFixed(8);
+                showToast(`✅ Rate set to ${rate}`);
             }
-        }, 60000); // Update every minute
+        };
     </script>
 </body>
 </html>
