@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="bn">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>✨ ড্রিম স্পেস • হোয়াইট গোল্ড</title>
+    <title>✨ ড্রিম স্পেস • স্মল টাইমার</title>
     
     <!-- ফন্ট ও আইকন -->
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -305,20 +305,40 @@
             border: 1px solid #ffd700;
         }
         
-        .timer-box {
+        /* ===== ছোট টাইমার ===== */
+        .small-timer {
             background: #faf7f2;
             border-radius: 40px;
-            padding: 12px;
-            text-align: center;
-            margin: 15px 0;
-            display: none;
+            padding: 8px 16px;
+            margin: 15px 0 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
             border: 1px solid #ffd700;
+            display: none;
         }
         
-        .timer-text {
-            font-size: 18px;
+        .timer-icon {
+            color: #b8860b;
+            font-size: 16px;
+        }
+        
+        .timer-seconds {
+            font-size: 20px;
             font-weight: 700;
             color: #b8860b;
+        }
+        
+        .timer-label {
+            color: #8b7f70;
+            font-size: 14px;
+        }
+        
+        .timer-warning-small {
+            font-size: 11px;
+            color: #ff4757;
+            margin-left: auto;
         }
         
         /* ===== টোস্ট ===== */
@@ -814,6 +834,10 @@
         let targetUserId = null;
         let activeSlot = 0;
         let adTimer = null;
+        let isAdWatching = false;
+        let currentAdLink = null;
+        let startTime = null;
+        let activeTimerDiv = null;
 
         // মনিটাগ লিংক (স্থানীয়)
         let monetagLinks = JSON.parse(localStorage.getItem('monetagLinks')) || [];
@@ -958,6 +982,22 @@
             }
         });
 
+        // পৃষ্ঠা ভিজিবিলিটি চেক
+        document.addEventListener('visibilitychange', () => {
+            if (isAdWatching && document.hidden) {
+                // ইউজার পৃষ্ঠা ছেড়ে গেছে – রিওয়ার্ড বাতিল
+                clearInterval(adTimer);
+                isAdWatching = false;
+                
+                if (activeTimerDiv) {
+                    activeTimerDiv.style.display = 'none';
+                }
+                
+                showToast('❌ আপনি পৃষ্ঠা ছেড়ে গেছেন – রিওয়ার্ড বাতিল', false);
+                toScreen('adPage');
+            }
+        });
+
         // স্লট কেনার জন্য পেমেন্ট পেজ ওপেন
         window.openPay = (amount, slot) => {
             activeSlot = slot;
@@ -1036,10 +1076,15 @@
                             <span class="ad-title">মনিটাগ এড</span>
                             <span class="ad-badge">${link.views || 0}/৩ ভিউ</span>
                         </div>
-                        <div id="timer_${link.id}" class="timer-box">
-                            <span class="timer-text" id="timerText_${link.id}">৩০ সেকেন্ড</span>
+                        
+                        <div class="small-timer" id="timer_${link.id}">
+                            <i class="fas fa-hourglass-half timer-icon"></i>
+                            <span class="timer-seconds" id="timerSeconds_${link.id}">৩০</span>
+                            <span class="timer-label">সেকেন্ড</span>
+                            <span class="timer-warning-small">⚠️</span>
                         </div>
-                        <button class="btn-gold" onclick="watchAd('${link.id}')">
+                        
+                        <button class="btn-gold" onclick="startAdTimer('${link.id}')">
                             <i class="fas fa-play-circle"></i> এড দেখুন (০.১০৳)
                         </button>
                     </div>
@@ -1049,8 +1094,8 @@
             container.innerHTML = html || '<p style="text-align: center; color: #8b7f70; padding: 30px;">কোন এড লিংক নেই</p>';
         };
 
-        // এড দেখা
-        window.watchAd = (linkId) => {
+        // এড টাইমার শুরু
+        window.startAdTimer = (linkId) => {
             const linkIndex = monetagLinks.findIndex(l => l.id === linkId);
             if (linkIndex === -1) return showToast('লিংকটি আর নেই', false);
             
@@ -1067,15 +1112,33 @@
             // মনিটাগ এড ওপেন
             window.open(link.url, '_blank');
             
-            // টাইমার দেখানো
-            document.getElementById(`timer_${linkId}`).style.display = 'block';
+            // টাইমার শুরু
+            isAdWatching = true;
+            currentAdLink = linkId;
+            startTime = Date.now();
+            
+            const timerDiv = document.getElementById(`timer_${linkId}`);
+            const timerSeconds = document.getElementById(`timerSeconds_${linkId}`);
+            
+            timerDiv.style.display = 'flex';
+            activeTimerDiv = timerDiv;
             
             let seconds = 30;
-            const timerText = document.getElementById(`timerText_${linkId}`);
+            timerSeconds.innerText = seconds;
             
             adTimer = setInterval(() => {
                 seconds--;
-                timerText.innerText = `${seconds} সেকেন্ড`;
+                timerSeconds.innerText = seconds;
+                
+                // চেক করছে ইউজার এখনও পৃষ্ঠায় আছে কিনা
+                if (document.hidden) {
+                    clearInterval(adTimer);
+                    isAdWatching = false;
+                    timerDiv.style.display = 'none';
+                    showToast('❌ আপনি পৃষ্ঠা ছেড়ে গেছেন – রিওয়ার্ড বাতিল', false);
+                    toScreen('adPage');
+                    return;
+                }
                 
                 if (seconds <= 0) {
                     clearInterval(adTimer);
@@ -1103,8 +1166,13 @@
                         total_inc: firebase.firestore.FieldValue.increment(0.10)
                     });
                     
+                    timerDiv.style.display = 'none';
+                    isAdWatching = false;
+                    
                     showToast('✅ +০.১০৳');
-                    loadAds(); // রিফ্রেশ
+                    
+                    // হোম পেজে চলে যাবে
+                    toScreen('homePage');
                 }
             }, 1000);
         };
