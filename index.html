@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>✨ ড্রিম স্পেস • থ্রি এড লিংক</title>
+    <title>Dream Space • ড্রিম স্পেস</title>
     
     <!-- ফন্ট ও আইকন -->
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -48,6 +48,28 @@
         .glass-card:hover {
             transform: translateY(-3px);
             box-shadow: 0 20px 40px rgba(212, 175, 55, 0.25);
+        }
+        
+        /* ===== ব্যানার ===== */
+        .banner {
+            width: 100%;
+            height: 80px;
+            background: linear-gradient(145deg, #ffd700, #e6b800);
+            border-radius: 20px;
+            margin: 10px 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #1a1a1a;
+            font-weight: 600;
+            font-size: 14px;
+            border: 2px solid #b8860b;
+            box-shadow: 0 8px 15px rgba(212, 175, 55, 0.3);
+        }
+        
+        .banner i {
+            margin-right: 10px;
+            font-size: 24px;
         }
         
         /* ===== বাটন ===== */
@@ -267,34 +289,6 @@
             letter-spacing: 2px;
         }
         
-        /* ===== এড ট্যাব ===== */
-        .ad-tabs {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
-            background: white;
-            border-radius: 50px;
-            padding: 5px;
-            border: 2px solid #ffd700;
-        }
-        
-        .ad-tab {
-            flex: 1;
-            text-align: center;
-            padding: 12px 5px;
-            border-radius: 40px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            color: #8b7f70;
-        }
-        
-        .ad-tab.active {
-            background: #ffd700;
-            color: #1a1a1a;
-        }
-        
         /* ===== এড কার্ড ===== */
         .ad-card {
             background: white;
@@ -304,11 +298,10 @@
             border-left: 8px solid #ffd700;
             box-shadow: 0 8px 20px rgba(212, 175, 55, 0.1);
             transition: transform 0.2s ease;
-            display: none;
         }
         
-        .ad-card.active {
-            display: block;
+        .ad-card:hover {
+            transform: translateX(5px);
         }
         
         .ad-header {
@@ -364,20 +357,11 @@
             font-size: 14px;
         }
         
-        .timer-warning-small {
+        .timer-warning {
             font-size: 11px;
             color: #ff4757;
-            margin-left: auto;
-        }
-        
-        /* ===== অনক্লিকা স্ক্রিপ্ট কন্টেইনার ===== */
-        .onclicka-container {
-            background: white;
-            border-radius: 20px;
-            padding: 20px;
-            margin: 20px 0;
-            border: 2px solid #ffd700;
             text-align: center;
+            margin-top: 5px;
         }
         
         /* ===== টোস্ট ===== */
@@ -576,10 +560,10 @@
         <!-- টোস্ট মেসেজ -->
         <div id="toast" class="toast">✅ সফল হয়েছে</div>
 
-        <!-- লগইন পৃষ্ঠা -->
+        <!-- লগইন পৃষ্ঠা (কোনো ব্যানার নেই) -->
         <div id="loginPage" class="screen active">
             <div class="auth-card">
-                <h1>ড্রিম স্পেস</h1>
+                <h1>Dream Space</h1>
                 <p>আপনার আয়ের দ্বার</p>
                 
                 <div style="margin: 30px 0;">
@@ -597,11 +581,11 @@
             </div>
         </div>
 
-        <!-- রেজিস্টার পৃষ্ঠা -->
+        <!-- রেজিস্টার পৃষ্ঠা (কোনো ব্যানার নেই) -->
         <div id="regPage" class="screen">
             <div class="auth-card">
-                <h1>নিবন্ধন</h1>
-                <p>ড্রিম স্পেসে যোগ দিন</p>
+                <h1>Dream Space</h1>
+                <p>নিবন্ধন ফর্ম</p>
                 
                 <div style="margin: 20px 0;">
                     <input type="text" id="rName" placeholder="আপনার নাম">
@@ -621,8 +605,13 @@
             </div>
         </div>
 
-        <!-- হোম পৃষ্ঠা -->
+        <!-- হোম পৃষ্ঠা (ব্যানার সহ) -->
         <div id="homePage" class="screen">
+            <!-- ব্যানার -->
+            <div class="banner">
+                <i class="fas fa-ad"></i> আপনার বিজ্ঞাপন এখানে
+            </div>
+            
             <div class="header-box">
                 <div>
                     <h4 id="hName">লোড হচ্ছে...</h4>
@@ -675,8 +664,12 @@
             </div>
         </div>
 
-        <!-- স্লট পৃষ্ঠা -->
+        <!-- স্লট পৃষ্ঠা (ব্যানার সহ) -->
         <div id="slotPage" class="screen">
+            <div class="banner">
+                <i class="fas fa-ad"></i> আপনার বিজ্ঞাপন এখানে
+            </div>
+            
             <h3 style="color: #b8860b; margin-bottom: 15px;">🚀 সক্রিয়করণ স্তর</h3>
             
             <div class="glass-card">
@@ -707,8 +700,12 @@
             </div>
         </div>
 
-        <!-- এড পৃষ্ঠা -->
+        <!-- এড পৃষ্ঠা (ব্যানার সহ) – সব এড একসাথে -->
         <div id="adPage" class="screen">
+            <div class="banner">
+                <i class="fas fa-ad"></i> আপনার বিজ্ঞাপন এখানে
+            </div>
+            
             <div class="glass-card">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
                     <h3 style="color: #b8860b;">📺 এড দেখে আয়</h3>
@@ -718,52 +715,20 @@
                 <div style="background: white; border-radius: 30px; padding: 20px; text-align: center; margin: 20px 0; border: 2px solid #ffd700;">
                     <p style="color: #8b7f70;">আজ বাকি <span style="color: #b8860b; font-size: 24px; font-weight: 800;" id="adRemaining">১০০০</span> টি</p>
                     <p style="color: #b8860b; font-size: 20px; font-weight: 700; margin: 10px 0;">০.১০৳ প্রতি এড</p>
+                    <p class="timer-warning">৩০ সেকেন্ড দেখতে হবে, আগে বের হলে টাকা পাবেন না</p>
                 </div>
                 
-                <!-- এড ট্যাব -->
-                <div class="ad-tabs">
-                    <div class="ad-tab active" onclick="switchAdTab('monetag')">মনিটাগ</div>
-                    <div class="ad-tab" onclick="switchAdTab('adsterra')">অ্যাডস্টেরা</div>
-                    <div class="ad-tab" onclick="switchAdTab('onclicka')">অনক্লিকা</div>
-                </div>
-                
-                <!-- অনক্লিকা স্ক্রিপ্ট কন্টেইনার (সব এড পৃষ্ঠার উপরে দেখাবে) -->
-                <div class="onclicka-container" id="onclickaScriptContainer">
-                    <script async src="https://js.onclckmn.com/static/onclicka.js" data-admpid="427206"></script>
-                    <p style="color: #8b7f70; font-size: 12px;">অনক্লিকা বিজ্ঞাপন</p>
-                </div>
-                
-                <!-- মনিটাগ এড কন্টেইনার -->
-                <div id="monetagAds" class="ad-card active">
-                    <div class="ad-header">
-                        <span class="ad-title">মনিটাগ এড</span>
-                        <span class="ad-badge" id="monetagCount">০/৩</span>
-                    </div>
-                    <div id="monetagContainer"></div>
-                </div>
-                
-                <!-- অ্যাডস্টেরা এড কন্টেইনার -->
-                <div id="adsterraAds" class="ad-card">
-                    <div class="ad-header">
-                        <span class="ad-title">অ্যাডস্টেরা এড</span>
-                        <span class="ad-badge" id="adsterraCount">০/৩</span>
-                    </div>
-                    <div id="adsterraContainer"></div>
-                </div>
-                
-                <!-- অনক্লিকা এড কন্টেইনার -->
-                <div id="onclickaAds" class="ad-card">
-                    <div class="ad-header">
-                        <span class="ad-title">অনক্লিকা এড</span>
-                        <span class="ad-badge" id="onclickaCount">০/৫</span>
-                    </div>
-                    <div id="onclickaContainer"></div>
-                </div>
+                <!-- সব এড একসাথে -->
+                <div id="allAdsContainer"></div>
             </div>
         </div>
 
-        <!-- ডিপোজিট পৃষ্ঠা -->
+        <!-- ডিপোজিট পৃষ্ঠা (ব্যানার সহ) -->
         <div id="payPage" class="screen">
+            <div class="banner">
+                <i class="fas fa-ad"></i> আপনার বিজ্ঞাপন এখানে
+            </div>
+            
             <div class="glass-card" style="text-align: center;">
                 <h2 style="color: #b8860b; margin-bottom: 20px;">💳 নগদ পেমেন্ট</h2>
                 
@@ -788,8 +753,12 @@
             </div>
         </div>
 
-        <!-- উত্তোলন পৃষ্ঠা -->
+        <!-- উত্তোলন পৃষ্ঠা (ব্যানার সহ) -->
         <div id="wdPage" class="screen">
+            <div class="banner">
+                <i class="fas fa-ad"></i> আপনার বিজ্ঞাপন এখানে
+            </div>
+            
             <div class="glass-card">
                 <h3 style="color: #b8860b; margin-bottom: 20px;">💸 টাকা উত্তোলন</h3>
                 
@@ -811,8 +780,12 @@
             <div id="userWdHistory" class="glass-card" style="padding: 0; overflow: hidden;"></div>
         </div>
 
-        <!-- এডমিন মেনু -->
+        <!-- এডমিন মেনু (ব্যানার সহ) -->
         <div id="adminMenu" class="screen">
+            <div class="banner">
+                <i class="fas fa-ad"></i> আপনার বিজ্ঞাপন এখানে
+            </div>
+            
             <div class="glass-card">
                 <h3 style="color: #b8860b; margin-bottom: 20px;">🛡️ এডমিন প্যানেল</h3>
                 
@@ -828,7 +801,7 @@
                 
                 <div class="admin-menu">
                     <button class="admin-btn" onclick="loadAdminLinks(); toScreen('adminLinks')">
-                        <i class="fas fa-link"></i> মনিটাগ লিংক
+                        <i class="fas fa-link"></i> মনিটাগ
                     </button>
                     <button class="admin-btn" onclick="loadAdminAdsterraLinks(); toScreen('adminAdsterra')">
                         <i class="fas fa-link"></i> অ্যাডস্টেরা
@@ -847,8 +820,12 @@
             </div>
         </div>
 
-        <!-- এডমিন ডিপোজিট -->
+        <!-- এডমিন ডিপোজিট (ব্যানার সহ) -->
         <div id="adminDeposit" class="screen">
+            <div class="banner">
+                <i class="fas fa-ad"></i> আপনার বিজ্ঞাপন এখানে
+            </div>
+            
             <div class="glass-card">
                 <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
                     <i class="fas fa-arrow-left" style="font-size: 24px; color: #b8860b; cursor: pointer;" onclick="toScreen('adminMenu')"></i>
@@ -858,8 +835,12 @@
             </div>
         </div>
 
-        <!-- এডমিন উত্তোলন -->
+        <!-- এডমিন উত্তোলন (ব্যানার সহ) -->
         <div id="adminWithdraw" class="screen">
+            <div class="banner">
+                <i class="fas fa-ad"></i> আপনার বিজ্ঞাপন এখানে
+            </div>
+            
             <div class="glass-card">
                 <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
                     <i class="fas fa-arrow-left" style="font-size: 24px; color: #b8860b; cursor: pointer;" onclick="toScreen('adminMenu')"></i>
@@ -869,8 +850,12 @@
             </div>
         </div>
 
-        <!-- এডমিন মনিটাগ লিংক -->
+        <!-- এডমিন মনিটাগ লিংক (ব্যানার সহ) -->
         <div id="adminLinks" class="screen">
+            <div class="banner">
+                <i class="fas fa-ad"></i> আপনার বিজ্ঞাপন এখানে
+            </div>
+            
             <div class="glass-card">
                 <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
                     <i class="fas fa-arrow-left" style="font-size: 24px; color: #b8860b; cursor: pointer;" onclick="toScreen('adminMenu')"></i>
@@ -888,8 +873,12 @@
             </div>
         </div>
 
-        <!-- এডমিন অ্যাডস্টেরা লিংক -->
+        <!-- এডমিন অ্যাডস্টেরা লিংক (ব্যানার সহ) -->
         <div id="adminAdsterra" class="screen">
+            <div class="banner">
+                <i class="fas fa-ad"></i> আপনার বিজ্ঞাপন এখানে
+            </div>
+            
             <div class="glass-card">
                 <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
                     <i class="fas fa-arrow-left" style="font-size: 24px; color: #b8860b; cursor: pointer;" onclick="toScreen('adminMenu')"></i>
@@ -907,8 +896,12 @@
             </div>
         </div>
 
-        <!-- এডমিন অনক্লিকা লিংক -->
+        <!-- এডমিন অনক্লিকা লিংক (ব্যানার সহ) -->
         <div id="adminOnclicka" class="screen">
+            <div class="banner">
+                <i class="fas fa-ad"></i> আপনার বিজ্ঞাপন এখানে
+            </div>
+            
             <div class="glass-card">
                 <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
                     <i class="fas fa-arrow-left" style="font-size: 24px; color: #b8860b; cursor: pointer;" onclick="toScreen('adminMenu')"></i>
@@ -930,11 +923,14 @@
         <nav class="nav-bar" id="mainNav" style="display: none;">
             <div class="nav-item" onclick="toScreen('homePage', this)"><i class="fas fa-home"></i>হোম</div>
             <div class="nav-item" onclick="toScreen('slotPage', this)"><i class="fas fa-rocket"></i>স্লট</div>
-            <div class="nav-item" onclick="loadAds(); toScreen('adPage', this)"><i class="fas fa-ad"></i>এড</div>
+            <div class="nav-item" onclick="loadAllAds(); toScreen('adPage', this)"><i class="fas fa-ad"></i>এড</div>
             <div class="nav-item" onclick="toScreen('wdPage', this)"><i class="fas fa-wallet"></i>ওয়ালেট</div>
             <div id="adminNav" class="nav-item" style="display: none;" onclick="toScreen('adminMenu', this)"><i class="fas fa-shield-alt"></i>এডমিন</div>
         </nav>
     </div>
+
+    <!-- অনক্লিকা স্ক্রিপ্ট -->
+    <script async src="https://js.onclckmn.com/static/onclicka.js" data-admpid="427206"></script>
 
     <!-- ফায়ারবেস -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -963,16 +959,15 @@
         let activeSlot = 0;
         let adTimer = null;
         let isAdWatching = false;
-        let currentAdLink = null;
-        let startTime = null;
         let activeTimerDiv = null;
-        let currentAdType = 'monetag';
+        let currentAdType = null;
+        let currentAdId = null;
+        let currentAdIndex = null;
 
         // এড লিংক (স্থানীয়)
         let monetagLinks = JSON.parse(localStorage.getItem('monetagLinks')) || [];
         let adsterraLinks = JSON.parse(localStorage.getItem('adsterraLinks')) || [];
         let onclickaLinks = JSON.parse(localStorage.getItem('onclickaLinks')) || [];
-        let adClicks = JSON.parse(localStorage.getItem('adClicks')) || {};
 
         // টোস্ট
         function showToast(msg, isSuccess = true) {
@@ -1000,19 +995,6 @@
                 document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('nav-active'));
                 el.classList.add('nav-active');
             }
-        };
-
-        // এড ট্যাব সুইচ
-        window.switchAdTab = (type) => {
-            currentAdType = type;
-            
-            // ট্যাব আপডেট
-            document.querySelectorAll('.ad-tab').forEach(tab => tab.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            // এড কন্টেইনার আপডেট
-            document.querySelectorAll('.ad-card').forEach(card => card.classList.remove('active'));
-            document.getElementById(type + 'Ads').classList.add('active');
         };
 
         // লগআউট
@@ -1196,191 +1178,116 @@
             showToast('✅ উত্তোলন অনুরোধ করা হয়েছে');
         };
 
-        // এড লোড
-        window.loadAds = () => {
-            // মনিটাগ এড লোড
-            loadMonetagAds();
-            // অ্যাডস্টেরা এড লোড
-            loadAdsterraAds();
-            // অনক্লিকা এড লোড
-            loadOnclickaAds();
-        };
-
-        // মনিটাগ এড লোড
-        function loadMonetagAds() {
-            const container = document.getElementById('monetagContainer');
+        // সব এড লোড (একসাথে)
+        window.loadAllAds = () => {
+            const container = document.getElementById('allAdsContainer');
             let html = '';
-            let totalViews = 0;
+            let totalAds = 0;
             
-            const activeLinks = monetagLinks.filter(link => link.active);
-            
-            activeLinks.forEach((link) => {
-                const userClicks = adClicks[`${auth.currentUser?.uid}_monetag_${link.id}`] || 0;
-                if (userClicks >= 2) return;
-                
-                totalViews += link.views || 0;
-                
-                html += `
-                    <div class="ad-card" style="margin-bottom: 10px; padding: 15px;">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                            <span>মনিটাগ এড</span>
-                            <span class="ad-badge">${link.views || 0}/৩</span>
+            // মনিটাগ এড
+            monetagLinks.forEach((link, index) => {
+                if (link.active) {
+                    totalAds++;
+                    html += `
+                        <div class="ad-card" id="ad_monetag_${link.id}">
+                            <div class="ad-header">
+                                <span class="ad-title">মনিটাগ এড</span>
+                            </div>
+                            
+                            <div class="small-timer" id="timer_monetag_${link.id}" style="display: none;">
+                                <i class="fas fa-hourglass-half timer-icon"></i>
+                                <span class="timer-seconds" id="timerSeconds_monetag_${link.id}">৩০</span>
+                                <span class="timer-label">সেকেন্ড</span>
+                            </div>
+                            
+                            <button class="btn-gold" style="padding: 12px;" onclick="startAdTimer('monetag', '${link.id}', ${index})">
+                                <i class="fas fa-play-circle"></i> এড দেখুন (০.১০৳)
+                            </button>
                         </div>
-                        
-                        <div class="small-timer" id="timer_monetag_${link.id}" style="display: none;">
-                            <i class="fas fa-hourglass-half timer-icon"></i>
-                            <span class="timer-seconds" id="timerSeconds_monetag_${link.id}">৩০</span>
-                            <span class="timer-label">সেকেন্ড</span>
-                        </div>
-                        
-                        <button class="btn-gold" style="padding: 12px;" onclick="startMonetagTimer('${link.id}')">
-                            <i class="fas fa-play-circle"></i> এড দেখুন (০.১০৳)
-                        </button>
-                    </div>
-                `;
+                    `;
+                }
             });
             
-            document.getElementById('monetagCount').innerText = `${totalViews}/৩`;
-            container.innerHTML = html || '<p style="text-align: center; color: #8b7f70; padding: 20px;">কোন মনিটাগ এড নেই</p>';
-        }
-
-        // অ্যাডস্টেরা এড লোড
-        function loadAdsterraAds() {
-            const container = document.getElementById('adsterraContainer');
-            let html = '';
-            let totalViews = 0;
-            
-            const activeLinks = adsterraLinks.filter(link => link.active);
-            
-            activeLinks.forEach((link) => {
-                const userClicks = adClicks[`${auth.currentUser?.uid}_adsterra_${link.id}`] || 0;
-                if (userClicks >= 2) return;
-                
-                totalViews += link.views || 0;
-                
-                html += `
-                    <div class="ad-card" style="margin-bottom: 10px; padding: 15px;">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                            <span>অ্যাডস্টেরা এড</span>
-                            <span class="ad-badge">${link.views || 0}/৩</span>
+            // অ্যাডস্টেরা এড
+            adsterraLinks.forEach((link, index) => {
+                if (link.active) {
+                    totalAds++;
+                    html += `
+                        <div class="ad-card" id="ad_adsterra_${link.id}">
+                            <div class="ad-header">
+                                <span class="ad-title">অ্যাডস্টেরা এড</span>
+                            </div>
+                            
+                            <div class="small-timer" id="timer_adsterra_${link.id}" style="display: none;">
+                                <i class="fas fa-hourglass-half timer-icon"></i>
+                                <span class="timer-seconds" id="timerSeconds_adsterra_${link.id}">৩০</span>
+                                <span class="timer-label">সেকেন্ড</span>
+                            </div>
+                            
+                            <button class="btn-gold" style="padding: 12px;" onclick="startAdTimer('adsterra', '${link.id}', ${index})">
+                                <i class="fas fa-play-circle"></i> এড দেখুন (০.১০৳)
+                            </button>
                         </div>
-                        
-                        <div class="small-timer" id="timer_adsterra_${link.id}" style="display: none;">
-                            <i class="fas fa-hourglass-half timer-icon"></i>
-                            <span class="timer-seconds" id="timerSeconds_adsterra_${link.id}">৩০</span>
-                            <span class="timer-label">সেকেন্ড</span>
-                        </div>
-                        
-                        <button class="btn-gold" style="padding: 12px;" onclick="startAdsterraTimer('${link.id}')">
-                            <i class="fas fa-play-circle"></i> এড দেখুন (০.১০৳)
-                        </button>
-                    </div>
-                `;
+                    `;
+                }
             });
             
-            document.getElementById('adsterraCount').innerText = `${totalViews}/৩`;
-            container.innerHTML = html || '<p style="text-align: center; color: #8b7f70; padding: 20px;">কোন অ্যাডস্টেরা এড নেই</p>';
-        }
-
-        // অনক্লিকা এড লোড
-        function loadOnclickaAds() {
-            const container = document.getElementById('onclickaContainer');
-            let html = '';
-            let totalViews = 0;
-            
-            const activeLinks = onclickaLinks.filter(link => link.active);
-            
-            activeLinks.forEach((link) => {
-                const userClicks = adClicks[`${auth.currentUser?.uid}_onclicka_${link.id}`] || 0;
-                if (userClicks >= 2) return;
-                
-                totalViews += link.views || 0;
-                
-                html += `
-                    <div class="ad-card" style="margin-bottom: 10px; padding: 15px;">
-                        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                            <span>অনক্লিকা এড</span>
-                            <span class="ad-badge">${link.views || 0}/৫</span>
+            // অনক্লিকা এড
+            onclickaLinks.forEach((link, index) => {
+                if (link.active) {
+                    totalAds++;
+                    html += `
+                        <div class="ad-card" id="ad_onclicka_${link.id}">
+                            <div class="ad-header">
+                                <span class="ad-title">অনক্লিকা এড</span>
+                            </div>
+                            
+                            <div class="small-timer" id="timer_onclicka_${link.id}" style="display: none;">
+                                <i class="fas fa-hourglass-half timer-icon"></i>
+                                <span class="timer-seconds" id="timerSeconds_onclicka_${link.id}">৩০</span>
+                                <span class="timer-label">সেকেন্ড</span>
+                            </div>
+                            
+                            <button class="btn-gold" style="padding: 12px;" onclick="startAdTimer('onclicka', '${link.id}', ${index})">
+                                <i class="fas fa-play-circle"></i> এড দেখুন (০.১০৳)
+                            </button>
                         </div>
-                        
-                        <div class="small-timer" id="timer_onclicka_${link.id}" style="display: none;">
-                            <i class="fas fa-hourglass-half timer-icon"></i>
-                            <span class="timer-seconds" id="timerSeconds_onclicka_${link.id}">৩০</span>
-                            <span class="timer-label">সেকেন্ড</span>
-                        </div>
-                        
-                        <button class="btn-gold" style="padding: 12px;" onclick="startOnclickaTimer('${link.id}')">
-                            <i class="fas fa-play-circle"></i> এড দেখুন (০.১০৳)
-                        </button>
-                    </div>
-                `;
+                    `;
+                }
             });
             
-            document.getElementById('onclickaCount').innerText = `${totalViews}/৫`;
-            container.innerHTML = html || '<p style="text-align: center; color: #8b7f70; padding: 20px;">কোন অনক্লিকা এড নেই</p>';
-        }
-
-        // মনিটাগ টাইমার শুরু
-        window.startMonetagTimer = (linkId) => {
-            const linkIndex = monetagLinks.findIndex(l => l.id === linkId);
-            if (linkIndex === -1) return showToast('লিংকটি আর নেই', false);
-            
-            const link = monetagLinks[linkIndex];
-            if (!link.active) return showToast('লিংকটি নিষ্ক্রিয়', false);
-            
-            const userClicks = adClicks[`${auth.currentUser.uid}_monetag_${linkId}`] || 0;
-            if (userClicks >= 2) return showToast('আপনি এই লিংক ২ বার দেখেছেন', false);
-            
-            if (link.views >= 3) return showToast('লিংকটি সর্বোচ্চ ভিউ পেয়েছে', false);
-            
-            window.open(link.url, '_blank');
-            
-            startAdTimer('monetag', link, linkIndex, 3);
+            document.getElementById('adCount').innerText = `০/${totalAds}`;
+            container.innerHTML = html || '<p style="text-align: center; color: #8b7f70; padding: 30px;">কোন এড লিংক নেই</p>';
         };
 
-        // অ্যাডস্টেরা টাইমার শুরু
-        window.startAdsterraTimer = (linkId) => {
-            const linkIndex = adsterraLinks.findIndex(l => l.id === linkId);
-            if (linkIndex === -1) return showToast('লিংকটি আর নেই', false);
+        // এড টাইমার শুরু
+        window.startAdTimer = (type, linkId, index) => {
+            let link;
+            let linkArray;
             
-            const link = adsterraLinks[linkIndex];
-            if (!link.active) return showToast('লিংকটি নিষ্ক্রিয়', false);
+            if (type === 'monetag') {
+                linkArray = monetagLinks;
+            } else if (type === 'adsterra') {
+                linkArray = adsterraLinks;
+            } else {
+                linkArray = onclickaLinks;
+            }
             
-            const userClicks = adClicks[`${auth.currentUser.uid}_adsterra_${linkId}`] || 0;
-            if (userClicks >= 2) return showToast('আপনি এই লিংক ২ বার দেখেছেন', false);
+            link = linkArray[index];
             
-            if (link.views >= 3) return showToast('লিংকটি সর্বোচ্চ ভিউ পেয়েছে', false);
+            if (!link || !link.active) return showToast('লিংকটি আর নেই', false);
             
+            // এড ওপেন
             window.open(link.url, '_blank');
             
-            startAdTimer('adsterra', link, linkIndex, 3);
-        };
-
-        // অনক্লিকা টাইমার শুরু
-        window.startOnclickaTimer = (linkId) => {
-            const linkIndex = onclickaLinks.findIndex(l => l.id === linkId);
-            if (linkIndex === -1) return showToast('লিংকটি আর নেই', false);
-            
-            const link = onclickaLinks[linkIndex];
-            if (!link.active) return showToast('লিংকটি নিষ্ক্রিয়', false);
-            
-            const userClicks = adClicks[`${auth.currentUser.uid}_onclicka_${linkId}`] || 0;
-            if (userClicks >= 2) return showToast('আপনি এই লিংক ২ বার দেখেছেন', false);
-            
-            if (link.views >= 5) return showToast('লিংকটি সর্বোচ্চ ভিউ পেয়েছে', false);
-            
-            window.open(link.url, '_blank');
-            
-            startAdTimer('onclicka', link, linkIndex, 5);
-        };
-
-        // এড টাইমার (সাধারণ ফাংশন)
-        function startAdTimer(type, link, linkIndex, maxViews) {
+            // টাইমার শুরু
             isAdWatching = true;
-            startTime = Date.now();
+            currentAdType = type;
+            currentAdId = linkId;
+            currentAdIndex = index;
             
-            const timerDiv = document.getElementById(`timer_${type}_${link.id}`);
-            const timerSeconds = document.getElementById(`timerSeconds_${type}_${link.id}`);
+            const timerDiv = document.getElementById(`timer_${type}_${linkId}`);
+            const timerSeconds = document.getElementById(`timerSeconds_${type}_${linkId}`);
             
             timerDiv.style.display = 'flex';
             activeTimerDiv = timerDiv;
@@ -1404,22 +1311,22 @@
                 if (seconds <= 0) {
                     clearInterval(adTimer);
                     
+                    // ভিউ কাউন্ট আপডেট (শুধু মাত্র অ্যারে আপডেট, ইউজারকে দেখানো হচ্ছে না)
                     link.views = (link.views || 0) + 1;
                     
-                    adClicks[`${auth.currentUser.uid}_${type}_${link.id}`] = (adClicks[`${auth.currentUser.uid}_${type}_${link.id}`] || 0) + 1;
-                    
-                    if (link.views >= maxViews) {
+                    // ৩ ভিউ হলে নিষ্ক্রিয় (শুধু মনিটাগ ও অ্যাডস্টেরার জন্য)
+                    if (type !== 'onclicka' && link.views >= 3) {
                         link.active = false;
                     }
                     
-                    // আপডেট অ্যারে
-                    if (type === 'monetag') monetagLinks[linkIndex] = link;
-                    else if (type === 'adsterra') adsterraLinks[linkIndex] = link;
-                    else onclickaLinks[linkIndex] = link;
+                    // অনক্লিকার জন্য ৫ ভিউ
+                    if (type === 'onclicka' && link.views >= 5) {
+                        link.active = false;
+                    }
                     
-                    localStorage.setItem(type + 'Links', JSON.stringify(type === 'monetag' ? monetagLinks : (type === 'adsterra' ? adsterraLinks : onclickaLinks)));
-                    localStorage.setItem('adClicks', JSON.stringify(adClicks));
+                    localStorage.setItem(type + 'Links', JSON.stringify(linkArray));
                     
+                    // ব্যালেন্স যোগ
                     db.collection('users').doc(auth.currentUser.uid).update({
                         balance: firebase.firestore.FieldValue.increment(0.10),
                         total_inc: firebase.firestore.FieldValue.increment(0.10)
@@ -1429,11 +1336,11 @@
                     isAdWatching = false;
                     
                     showToast('✅ +০.১০৳');
-                    loadAds();
+                    loadAllAds();
                     toScreen('homePage');
                 }
             }, 1000);
-        }
+        };
 
         // এডমিন: ডিপোজিট লোড
         window.loadAdminDeposits = () => {
