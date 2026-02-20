@@ -9,9 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
-    <!-- মনিটাগ মেটা ট্যাগ -->
-    <meta name="monetag" content="7593213bc2ca28b97faf7338ded12575" />
-    
     <style>
         * {
             margin: 0;
@@ -317,51 +314,42 @@
             color: #b8860b;
         }
         
-        .ad-badge {
-            background: rgba(255, 215, 0, 0.15);
-            color: #b8860b;
-            padding: 4px 14px;
-            border-radius: 40px;
-            font-size: 12px;
-            font-weight: 600;
-            border: 1px solid #ffd700;
-        }
-        
-        /* ===== ছোট টাইমার ===== */
-        .small-timer {
+        /* ===== টাইমার ===== */
+        .timer-container {
             background: #faf7f2;
             border-radius: 40px;
-            padding: 8px 16px;
-            margin: 15px 0 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 2px solid #ffd700;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .timer-circle {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: #ffd700;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            border: 1px solid #ffd700;
-            display: none;
+            font-size: 48px;
+            font-weight: 800;
+            color: #1a1a1a;
+            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.3);
         }
         
-        .timer-icon {
-            color: #b8860b;
+        .timer-text {
             font-size: 16px;
-        }
-        
-        .timer-seconds {
-            font-size: 20px;
-            font-weight: 700;
-            color: #b8860b;
-        }
-        
-        .timer-label {
             color: #8b7f70;
-            font-size: 14px;
         }
         
         .timer-warning {
-            font-size: 11px;
+            font-size: 12px;
             color: #ff4757;
             text-align: center;
-            margin-top: 5px;
         }
         
         /* ===== টোস্ট ===== */
@@ -552,15 +540,25 @@
             .stat-box h3 { font-size: 20px; }
             .promo-code { font-size: 20px; }
             .deposit-number { font-size: 26px; }
+            .timer-circle { width: 100px; height: 100px; font-size: 40px; }
         }
     </style>
 </head>
 <body>
+    <!-- টাইমার ওভারলে -->
+    <div id="timerOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.9); z-index: 10000; align-items: center; justify-content: center; flex-direction: column;">
+        <div style="background: white; border-radius: 60px; padding: 40px; text-align: center; border: 4px solid #ffd700; max-width: 400px; width: 90%;">
+            <div style="font-size: 80px; font-weight: 800; color: #b8860b; margin-bottom: 20px;" id="timerDisplay">30</div>
+            <div style="font-size: 20px; color: #8b7f70; margin-bottom: 10px;">সেকেন্ড বাকি</div>
+            <div style="font-size: 14px; color: #ff4757;">⚠️ পৃষ্ঠা ছেড়ে গেলে রিওয়ার্ড বাতিল</div>
+        </div>
+    </div>
+
     <div class="container" id="appContainer">
         <!-- টোস্ট মেসেজ -->
         <div id="toast" class="toast">✅ সফল হয়েছে</div>
 
-        <!-- লগইন পৃষ্ঠা (কোনো ব্যানার নেই) -->
+        <!-- লগইন পৃষ্ঠা -->
         <div id="loginPage" class="screen active">
             <div class="auth-card">
                 <h1>Dream Space</h1>
@@ -581,7 +579,7 @@
             </div>
         </div>
 
-        <!-- রেজিস্টার পৃষ্ঠা (কোনো ব্যানার নেই) -->
+        <!-- রেজিস্টার পৃষ্ঠা -->
         <div id="regPage" class="screen">
             <div class="auth-card">
                 <h1>Dream Space</h1>
@@ -605,7 +603,7 @@
             </div>
         </div>
 
-        <!-- হোম পৃষ্ঠা (ব্যানার সহ) -->
+        <!-- হোম পৃষ্ঠা -->
         <div id="homePage" class="screen">
             <!-- ব্যানার -->
             <div class="banner">
@@ -664,7 +662,7 @@
             </div>
         </div>
 
-        <!-- স্লট পৃষ্ঠা (ব্যানার সহ) -->
+        <!-- স্লট পৃষ্ঠা -->
         <div id="slotPage" class="screen">
             <div class="banner">
                 <i class="fas fa-ad"></i> আপনার বিজ্ঞাপন এখানে
@@ -700,7 +698,7 @@
             </div>
         </div>
 
-        <!-- এড পৃষ্ঠা (ব্যানার সহ) – সব এড একসাথে -->
+        <!-- এড পৃষ্ঠা -->
         <div id="adPage" class="screen">
             <div class="banner">
                 <i class="fas fa-ad"></i> আপনার বিজ্ঞাপন এখানে
@@ -709,13 +707,12 @@
             <div class="glass-card">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
                     <h3 style="color: #b8860b;">📺 এড দেখে আয়</h3>
-                    <span class="badge" style="background: #ffd700; color: #1a1a1a;" id="adCount">০/১০০০</span>
+                    <span class="badge" style="background: #ffd700; color: #1a1a1a;" id="adCount">০</span>
                 </div>
                 
                 <div style="background: white; border-radius: 30px; padding: 20px; text-align: center; margin: 20px 0; border: 2px solid #ffd700;">
-                    <p style="color: #8b7f70;">আজ বাকি <span style="color: #b8860b; font-size: 24px; font-weight: 800;" id="adRemaining">১০০০</span> টি</p>
-                    <p style="color: #b8860b; font-size: 20px; font-weight: 700; margin: 10px 0;">০.১০৳ প্রতি এড</p>
-                    <p class="timer-warning">৩০ সেকেন্ড দেখতে হবে, আগে বের হলে টাকা পাবেন না</p>
+                    <p style="color: #8b7f70;">প্রতি এড <span style="color: #b8860b; font-size: 24px; font-weight: 800;">০.১০৳</span></p>
+                    <p style="color: #8b7f70; font-size: 14px; margin-top: 10px;">৩০ সেকেন্ড দেখতে হবে</p>
                 </div>
                 
                 <!-- সব এড একসাথে -->
@@ -723,7 +720,7 @@
             </div>
         </div>
 
-        <!-- ডিপোজিট পৃষ্ঠা (ব্যানার সহ) -->
+        <!-- ডিপোজিট পৃষ্ঠা -->
         <div id="payPage" class="screen">
             <div class="banner">
                 <i class="fas fa-ad"></i> আপনার বিজ্ঞাপন এখানে
@@ -753,7 +750,7 @@
             </div>
         </div>
 
-        <!-- উত্তোলন পৃষ্ঠা (ব্যানার সহ) -->
+        <!-- উত্তোলন পৃষ্ঠা -->
         <div id="wdPage" class="screen">
             <div class="banner">
                 <i class="fas fa-ad"></i> আপনার বিজ্ঞাপন এখানে
@@ -780,7 +777,7 @@
             <div id="userWdHistory" class="glass-card" style="padding: 0; overflow: hidden;"></div>
         </div>
 
-        <!-- এডমিন মেনু (ব্যানার সহ) -->
+        <!-- এডমিন মেনু -->
         <div id="adminMenu" class="screen">
             <div class="banner">
                 <i class="fas fa-ad"></i> আপনার বিজ্ঞাপন এখানে
@@ -820,7 +817,7 @@
             </div>
         </div>
 
-        <!-- এডমিন ডিপোজিট (ব্যানার সহ) -->
+        <!-- এডমিন ডিপোজিট -->
         <div id="adminDeposit" class="screen">
             <div class="banner">
                 <i class="fas fa-ad"></i> আপনার বিজ্ঞাপন এখানে
@@ -835,7 +832,7 @@
             </div>
         </div>
 
-        <!-- এডমিন উত্তোলন (ব্যানার সহ) -->
+        <!-- এডমিন উত্তোলন -->
         <div id="adminWithdraw" class="screen">
             <div class="banner">
                 <i class="fas fa-ad"></i> আপনার বিজ্ঞাপন এখানে
@@ -850,7 +847,7 @@
             </div>
         </div>
 
-        <!-- এডমিন মনিটাগ লিংক (ব্যানার সহ) -->
+        <!-- এডমিন মনিটাগ লিংক -->
         <div id="adminLinks" class="screen">
             <div class="banner">
                 <i class="fas fa-ad"></i> আপনার বিজ্ঞাপন এখানে
@@ -873,7 +870,7 @@
             </div>
         </div>
 
-        <!-- এডমিন অ্যাডস্টেরা লিংক (ব্যানার সহ) -->
+        <!-- এডমিন অ্যাডস্টেরা লিংক -->
         <div id="adminAdsterra" class="screen">
             <div class="banner">
                 <i class="fas fa-ad"></i> আপনার বিজ্ঞাপন এখানে
@@ -896,7 +893,7 @@
             </div>
         </div>
 
-        <!-- এডমিন অনক্লিকা লিংক (ব্যানার সহ) -->
+        <!-- এডমিন অনক্লিকা লিংক -->
         <div id="adminOnclicka" class="screen">
             <div class="banner">
                 <i class="fas fa-ad"></i> আপনার বিজ্ঞাপন এখানে
@@ -959,7 +956,6 @@
         let activeSlot = 0;
         let adTimer = null;
         let isAdWatching = false;
-        let activeTimerDiv = null;
         let currentAdType = null;
         let currentAdId = null;
         let currentAdIndex = null;
@@ -1114,11 +1110,7 @@
                 // ইউজার পৃষ্ঠা ছেড়ে গেছে – রিওয়ার্ড বাতিল
                 clearInterval(adTimer);
                 isAdWatching = false;
-                
-                if (activeTimerDiv) {
-                    activeTimerDiv.style.display = 'none';
-                }
-                
+                document.getElementById('timerOverlay').style.display = 'none';
                 showToast('❌ আপনি পৃষ্ঠা ছেড়ে গেছেন – রিওয়ার্ড বাতিল', false);
                 toScreen('adPage');
             }
@@ -1189,15 +1181,9 @@
                 if (link.active) {
                     totalAds++;
                     html += `
-                        <div class="ad-card" id="ad_monetag_${link.id}">
+                        <div class="ad-card">
                             <div class="ad-header">
                                 <span class="ad-title">মনিটাগ এড</span>
-                            </div>
-                            
-                            <div class="small-timer" id="timer_monetag_${link.id}" style="display: none;">
-                                <i class="fas fa-hourglass-half timer-icon"></i>
-                                <span class="timer-seconds" id="timerSeconds_monetag_${link.id}">৩০</span>
-                                <span class="timer-label">সেকেন্ড</span>
                             </div>
                             
                             <button class="btn-gold" style="padding: 12px;" onclick="startAdTimer('monetag', '${link.id}', ${index})">
@@ -1213,15 +1199,9 @@
                 if (link.active) {
                     totalAds++;
                     html += `
-                        <div class="ad-card" id="ad_adsterra_${link.id}">
+                        <div class="ad-card">
                             <div class="ad-header">
                                 <span class="ad-title">অ্যাডস্টেরা এড</span>
-                            </div>
-                            
-                            <div class="small-timer" id="timer_adsterra_${link.id}" style="display: none;">
-                                <i class="fas fa-hourglass-half timer-icon"></i>
-                                <span class="timer-seconds" id="timerSeconds_adsterra_${link.id}">৩০</span>
-                                <span class="timer-label">সেকেন্ড</span>
                             </div>
                             
                             <button class="btn-gold" style="padding: 12px;" onclick="startAdTimer('adsterra', '${link.id}', ${index})">
@@ -1237,15 +1217,9 @@
                 if (link.active) {
                     totalAds++;
                     html += `
-                        <div class="ad-card" id="ad_onclicka_${link.id}">
+                        <div class="ad-card">
                             <div class="ad-header">
                                 <span class="ad-title">অনক্লিকা এড</span>
-                            </div>
-                            
-                            <div class="small-timer" id="timer_onclicka_${link.id}" style="display: none;">
-                                <i class="fas fa-hourglass-half timer-icon"></i>
-                                <span class="timer-seconds" id="timerSeconds_onclicka_${link.id}">৩০</span>
-                                <span class="timer-label">সেকেন্ড</span>
                             </div>
                             
                             <button class="btn-gold" style="padding: 12px;" onclick="startAdTimer('onclicka', '${link.id}', ${index})">
@@ -1256,7 +1230,7 @@
                 }
             });
             
-            document.getElementById('adCount').innerText = `০/${totalAds}`;
+            document.getElementById('adCount').innerText = totalAds;
             container.innerHTML = html || '<p style="text-align: center; color: #8b7f70; padding: 30px;">কোন এড লিংক নেই</p>';
         };
 
@@ -1286,23 +1260,22 @@
             currentAdId = linkId;
             currentAdIndex = index;
             
-            const timerDiv = document.getElementById(`timer_${type}_${linkId}`);
-            const timerSeconds = document.getElementById(`timerSeconds_${type}_${linkId}`);
+            const overlay = document.getElementById('timerOverlay');
+            const timerDisplay = document.getElementById('timerDisplay');
             
-            timerDiv.style.display = 'flex';
-            activeTimerDiv = timerDiv;
+            overlay.style.display = 'flex';
             
             let seconds = 30;
-            timerSeconds.innerText = seconds;
+            timerDisplay.innerText = seconds;
             
             adTimer = setInterval(() => {
                 seconds--;
-                timerSeconds.innerText = seconds;
+                timerDisplay.innerText = seconds;
                 
                 if (document.hidden) {
                     clearInterval(adTimer);
                     isAdWatching = false;
-                    timerDiv.style.display = 'none';
+                    overlay.style.display = 'none';
                     showToast('❌ আপনি পৃষ্ঠা ছেড়ে গেছেন – রিওয়ার্ড বাতিল', false);
                     toScreen('adPage');
                     return;
@@ -1311,7 +1284,7 @@
                 if (seconds <= 0) {
                     clearInterval(adTimer);
                     
-                    // ভিউ কাউন্ট আপডেট (শুধু মাত্র অ্যারে আপডেট, ইউজারকে দেখানো হচ্ছে না)
+                    // ভিউ কাউন্ট আপডেট
                     link.views = (link.views || 0) + 1;
                     
                     // ৩ ভিউ হলে নিষ্ক্রিয় (শুধু মনিটাগ ও অ্যাডস্টেরার জন্য)
@@ -1332,7 +1305,7 @@
                         total_inc: firebase.firestore.FieldValue.increment(0.10)
                     });
                     
-                    timerDiv.style.display = 'none';
+                    overlay.style.display = 'none';
                     isAdWatching = false;
                     
                     showToast('✅ +০.১০৳');
