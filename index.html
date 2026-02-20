@@ -3,18 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dream Space • ড্রিম স্পেস</title>
+    <title>Dream Space • স্লট এডিশন</title>
     
     <!-- ফন্ট ও আইকন -->
     <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    
-    <!-- ৫ টি অনক্লিকা স্ক্রিপ্ট (লুপ করে ঘুরবে) -->
-    <script async src="https://js.onclckmn.com/static/onclicka.js" data-admpid="427314"></script>
-    <script async src="https://js.onclckmn.com/static/onclicka.js" data-admpid="427315"></script>
-    <script async src="https://js.onclckmn.com/static/onclicka.js" data-admpid="427316"></script>
-    <script async src="https://js.onclckmn.com/static/onclicka.js" data-admpid="427317"></script>
-    <script async src="https://js.onclckmn.com/static/onclicka.js" data-admpid="427318"></script>
     
     <style>
         * {
@@ -293,91 +286,67 @@
             letter-spacing: 2px;
         }
         
-        /* ===== এড বাটন ===== */
-        .ad-card {
+        /* ===== স্লট কার্ড ===== */
+        .slot-card {
             background: white;
             border-radius: 30px;
-            padding: 30px 20px;
-            margin: 20px 0;
-            border: 3px solid #ffd700;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
+            padding: 20px;
+            margin-bottom: 15px;
+            border-left: 8px solid #ffd700;
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.1);
+            transition: transform 0.2s ease;
         }
         
-        .ad-button {
-            background: linear-gradient(145deg, #ffd700, #e6b800);
-            border: none;
-            color: #1a1a1a;
-            font-weight: 800;
-            padding: 20px 30px;
-            border-radius: 60px;
-            width: 100%;
-            font-size: 22px;
-            font-family: 'Hind Siliguri', sans-serif;
-            box-shadow: 0 8px 0 #b8860b, 0 10px 30px rgba(255, 215, 0, 0.4);
-            transition: all 0.1s ease;
-            cursor: pointer;
-            margin: 15px 0;
+        .slot-card:hover {
+            transform: translateX(5px);
+        }
+        
+        .slot-header {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            gap: 10px;
+            margin-bottom: 15px;
         }
         
-        .ad-button:active {
-            transform: translateY(6px);
-            box-shadow: 0 2px 0 #b8860b, 0 10px 30px rgba(255, 215, 0, 0.4);
-        }
-        
-        .ad-price {
-            font-size: 18px;
-            color: #b8860b;
-            font-weight: 600;
-            margin: 10px 0;
-        }
-        
-        /* ===== টাইমার ===== */
-        .timer-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.95);
-            z-index: 10000;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-        }
-        
-        .timer-box {
-            background: white;
-            border-radius: 60px;
-            padding: 40px;
-            text-align: center;
-            border: 4px solid #ffd700;
-            max-width: 400px;
-            width: 90%;
-            box-shadow: 0 30px 60px rgba(212, 175, 55, 0.4);
-        }
-        
-        .timer-number {
-            font-size: 80px;
-            font-weight: 800;
-            color: #b8860b;
-            margin-bottom: 20px;
-        }
-        
-        .timer-label {
+        .slot-title {
             font-size: 20px;
-            color: #8b7f70;
-            margin-bottom: 10px;
+            font-weight: 700;
+            color: #b8860b;
         }
         
-        .timer-warning {
-            font-size: 14px;
-            color: #ff4757;
+        .slot-price {
+            background: #ffd700;
+            color: #1a1a1a;
+            padding: 6px 18px;
+            border-radius: 40px;
+            font-size: 16px;
+            font-weight: 700;
+        }
+        
+        .commission-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 15px 0;
+            text-align: center;
+        }
+        
+        .commission-item {
+            background: #faf7f2;
+            padding: 10px;
+            border-radius: 20px;
+        }
+        
+        .commission-label {
+            color: #8b7f70;
+            font-size: 11px;
+        }
+        
+        .commission-value {
+            color: #b8860b;
+            font-size: 16px;
+            font-weight: 700;
+            margin-top: 4px;
         }
         
         /* ===== টোস্ট ===== */
@@ -568,21 +537,10 @@
             .stat-box h3 { font-size: 20px; }
             .promo-code { font-size: 20px; }
             .deposit-number { font-size: 26px; }
-            .timer-number { font-size: 60px; }
-            .ad-button { font-size: 18px; }
         }
     </style>
 </head>
 <body>
-    <!-- টাইমার ওভারলে -->
-    <div id="timerOverlay" class="timer-overlay">
-        <div class="timer-box">
-            <div class="timer-number" id="timerDisplay">30</div>
-            <div class="timer-label">সেকেন্ড বাকি</div>
-            <div class="timer-warning">⚠️ পৃষ্ঠা ছেড়ে গেলে রিওয়ার্ড বাতিল</div>
-        </div>
-    </div>
-
     <div class="container" id="appContainer">
         <!-- টোস্ট মেসেজ -->
         <div id="toast" class="toast">✅ সফল হয়েছে</div>
@@ -697,55 +655,84 @@
                 <i class="fas fa-ad"></i> আপনার বিজ্ঞাপন এখানে
             </div>
             
-            <h3 style="color: #b8860b; margin-bottom: 15px;">🚀 সক্রিয়করণ স্তর</h3>
+            <h3 style="color: #b8860b; margin-bottom: 15px;">🚀 স্লট মেশিন</h3>
             
-            <div class="glass-card">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <span style="font-size: 18px; font-weight: 700;">🥇 লেভেল ১</span>
-                    <span class="badge" style="background: #ffd700; color: #1a1a1a;">১০০৳</span>
+            <!-- স্লট ১ -->
+            <div class="slot-card">
+                <div class="slot-header">
+                    <span class="slot-title">🥇 স্লট ১</span>
+                    <span class="slot-price">১০০৳</span>
                 </div>
+                
+                <div class="commission-grid">
+                    <div class="commission-item">
+                        <div class="commission-label">১ম লেভেল</div>
+                        <div class="commission-value">৫০৳</div>
+                    </div>
+                    <div class="commission-item">
+                        <div class="commission-label">২য় লেভেল</div>
+                        <div class="commission-value">৩০৳</div>
+                    </div>
+                    <div class="commission-item">
+                        <div class="commission-label">৩য় লেভেল</div>
+                        <div class="commission-value">১০৳</div>
+                    </div>
+                </div>
+                
                 <p style="color: #8b7f70; font-size: 13px; margin: 10px 0;">প্রতিদিন ৫০০ এড</p>
                 <button class="btn-gold" id="s1_btn" onclick="openPay(100, 1)">সক্রিয় করুন</button>
             </div>
             
-            <div class="glass-card">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <span style="font-size: 18px; font-weight: 700;">🥈 লেভেল ২</span>
-                    <span class="badge" style="background: #ffd700; color: #1a1a1a;">৩০০৳</span>
+            <!-- স্লট ২ -->
+            <div class="slot-card">
+                <div class="slot-header">
+                    <span class="slot-title">🥈 স্লট ২</span>
+                    <span class="slot-price">৩০০৳</span>
                 </div>
+                
+                <div class="commission-grid">
+                    <div class="commission-item">
+                        <div class="commission-label">১ম লেভেল</div>
+                        <div class="commission-value">১৩০৳</div>
+                    </div>
+                    <div class="commission-item">
+                        <div class="commission-label">২য় লেভেল</div>
+                        <div class="commission-value">৭০৳</div>
+                    </div>
+                    <div class="commission-item">
+                        <div class="commission-label">৩য় লেভেল</div>
+                        <div class="commission-value">৪০৳</div>
+                    </div>
+                </div>
+                
                 <p style="color: #8b7f70; font-size: 13px; margin: 10px 0;">প্রতিদিন ১৫০০ এড</p>
                 <button class="btn-gold" id="s2_btn" onclick="openPay(300, 2)" disabled style="background: #e0e0e0; box-shadow: none;">লক করা</button>
             </div>
             
-            <div class="glass-card">
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                    <span style="font-size: 18px; font-weight: 700;">🥉 লেভেল ৩</span>
-                    <span class="badge" style="background: #ffd700; color: #1a1a1a;">৫০০৳</span>
-                </div>
-                <p style="color: #8b7f70; font-size: 13px; margin: 10px 0;">প্রতিদিন ৩০০০ এড</p>
-                <button class="btn-gold" id="s3_btn" onclick="openPay(500, 3)" disabled style="background: #e0e0e0; box-shadow: none;">লক করা</button>
-            </div>
-        </div>
-
-        <!-- এড পৃষ্ঠা -->
-        <div id="adPage" class="screen">
-            <div class="banner">
-                <i class="fas fa-ad"></i> আপনার বিজ্ঞাপন এখানে
-            </div>
-            
-            <div class="glass-card">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                    <h3 style="color: #b8860b;">📺 এড দেখে আয়</h3>
-                    <span class="badge" style="background: #ffd700; color: #1a1a1a;" id="adCount">০</span>
+            <!-- স্লট ৩ -->
+            <div class="slot-card">
+                <div class="slot-header">
+                    <span class="slot-title">🥉 স্লট ৩</span>
+                    <span class="slot-price">৫০০৳</span>
                 </div>
                 
-                <div class="ad-card">
-                    <div class="ad-price">০.১০৳ প্রতি এড</div>
-                    <button class="ad-button" onclick="startAdTimer()">
-                        <i class="fas fa-play-circle"></i> ক্লিক এড
-                    </button>
-                    <p style="color: #8b7f70; font-size: 14px; margin-top: 15px;">৩০ সেকেন্ড দেখতে হবে</p>
+                <div class="commission-grid">
+                    <div class="commission-item">
+                        <div class="commission-label">১ম লেভেল</div>
+                        <div class="commission-value">২০০৳</div>
+                    </div>
+                    <div class="commission-item">
+                        <div class="commission-label">২য় লেভেল</div>
+                        <div class="commission-value">১৪০৳</div>
+                    </div>
+                    <div class="commission-item">
+                        <div class="commission-label">৩য় লেভেল</div>
+                        <div class="commission-value">৮০৳</div>
+                    </div>
                 </div>
+                
+                <p style="color: #8b7f70; font-size: 13px; margin: 10px 0;">প্রতিদিন ৩০০০ এড</p>
+                <button class="btn-gold" id="s3_btn" onclick="openPay(500, 3)" disabled style="background: #e0e0e0; box-shadow: none;">লক করা</button>
             </div>
         </div>
 
@@ -789,9 +776,8 @@
                 <h3 style="color: #b8860b; margin-bottom: 20px;">💸 টাকা উত্তোলন</h3>
                 
                 <select id="wdM">
-                    <option value="Nagad">নগদ</option>
-                    <option disabled>বিকাশ (শীঘ্রই)</option>
-                    <option disabled>রকেট (শীঘ্রই)</option>
+                    <option value="bkash">বিকাশ</option>
+                    <option value="nagad">নগদ</option>
                 </select>
                 
                 <input type="number" id="wAmt" placeholder="পরিমাণ (ন্যূনতম ১০০৳)">
@@ -865,7 +851,6 @@
         <nav class="nav-bar" id="mainNav" style="display: none;">
             <div class="nav-item" onclick="toScreen('homePage', this)"><i class="fas fa-home"></i>হোম</div>
             <div class="nav-item" onclick="toScreen('slotPage', this)"><i class="fas fa-rocket"></i>স্লট</div>
-            <div class="nav-item" onclick="toScreen('adPage', this)"><i class="fas fa-ad"></i>এড</div>
             <div class="nav-item" onclick="toScreen('wdPage', this)"><i class="fas fa-wallet"></i>ওয়ালেট</div>
             <div id="adminNav" class="nav-item" style="display: none;" onclick="toScreen('adminMenu', this)"><i class="fas fa-shield-alt"></i>এডমিন</div>
         </nav>
@@ -892,12 +877,16 @@
         const db = firebase.firestore();
         const ADMIN_EMAIL = "nisafridoy@gmail.com";
 
+        // কমিশন কনফিগারেশন
+        const COMMISSIONS = {
+            1: { level1: 50, level2: 30, level3: 10 },
+            2: { level1: 130, level2: 70, level3: 40 },
+            3: { level1: 200, level2: 140, level3: 80 }
+        };
+
         // গ্লোবাল ভেরিয়েবল
         let uData = null;
         let activeSlot = 0;
-        let adTimer = null;
-        let isAdWatching = false;
-        let currentAdIndex = 0; // ০ থেকে ৪ পর্যন্ত ঘুরবে
 
         // টোস্ট
         function showToast(msg, isSuccess = true) {
@@ -976,6 +965,40 @@
                 .catch(e => showToast(e.message, false));
         };
 
+        // কমিশন পেমেন্ট ফাংশন
+        async function payCommission(buyerUID, slotLevel) {
+            const buyerSnap = await db.collection('users').doc(buyerUID).get();
+            const buyerData = buyerSnap.data();
+            let currentRef = buyerData.refer_by;
+            let level = 1;
+            
+            while (currentRef && level <= 3) {
+                const refSnap = await db.collection('users').where('myUID', '==', currentRef).get();
+                if (refSnap.empty) break;
+                
+                const refDoc = refSnap.docs[0];
+                const refData = refDoc.data();
+                
+                // চেক করে যে রেফারারের স্লট আছে কিনা
+                if (refData.slot >= slotLevel) {
+                    let commission = 0;
+                    if (level === 1) commission = COMMISSIONS[slotLevel].level1;
+                    else if (level === 2) commission = COMMISSIONS[slotLevel].level2;
+                    else if (level === 3) commission = COMMISSIONS[slotLevel].level3;
+                    
+                    if (commission > 0) {
+                        await db.collection('users').doc(refDoc.id).update({
+                            balance: firebase.firestore.FieldValue.increment(commission),
+                            total_inc: firebase.firestore.FieldValue.increment(commission)
+                        });
+                    }
+                }
+                
+                currentRef = refData.refer_by;
+                level++;
+            }
+        }
+
         // অথ স্টেট
         auth.onAuthStateChanged(async (user) => {
             if (user) {
@@ -1023,33 +1046,19 @@
                     let html = '';
                     snap.forEach(doc => {
                         const w = doc.data();
+                        const methodName = w.method === 'bkash' ? 'বিকাশ' : 'নগদ';
                         html += `<div class="h-item">
-                            <span><i class="fas fa-clock" style="margin-right: 6px; color: ${w.status == 'OK' ? '#28a745' : '#e6b800'}"></i> ${w.amount}৳ (${w.num})</span>
+                            <span><i class="fas fa-clock" style="margin-right: 6px; color: ${w.status == 'OK' ? '#28a745' : '#e6b800'}"></i> ${w.amount}৳ (${methodName})</span>
                             <span class="${w.status == 'OK' ? 'st-ok' : 'st-pending'}">${w.status == 'OK' ? 'সফল' : 'অপেক্ষারত'}</span>
                         </div>`;
                     });
                     document.getElementById('userWdHistory').innerHTML = html || '<div class="h-item" style="justify-content: center; color: #8b7f70;">কোন ইতিহাস নেই</div>';
-                    
-                    // এড কাউন্ট আপডেট
-                    document.getElementById('adCount').innerText = '৫';
                 });
 
             } else {
                 document.getElementById('mainNav').style.display = 'none';
                 toScreen('loginPage');
                 uData = null;
-            }
-        });
-
-        // পৃষ্ঠা ভিজিবিলিটি চেক
-        document.addEventListener('visibilitychange', () => {
-            if (isAdWatching && document.hidden) {
-                // ইউজার পৃষ্ঠা ছেড়ে গেছে – রিওয়ার্ড বাতিল
-                clearInterval(adTimer);
-                isAdWatching = false;
-                document.getElementById('timerOverlay').style.display = 'none';
-                showToast('❌ আপনি পৃষ্ঠা ছেড়ে গেছেন – রিওয়ার্ড বাতিল', false);
-                toScreen('adPage');
             }
         });
 
@@ -1086,6 +1095,7 @@
         window.handleWd = () => {
             const amt = parseInt(document.getElementById('wAmt').value);
             const num = document.getElementById('wNum').value;
+            const method = document.getElementById('wdM').value;
             
             if (!num.startsWith('01') || num.length < 11) return showToast('সঠিক নম্বর দিন', false);
             if (amt < 100) return showToast('ন্যূনতম ১০০৳', false);
@@ -1100,62 +1110,12 @@
                 pUID: uData.myUID,
                 amount: amt,
                 num: num,
+                method: method,
                 status: 'pending',
                 time: new Date()
             });
             
             showToast('✅ উত্তোলন অনুরোধ করা হয়েছে');
-        };
-
-        // এড টাইমার শুরু
-        window.startAdTimer = () => {
-            // পরবর্তী অনক্লিকা এড আইডি সিলেক্ট (০-৪)
-            currentAdIndex = (currentAdIndex + 1) % 5;
-            
-            // এড ওপেন (অনক্লিকা অটোমেটিক স্ক্রিপ্টের মাধ্যমে দেখাবে)
-            // আমরা শুধু একটি উইন্ডো ওপেন করছি, আসল এড স্ক্রিপ্ট দেখাবে
-            window.open('about:blank', '_blank');
-            
-            // টাইমার শুরু
-            isAdWatching = true;
-            
-            const overlay = document.getElementById('timerOverlay');
-            const timerDisplay = document.getElementById('timerDisplay');
-            
-            overlay.style.display = 'flex';
-            
-            let seconds = 30;
-            timerDisplay.innerText = seconds;
-            
-            adTimer = setInterval(() => {
-                seconds--;
-                timerDisplay.innerText = seconds;
-                
-                if (document.hidden) {
-                    clearInterval(adTimer);
-                    isAdWatching = false;
-                    overlay.style.display = 'none';
-                    showToast('❌ আপনি পৃষ্ঠা ছেড়ে গেছেন – রিওয়ার্ড বাতিল', false);
-                    toScreen('adPage');
-                    return;
-                }
-                
-                if (seconds <= 0) {
-                    clearInterval(adTimer);
-                    
-                    // ব্যালেন্স যোগ
-                    db.collection('users').doc(auth.currentUser.uid).update({
-                        balance: firebase.firestore.FieldValue.increment(0.10),
-                        total_inc: firebase.firestore.FieldValue.increment(0.10)
-                    });
-                    
-                    overlay.style.display = 'none';
-                    isAdWatching = false;
-                    
-                    showToast('✅ +০.১০৳');
-                    toScreen('homePage');
-                }
-            }, 1000);
         };
 
         // এডমিন: ডিপোজিট লোড
@@ -1179,10 +1139,14 @@
         };
 
         // এডমিন: ডিপোজিট অনুমোদন
-        window.approveDeposit = (docId, uid, slot) => {
-            db.collection('deposits').doc(docId).update({ status: 'OK' });
-            db.collection('users').doc(uid).update({ slot: slot });
-            showToast('✅ অনুমোদন করা হয়েছে');
+        window.approveDeposit = async (docId, uid, slot) => {
+            await db.collection('deposits').doc(docId).update({ status: 'OK' });
+            await db.collection('users').doc(uid).update({ slot: slot });
+            
+            // কমিশন পেমেন্ট
+            await payCommission(uid, slot);
+            
+            showToast('✅ অনুমোদন ও কমিশন প্রদান করা হয়েছে');
         };
 
         // এডমিন: উত্তোলন লোড
@@ -1191,12 +1155,13 @@
                 let html = '';
                 snap.forEach(doc => {
                     const w = doc.data();
+                    const methodName = w.method === 'bkash' ? 'বিকাশ' : 'নগদ';
                     html += `<div class="list-item">
                         <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
                             <span style="font-weight: 700;">${w.pUID}</span>
                             <span style="color: #e6b800; font-weight: 700;">${w.amount}৳</span>
                         </div>
-                        <p style="color: #8b7f70; font-size: 13px; margin-bottom: 10px;">📞 ${w.num}</p>
+                        <p style="color: #8b7f70; font-size: 13px; margin-bottom: 10px;">📞 ${w.num} (${methodName})</p>
                         <button class="btn-gold" style="padding: 12px;" onclick="approveWithdraw('${doc.id}', '${w.uid}', ${w.amount})">✅ অনুমোদন</button>
                     </div>`;
                 });
